@@ -1,0 +1,118 @@
+START
+
+ENTER and READ the number of sellers to be registered
+Read the file data and add it to the sellers list
+
+WHILE the number of sellers to be registered > 0
+	ENTER and READ the sellers name
+	ENTER and READ the sellers person number
+	ENTER and READ the sellers district
+	ENTER and READ the number of sold items the seller has sold
+
+	Validate sellers data
+	Check if person number is in the list of registered sellers
+
+	IF sellers data goes through validation AND person number is not in the list THEN
+		Register seller
+		PRINT "Seller has been registered."
+	ELSE
+		PRINT an error message to the user 
+	END IF
+
+
+	reduce the number of registered sellers by 1
+
+END WHILE
+
+Sort the sellers results before printing
+PRINT the result (view all seller information)
+Show number of sellers who have reached a certain level (there are 4 levels)
+
+END
+
+-------------------------------------------------------------------------------------------------------------------------------
+Read the file data and add it to the sellers list function/method takes 0 parameter
+
+START
+
+IF file exists THEN
+	GET all lines in the file
+	
+	FOR (int i = 1; i < lines.Length; i++)
+		SPLIT lines[i] by comma	
+		ADD the data that has been split to sellers list
+	END FOR
+END IF
+
+END
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Validate sellers data function/method takes 4 parameters (name, personnumber, district, number of sold items the seller has sold)
+
+START
+
+IF name.Length > 0 AND district.Length > 0 AND items.Length > 0 THEN
+	IF personnumber == 10 THEN
+		CONVERT personnumber to integer
+		RETURN TRUE
+	ELSE
+		THROW EXCEPTION("Personnumber should contains 10 digits")
+	END IF
+ELSE
+	THROW EXCEPTION("There should be no empty fields")
+
+END IF
+
+END
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+Check if person number is in the list of registered sellers function/method takes 1 parameter (personnumber)
+
+START
+
+FOREACH seller in sellers list
+	IF seller.personnumber == personnumber THEN
+		RETURN TRUE
+	END IF
+END FOREACH
+
+RETURN FALSE
+
+END
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Register seller function/method takes 4 parameters (name, personnumber, district, number of sold items the seller has sold)
+
+START
+
+IF file does not exists THEN
+	CREATE and WRITE the first line in the file
+END IF
+
+ADD seller data to the file	
+ADD seller data to the sellers list
+
+END
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+Sort the sellers results before printing, recursive bubble sort algorithm function/method takes 2 parameters (sellers list and seller list length)
+
+START
+
+IF length == 0 OR length == 1 THEN
+	RETURN
+END IF
+
+FOR (int i = 0; i < list.Length - 1; i++)
+	IF list[i].soldItems > list[i+1].soldItems THEN
+		SWAP list[i] and list[i+1]
+	END IF
+END FOR
+
+CALL the method again (seller list, seller list length - 1)
+
+END
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
