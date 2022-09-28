@@ -23,3 +23,11 @@ The program reads data for a number of sellers in a salesforce, the user can ent
 
 
 ![RegisterSeller Console Application](RegisterSellerConsole/doc/terminal.jpg)
+
+
+## PersonRegistration
+
+Windows forms application for registering people. The user enters the person's first name, last name and personnumber, a validator will go through the data and check if the person is already registered. If everything goes through, the person will be registered. Persons who are registered are shown on the form (under Registrerade personer). The persons data will be written to a file and will be read from there.
+
+
+![PersonRegistration Windows froms application](PersonRegistration/doc/forms.jpg)
