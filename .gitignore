@@ -16,5 +16,5 @@
 *.sln
 
 
-# test results
-[Tt]estResults
+# tests
+[Tt]estResults/
