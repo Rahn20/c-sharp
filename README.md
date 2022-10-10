@@ -35,9 +35,4 @@ Windows forms application for registering people. The user enters the person's f
 
 The program registers a collection of media in the form of books (with title and page numbers), soundtracks (with title and playing time) and movies (with title, playing time and resolution). The data will be written to a file and the program will read media data from the file.
 
-
-<div style="width: 50%; height:50%">
-
-![MediaLibrary Windows froms application](MediaLibrary/doc/medialibrary.jpg)
-
-</div>
+<img src="MediaLibrary/doc/medialibrary.jpg" width="50%" height="50%">

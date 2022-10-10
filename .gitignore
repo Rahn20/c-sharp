@@ -14,3 +14,7 @@
 # User-specific files
 *.user
 *.sln
+
+
+# test results
+[Tt]estResults

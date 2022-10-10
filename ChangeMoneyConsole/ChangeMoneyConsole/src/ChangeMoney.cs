@@ -1,12 +1,11 @@
-﻿using ChangeMoneyConsole;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 
 
 namespace ChangeMoneyConsole.src
 {
-    internal class ChangeMoney
+    public class ChangeMoney
     {
         // the difference between the amount and the price
         private readonly int difference;

@@ -11,12 +11,12 @@ namespace ChangeMoneyConsole
         static void Main(string[] args)
         {
             new Start();
-            Console.ReadKey();
+            //Console.ReadKey();
         }
     }
 
 
-    internal class Start
+    public class Start
     {
         // save the price user enter in the start method
         private readonly int convertPriceToInt;
@@ -30,7 +30,7 @@ namespace ChangeMoneyConsole
          *      The user is allowed to enter the price he is going to pay and the paid amount he is paying with,
          *      the program checks the input data and prints out to the user how much and in which value (coins, notes) he receives his change.
          * </summary>
-         * */
+         */
         public Start()
         {
             Console.Write("Ange pris: ");
