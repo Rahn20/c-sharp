@@ -1,7 +1,7 @@
 ﻿
 namespace RegisterSellerConsole.src
 {
-    internal class Seller
+    public class Seller
     {
         // Auto-Initialized properties
         public string Name { get; set; }

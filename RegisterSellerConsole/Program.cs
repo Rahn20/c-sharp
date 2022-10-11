@@ -23,7 +23,7 @@ namespace RegisterSellerConsole
         private string district;
         private string soldItems;
 
-        RegisterSeller register = new RegisterSeller();
+        RegisterSeller register = new RegisterSeller("sellers.csv");
 
         /**
          * <summary>
@@ -33,7 +33,7 @@ namespace RegisterSellerConsole
          */
         public Start()
         {
-            Console.WriteLine("\nVälkommen till säljare register mini program. Skriv in namn, personnummer (endast 10 sifror), distrikt och antal sålda artiklar.\n");
+            Console.WriteLine("Välkommen till säljare register mini program. Skriv in namn, personnummer (endast 10 sifror), distrikt och antal sålda artiklar.\n");
             Console.Write("Hur många säljare vill du registrera: ");
 
             string readNrOfSellers = Console.ReadLine();

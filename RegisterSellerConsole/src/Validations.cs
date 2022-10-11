@@ -3,7 +3,7 @@
 
 namespace RegisterSellerConsole.src
 {
-    internal class Validations
+    public class Validations
     {
 
         /**

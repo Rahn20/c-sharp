@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace RegisterSellerConsole.src
 {
-    internal class RegisterSeller
+    public class RegisterSeller
     {
         // the path to the csv file
         private string path;
@@ -20,13 +20,14 @@ namespace RegisterSellerConsole.src
          *      Sets the path variable to the path of the csv file.
          * </summary>
          */
-        public RegisterSeller()
+        public RegisterSeller(string filename)
         {
             // returns the url to the main directory containing "/bin/Debug"
-            var currentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            //var currentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            string currentDirectory = Directory.GetCurrentDirectory();
 
             // replace bin\debug with empty string and add the csv filename to the path.
-            path = currentDirectory.Replace("\\bin\\Debug", "") + "\\sellers.csv";
+            path = currentDirectory.Replace("\\bin\\Debug", "") + $"\\{filename}";
         }
 
 
