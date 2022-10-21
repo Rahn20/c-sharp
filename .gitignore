@@ -2,7 +2,6 @@
 .vs/
 
 
-
 # Build results
 [Dd]ebug/
 [Rr]elease/
@@ -13,8 +12,10 @@
 
 # User-specific files
 *.user
-*.sln
+*.suo
+*.sln.docstates
 
 
-# tests
-[Tt]estResults/
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
