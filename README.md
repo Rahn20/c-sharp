@@ -1,11 +1,11 @@
 # Programming with C#
 
-This repository contains simple programs implemented in C#.
+This repository contains simple programs that have been implemented in C#.
 
 
 ## Register Seller 
 
-The program (console application) reads data for a number of sellers in a salesforce, the user can enter how many sellers he/she wants to register and enter the seller's data (name, personnumber, which district he/she works in and how many items he/she has sold during the period). The data will be written to a file and the program will read data from the file. There are levels that the seller can achieve depending on the number of items he/she has sold. There are the following four levels:
+This console application reads data for a specified number of sellers in a Salesforce. The user is prompted to enter the number of sellers to register, as well as each seller's name, personnumber, district of work, and number of items sold during the relevant period. The data is then written to a file, which the program can later read. The sellers are classified into four levels based on the number of items they have sold during the period.
 
 - level 1: under 50 items
 - level 2: 50-99 items
@@ -17,21 +17,20 @@ The program (console application) reads data for a number of sellers in a salesf
 
 ## Change Money
 
-The program (windows forms/console application) calculates how much change you should get back when you have shopped, the program shows how much and in which banknotes (500-, 200-, 100-, 50-, 20-lappar) and coins (10-, 5-, 1- kronor) the customer gets his change. 
+This Windows Forms and console application calculates the amount of change that a customer should receive after a shopping transaction. The program displays the amount of change, as well as the specific denominations of banknotes (500-, 200-, 100-, 50-, and 20- kronor) and coins (10-, 5-, and 1- kronor) that the customer should receive.
 
 ![ChangeMoney Windows Forms Application](ChangeMoneyForm/program.png)
-![ChangeMoney Console Application](ChangeMoneyConsole/terminal.jpg)
 
 
 ## Person Registration
 
-Windows forms application for registering people. The user enters the person's first name, last name and personnumber, a validator will go through the data and check if the person is already registered. If everything goes through, the person will be registered. Persons who are registered are shown on the form (under Registrerade personer). The persons data will be written to a file and the program will read data from the file.
+This Windows Forms application is used for registering individuals. The user inputs the person's first name, last name, and personnumber. A validator checks the entered data to ensure that the person is not already registered. If the data passes validation, the person is successfully registered. Registered persons are displayed on the form under the ***Registrerade personer*** section. The person's data is also saved to a file, which the program can later read.
 
 <img src="PersonRegistration/doc/forms.jpg" width="60%" height="60%">
 
 
 ## MediaLibrary 
 
-The program registers a collection of media in the form of books (with title and page numbers), soundtracks (with title and playing time) and movies (with title, playing time and resolution). The data will be written to a file and the program will read media data from the file.
+This program is designed to register a collection of media items, including books (with title and page numbers), soundtracks (with title and playing time), and movies (with title, playing time, and resolution). The program is capable of storing media data in a file as well as retrieving media data from that file.
 
 <img src="MediaLibrary/doc/medialibrary.jpg" width="60%" height="60%">
