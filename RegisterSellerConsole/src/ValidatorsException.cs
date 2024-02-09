@@ -1,13 +1,10 @@
 ﻿using System;
 
-
 namespace RegisterSellerConsole.src
 {
-    /**
-     * <summary>
-     *      Creates validation exception, the exception has been thrown in 2 methods in Validations class.
-     * </summary>
-     */
+    /// <summary>
+    ///  Creates a validation exception, thrown in 2 methods in the Validations class
+    /// </summary>
     public class ValidatorsException : Exception
     {
         public ValidatorsException() { }

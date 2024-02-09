@@ -1,25 +1,21 @@
 ﻿using System;
 
-
 namespace RegisterSellerConsole.src
 {
     public class Validations
     {
-
-        /**
-         * <summary>
-         *      Validates name, personnumber, district and number of sold items. they should contain data, otherwise ValidatorException will be raised.
-         * </summary>
-         * 
-         * <param name="name"> Seller's name</param>
-         * <param name="id"> Sellers’s personnumber </param>
-         * <param name="district"> in which district the seller works </param>
-         * <param name="items"> how many items the seller has sold during the period </param>
-         * 
-         * <exception cref="ValidatorsException"> Thrown when one of the name, district or article parameters does not contain data </exception>
-         * 
-         * <returns> returns true if the data passed the validation </returns>
-         */
+        /// <summary>
+        ///  Validates name, person number, district, and number of sold items. They should contain data; otherwise, a ValidatorException will be raised
+        /// </summary>
+        /// 
+        /// <param name="id"> Seller’s personnumber. </param>
+        /// <param name="name"> Seller's name </param>
+        /// <param name="items"> Number of items the seller has sold during the period </param>
+        /// <param name="district"> District where the seller works </param>
+        /// 
+        /// <exception cref="ValidatorsException"> Thrown when one of the name, district, or items parameters does not contain data </exception>
+        /// 
+        /// <returns> True if the data passed the validation </returns>
         public static bool ValidateData(string name, string id, string district, string items)
         {
             if (name.Length > 0 && district.Length > 0 && items.Length > 0)
@@ -33,26 +29,21 @@ namespace RegisterSellerConsole.src
         }
 
 
-        /**
-         * <summary>
-         *     Check that personnumber contains 10 digits.
-         * </summary>
-         * 
-         * <param name="personNr"> Seller’s personnumber </param>
-         * <exception cref="ValidatorsException"> Thrown when the length of the personnumber is not 10 </exception>
-         * 
-         * <returns> returns true if personnumber passes the validation </returns>
-         */
+        /// <summary>
+        ///  Checks that the personnumber contains 10 digits.
+        /// </summary>
+        /// 
+        /// <param name="personNr"> Seller’s personnumber </param>
+        /// <exception cref="ValidatorsException"> Thrown when the length of the person number is not 10 </exception>
+        /// <returns> True if the personnumber passes the validation </returns>
         public static bool ValidatePersonNr(string personNr)
         {
             if (personNr.Length == 10)
             {
-                Int64.Parse(personNr);     // raises FormatException if the conversion failed
-
+                Int64.Parse(personNr);     // Raise FormatException if the conversion fails.
                 return true;
             }
             else throw new ValidatorsException("\nPersonnummer bör bestå av 10 siffror, Försök igen!");
         }
     }
 }
-

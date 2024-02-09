@@ -10,7 +10,7 @@ namespace RegisterSellerConsole.Unittests
         [TestMethod]
         public void ValidateData_CorrectData_ReturnsTrue()
         {
-            // act
+            // Act
             var actual = Validations.ValidateData(name: "Test 1", id: "9999999999", district: "Stockholm", items: "150");
 
             Assert.IsTrue(actual);
@@ -19,10 +19,10 @@ namespace RegisterSellerConsole.Unittests
         [TestMethod]
         public void ValidateData_EmptyField_ValidatorsException()
         {
-            // arrange and act
+            // Arrange and Act
             void action() => Validations.ValidateData(name: "", id: "9999999999", district: "Stockholm", items: "150");
 
-            // assert
+            // Assert
             var exception = Assert.ThrowsException<ValidatorsException>(action);
 
             // Checking exception message
@@ -32,10 +32,8 @@ namespace RegisterSellerConsole.Unittests
         [TestMethod]
         public void ValidatePersonNr_NotValid_ValidatorsException()
         {
-            // arrange and act
             void action() => Validations.ValidatePersonNr("2222222");
 
-            // assert
             var exception = Assert.ThrowsException<ValidatorsException>(action);
 
             // Checking exception message
@@ -45,10 +43,8 @@ namespace RegisterSellerConsole.Unittests
         [TestMethod]
         public void ValidatePersonNr_ValidPersonNr_ReturnsTrue()
         {
-            // act
             var actual = Validations.ValidatePersonNr("2222222222");
 
-            // assert
             Assert.IsTrue(actual);
         }
     }

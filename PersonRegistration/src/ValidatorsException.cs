@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace PersonRegistration.src
 {
     /**
@@ -8,6 +7,10 @@ namespace PersonRegistration.src
      *      Creates validation exception, the exception has been thrown in 1 method in Validations class.
      * </summary>
      */
+
+    /// <summary>
+    ///  Creates a validation exception, thrown in one method in the Validations class
+    /// </summary>
     internal class ValidatorsException : Exception
     {
         public ValidatorsException() { }

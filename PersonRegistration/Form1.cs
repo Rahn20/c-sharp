@@ -16,27 +16,26 @@ namespace PersonRegistration
             PrintData();
         }
 
-        // reads the inputdata, validates it, checks the personnumber, registers the person if the data goes through validation and
-        // if the person is not already registered and then reads the data and prints it in the "Registered persons box".
+
+        // Register a new person if validation passes and the person is not already registered.
         private void BtnRegister_Click(object sender, EventArgs e)
         {
             string name = BoxName.Text;
             string lastname = BoxLastname.Text;
             string personnr = BoxPersonnr.Text;
 
-
-            try // check the validation
+            try     // check the validation
             {
-                Validations.ValidateData(name, lastname, personnr);             // raises exception if something goes wrong with validation
-                bool control = register.CheckPersonnr(personnr);               // is person number correct ??
+                Validations.ValidateData(name, lastname, personnr);             // Raise an exception if something goes wrong with validation.
+                bool control = register.CheckPersonnr(personnr);
 
                 if (control)
                 {
-                    bool repeatedPerson = register.CheckRepeatedPerson(personnr);   // is the person already registered ??
+                    bool repeatedPerson = register.CheckRepeatedPerson(personnr);
 
                     if (repeatedPerson is false)
                     {
-                        register.AddPerson(name, lastname, personnr);       // register person
+                        register.AddPerson(name, lastname, personnr);
                         string gender = register.GetGender(personnr);
                         PrintData();
 
@@ -65,15 +64,15 @@ namespace PersonRegistration
 
 
 
-        // closes the program when AVSLUTA is pressed.
+        // Close the program when "AVSLUTA" is pressed.
         private void MenuClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
 
         //---------------------------------------------------------------------------------------------------
-        // displays a message box if the data does not pass validation.
+        // Displays a MessageBox if the data does not pass validation.
         private void ShowWarningMsg(string message)
         {
             string title = "Något gick fel!";
@@ -82,7 +81,7 @@ namespace PersonRegistration
         }
 
 
-        // prints the person's first name and last name that are registered in the list/file.
+        // Prints the registered person's first name and last name from the list/file.
         private void PrintData()
         {
             string res = "";

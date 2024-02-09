@@ -8,42 +8,32 @@ namespace PersonRegistration.src
 {
     internal class RegisterPerson
     {
-        // the path to the csv file
-        private string path;
-
-        // a list containing all personal information contained in the csv file.
-        private List<Person> persons = new List<Person>();
+        private readonly string path;                       // Specify the path to the CSV file.
+        private List<Person> persons = new List<Person>();  // List containing all personal information from the CSV file.
 
 
-        /**
-         * <summary>
-         *      sets the path variable to the csv path
-         * </summary>
-         */
         public RegisterPerson()
         {
-            // returns the url to the main directory containing "/bin/Debug"
+            // Return the URL to the main directory containing "/bin/Debug."
             var currentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
-            // replaces bin\debug with an empty string and appends the csv file name to the path
+            // Replace "bin\Debug" with an empty string and append the CSV file name to the path.
             path = currentDirectory.Replace("\\bin\\Debug", "") + "\\persons.csv";
         }
 
 
-        /**
-         * <summary>
-         *      Takes the person's data and puts it in the csv file and in the list.
-         * </summary>
-         * 
-         * <param name="name"> first name</param> 
-         * <param name="lastname"> lastname</param>
-         * <param name="personnr">  personnumber</param>
-         */
+        /// <summary>
+        ///  Takes the person's data and adds it to the CSV file and the list
+        /// </summary>
+        /// 
+        /// <param name="name"> First name </param>
+        /// <param name="lastname"> Last name </param>
+        /// <param name="personnr"> Personnumber </param>
         public void AddPerson(string name, string lastname, string personnr)
         {
             if (!File.Exists(path))
             {
-                // Creates the file if it does not exist. Writes the first line in the life.
+                // Create the file if it does not exist and write the first line.
                 string createText = "Förnamn,Efternamn,Personnummer" + Environment.NewLine;
                 File.WriteAllText(path, createText);
             }
@@ -60,20 +50,16 @@ namespace PersonRegistration.src
         }
 
 
-        /**
-         * <return> a list of all people information present in the csv file</return>
-         */
+        /// <returns> A list of all people's information present in the CSV file </returns>
         public List<Person> Persons
         {
             get { return persons; }
         }
 
 
-        /**
-         * <summary>
-         *      Reads all lines in the file and puts them in a list if the file exists.
-         * </summary>
-         */
+        /// <summary>
+        ///  Reads all lines in the file and add them to a list if the file exists
+        /// </summary>
         public void AddToList()
         {
             if (File.Exists(path))
@@ -96,16 +82,14 @@ namespace PersonRegistration.src
         }
 
 
-        /**
-         * <summary>
-         *      21 Algorithm, check of personnumber which is calculated by multiplying each digit in the personnumber by alternating 2 and 1,
-         *      the sum of digits for each product is calculated and summed up.The control number must be divisible by 10 for the personnumber to be correct.
-         * </summary>
-         * 
-         * <param name="personnr"> personnumber to be checked </param>
-         * 
-         * <returns> returns true if the result of the algorithm is divisible by 10</returns>
-         */
+        /// <summary>
+        ///  21 Algorithm, checks a personsnumber by multiplying each digit by alternating 2 and 1, calculates the sum of digits for each product, and sums up the results
+        ///  The control number must be divisible by 10 for the personsnumber to be correct.
+        /// </summary>
+        /// 
+        /// <param name="personnr"> personnumber to be checked  </param>
+        /// 
+        /// <returns> True if the result of the algorithm is divisible by 10 </returns>
         public bool CheckPersonnr(string personnr)
         {
             string[] splitId = personnr.Split('-');
@@ -119,24 +103,19 @@ namespace PersonRegistration.src
             int resultPart1 = VerifyPersonnr(part1);
             int finalResult = VerifyPersonnr(part2, resultPart1);
 
-            if ((finalResult % 10) == 0) return true;
-            return false;
+            return (finalResult % 10) == 0;
         }
 
 
 
-        /**
-         * <summary>
-         *      A recursive method for computing the 21 algorithm. If the i-variable is odd, then I multiply the personnumber digit by 1
-         *      and if it is even, then the perosnnummer digit is multiplied by 2 instead.
-         * </summary>
-         * 
-         * <param name="id"> array containing personnumbers to be checked </param>
-         * <param name="res"> an integer that is incremented by the sum of digits each time if-else is executed </param>
-         * <param name="i"> an integer that is incremented by 1 each time the method is executed.It is used as indexnumber to find out element value</param>
-         * 
-         * <returns> returnerar heltalen res som är en summering av produkträkning </returns>
-         */
+        /// <summary>
+        ///  Recursive method for computing the 21 algorithm. If the 'i' variable is odd, the personnumber digit is multiplied by 1;
+        ///  if it is even, the personnumber digit is multiplied by 2.
+        /// </summary>
+        /// 
+        /// <param name="id"> Array containing personnumbers to be checked.</param>
+        /// <param name="res"> An integer that is incremented by the sum of digits each time the if-else is executed </param>
+        /// <param name="i"> An integer that is incremented by 1 each time the method is executed; it is used as an index number to find the element value </param>
         private int VerifyPersonnr(int[] id, int res = 0, int i = 0)
         {
             if (i == id.Length) return res; // base case
@@ -145,25 +124,23 @@ namespace PersonRegistration.src
             {
                 int getRes = id[i] * 2;
                 res += (getRes / 10) + (getRes % 10);
-            } 
-            else //if i is an odd number then id[i] * 1 which always gives id[i]
+            }
+            else
             {
                 res += id[i];
             }
 
-            return VerifyPersonnr(id, res, i + 1);  //recursive call
+            return VerifyPersonnr(id, res, i + 1);
         }
 
 
-        /**
-         * <summary>
-         *      Check if the personnumber is in the personlist.
-         * </summary>
-         * 
-         * <param name="personnr"> personnumber to be checked </param>
-         * 
-         * <returns> True if personnumber exists (the person exists), otherwise false </returns>
-         */
+        /// <summary>
+        ///  Checks if the personnumber is in the person list.
+        /// </summary>
+        /// 
+        /// <param name="personnr"> Personnumber to be checked</param>
+        /// 
+        /// <returns> True if the person number exists (the person exists), otherwise false. </returns>
         public bool CheckRepeatedPerson(string personnr)
         {
             foreach (Person person in persons)
@@ -175,25 +152,20 @@ namespace PersonRegistration.src
         }
 
 
-
-        /**
-         * <summary>
-         *      Get the person's gender by looking at the ninth digit of the personnumber.
-         *      Where the number is odd for men and even for women.
-         * </summary>
-         * 
-         * <param name="personnr"> personnumber </param>
-         * 
-         * <returns> a string whether the person is female or male </returns>
-         */
+        /// <summary>
+        ///  Gets the person's gender by examining the ninth digit of the person number. The number is odd for men and even for women.
+        /// </summary>
+        /// 
+        /// <param name="personnr"> Personnumber </param>
+        /// 
+        /// <returns> A string indicating whether the person is female or male </returns>
         public string GetGender(string personnr)
         {
-            // char 9 is the third digit of the birth number (in the last 4 digits)
+            // Char 9 is the third digit of the birth number (in the last 4 digits).
             int getThirdNr = int.Parse(personnr[9].ToString());
 
             if (getThirdNr % 2 == 0) return "Kvinna";
             else return "Man";
         }
-
     }
 }

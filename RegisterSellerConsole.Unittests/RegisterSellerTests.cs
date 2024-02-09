@@ -14,7 +14,7 @@ namespace RegisterSellerConsole.Unittests
         [TestInitialize]
         public void Startup()
         {
-            // register a new seller before each test
+            // Register a new seller before each test.
             registerSeller.AddSeller(name: "Test 1", personNr: "9999999999", district: "Stockholm", soldItems: 150);
         }
 
@@ -22,56 +22,53 @@ namespace RegisterSellerConsole.Unittests
         [TestCleanup()]
         public void TearDown()
         {
-            // remove file after each test
+            // Remove the file after each test.
             File.Delete(path);
         }
 
 
         [TestMethod]
-        public void AddSeller_FileDoesNotExists_TwoRowsInFile()
+        public void AddSeller_FileDoesNotExist_TwoRowsInFile()
         {
-            // arrange/act
+            // Arrange
             string firstRow = "Namn,Personnummer,Distrikt,Antal";
             string secondRow = "Test 1,9999999999,Stockholm,150";
+
+            // Act
             string[] lines = File.ReadAllLines(path);
             var sellers = registerSeller.Sellers;
 
-            // assert
+            // Assert
             Assert.AreEqual(lines[0], firstRow);
             Assert.AreEqual(lines[1], secondRow);
-
             Assert.AreEqual(sellers.Count, 1);
         }
 
         [TestMethod]
         public void AddSeller_FileAlreadyExists_ThreeRowsInFile()
         {
-            // arrange
             string firstRow = "Namn,Personnummer,Distrikt,Antal";
             string secondRow = "Test 1,9999999999,Stockholm,150";
             string thirdRow = "Test 2,1111111111,Stockholm,200";
 
-            // act
             registerSeller.AddSeller(name: "Test 2", personNr: "1111111111", district: "Stockholm", soldItems: 200);
             string[] lines = File.ReadAllLines(path);
             var sellers = registerSeller.Sellers;
 
-            // assert, check file contents
+            // Assert and check file contents
             Assert.AreEqual(lines[0], firstRow);
             Assert.AreEqual(lines[1], secondRow);
             Assert.AreEqual(lines[2], thirdRow);
-
             Assert.AreEqual(sellers.Count, 2);
         }
 
         [TestMethod]
         public void AddToList_FileAlreadyExists_OneSellerInList()
         {
-            // act
             registerSeller.AddToList();
             var sellers = registerSeller.Sellers;
 
-            // assert, check list result
+            // Assert, check list result
             Assert.AreEqual(sellers[0].Name, "Test 1");
             Assert.AreEqual(sellers[0].PersonNr, "9999999999");
             Assert.AreEqual(sellers[0].District, "Stockholm");
@@ -81,49 +78,41 @@ namespace RegisterSellerConsole.Unittests
         [TestMethod]
         public void CheckPersonNr_PersonNrExists_ReturnsTrue()
         {
-            // act
             bool actual = registerSeller.CheckPersonNr("9999999999");
 
-            // assert
             Assert.IsTrue(actual);
         }
 
         [TestMethod]
         public void CheckPersonNr_PersonNrDoesNotExists_ReturnsFalse()
         {
-            // act
+            // Act
             bool actual = registerSeller.CheckPersonNr("1111111111");
 
-            // assert
+            // Assert
             Assert.IsFalse(actual);
         }
 
 
         [TestMethod]
-        public void SortBySolditems_TwoSellers_SmallerToLarger()
+        public void SortBySolditems_TwoSellers_SmallToLarge()
         {
-            // arrange
             registerSeller.AddSeller(name: "Test 2", personNr: "1111111111", district: "Stockholm", soldItems: 50);
 
-            // act
             registerSeller.SortBySolditems(registerSeller.Sellers, (registerSeller.Sellers).Count);
             var sellers = registerSeller.Sellers;
 
-            // assert
             Assert.AreEqual(sellers[0].PersonNr, "1111111111");
             Assert.AreEqual(sellers[1].PersonNr, "9999999999");
         }
 
         [TestMethod]
-        public void GetItemLevels_TwoLevels_LevelOneAndThree()
+        public void GetItemLevels_TwoLevels_LevelTwoAndThree()
         {
-            // arrange
             registerSeller.AddSeller(name: "Test 2", personNr: "1111111111", district: "Stockholm", soldItems: 50);
 
-            // act
             var actual = registerSeller.GetItemLevels();
 
-            // assert
             Assert.AreEqual(actual["under 50 artiklar"], 0);
             Assert.AreEqual(actual["50-99 artiklar"], 1);
             Assert.AreEqual(actual["100-199 artiklar"], 1);

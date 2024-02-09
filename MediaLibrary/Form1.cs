@@ -6,7 +6,7 @@ namespace MediaLibrary
 {
     public partial class Form1 : Form
     {
-        private Library library = new Library();
+        private readonly Library library = new Library();
 
         public Form1()
         {
@@ -15,14 +15,14 @@ namespace MediaLibrary
         }
 
 
-        // by clicking on the register book button, a new book should be registered
+        // Register a new book when the "Register Book" button is clicked.
         private void BtnRegisterBook_Click(object sender, EventArgs e)
         {
             string title = BoxBookTitle.Text;
 
             try
             {
-                int pages = int.Parse(BoxBookPages.Text);  // throws FormatException if conversion fails
+                int pages = int.Parse(BoxBookPages.Text);  // Throws FormatException if conversion fails.
 
                 library.RegisterBook(title, pages);
                 TextResult.Refresh();
@@ -37,14 +37,14 @@ namespace MediaLibrary
             }
         }
 
-        // by clicking on the register soundtrack button, a new soundtrack should be registered
+        // Register a new soundtrack when the "Register Soundtrack" button is clicked.
         private void BtnRegisterSound_Click(object sender, EventArgs e)
         {
             string title = BoxSoundTitle.Text;
 
             try
             {
-                double playTime = double.Parse(BoxSoundTime.Text);  // throws FormatException if conversion fails
+                double playTime = double.Parse(BoxSoundTime.Text);  // Throws FormatException if conversion fails.
 
                 library.RegisterSoundTrack(title, playTime);
                 TextResult.Refresh();
@@ -59,7 +59,8 @@ namespace MediaLibrary
             }
         }
 
-        // by clicking on the register movie button, a new movie should be registered
+
+        // Register a new movie when the "Register Movie" button is clicked.
         private void BtnRegisterMovie_Click(object sender, EventArgs e)
         {
             string title = BoxMovieTitle.Text;
@@ -67,7 +68,7 @@ namespace MediaLibrary
 
             try
             {
-                double playTime = double.Parse(BoxMovieTime.Text);  // throws FormatException if conversion fails
+                double playTime = double.Parse(BoxMovieTime.Text);  // Throws FormatException if conversion fails.
 
                 library.RegisterMovie(title, resolution, playTime);
                 TextResult.Refresh();
@@ -84,7 +85,7 @@ namespace MediaLibrary
         }
 
 
-         // change the color of the text/clear the text when a key is pressed
+        // Change the color of the text and clear the text when a key is pressed.
         private void BoxMovieResolution_KeyDown(object sender, KeyEventArgs e)
         {
             if (BoxMovieResolution.Text == "ex: HD")

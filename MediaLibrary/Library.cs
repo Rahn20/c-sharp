@@ -7,49 +7,38 @@ namespace MediaLibrary
 {
     internal class Library
     {
-        // the path to the csv file
-        private string path;
+        // Specify the path to the CSV file.
+        private readonly string path;
 
 
-
-        /**
-         * <summary>
-         *      Sets the path variable to the path of the csv file.
-         * </summary>
-         */
+        /// <summary>
+        ///  Sets the variable 'path' to the CSV file path.
+        /// </summary>
         public Library()
         {
-            // returns the url to the main directory containing "/bin/Debug"
+            // Return the URL to the main directory containing "/bin/Debug."
             var currentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
-            // replace bin\debug with empty string and add the csv filename to the path.
+            // Replace "bin\Debug" with an empty string and append the CSV filename to the path.
             path = currentDirectory.Replace("\\bin\\Debug", "") + "\\mediaLibrary.csv";
         }
 
 
-        /**
-         * <summary>
-         *      Registers a new book, puts the book data in the file.
-         * </summary>
-         * 
-         * <param name="title"> the title of the book to be registered </param>
-         * <param name="pages"> number of pages the book consists of </param>
-         */
+        /// <summary>
+        ///  Registers a new book and adds its data to the file
+        /// </summary>
+        /// <param name="pages"> The number of pages the book consists of. </param>
+        /// <param name="title"> the title of the book to be registered </param>
         public void RegisterBook(string title, int pages)
         {
-            if (!File.Exists(path))
-            {
-                // create the file if it does not exist.
-                File.Create(path);
-            }
+            if (!File.Exists(path)) { File.Create(path); }
 
-            // open a stream from the file and add book data.
+            // Open a stream from the file and add book data.
             FileStream stream = new FileStream(path, FileMode.Append, FileAccess.Write);
 
-            // create a printer that converts the text into raw bytes.
+            // Create a printer that converts the text into raw bytes.
             StreamWriter sw = new StreamWriter(stream);
 
-            // Add the text
             sw.WriteLine($"{title}: {pages} sidor");
 
             // close file, release resources
@@ -57,50 +46,39 @@ namespace MediaLibrary
         }
 
 
-        /**
-         * <summary>
-         *      Reads the contents of the file.
-         * </summary>
-         * 
-         * <returns> The file contents </returns>
-         */
+        /// <summary>
+        ///  Reads the contents of the file
+        /// </summary>
+        /// 
+        /// <returns> The file contents</returns>
         public string ReadFromFile()
         {
             string text = "";
 
             if (File.Exists(path))
             {
-                // open a stream from the file
+                // Open a stream from the file.
                 FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read);
 
-                // create a reader that reads bytes in the stream as char-values.
+                // Create a reader that reads bytes in the stream as char-values.
                 StreamReader read = new StreamReader(stream);
 
-                // create a string that gets the file contents from the reader.
                 text = read.ReadToEnd();
-
                 read.Dispose();
             }
-
             return text;
         }
 
 
-        /**
-         * <summary>
-         *       Registers a new Soundtrack, puts the soundtrack data in the file.
-         * </summary>
-         * 
-         * 
-         * <param name="title"> the soundtracks title</param>
-         * <param name="playTime"> the playing time of the soundtrack </param>
-         */
+        /// <summary>
+        ///  Registers a new soundtrack and adds its data to the file
+        /// </summary>
+        /// 
+        /// <param name="title"> The title of the soundtrack </param>
+        /// <param name="playTime"> The playing time of the soundtrack </param>
         public void RegisterSoundTrack(string title, double playTime)
         {
-            if (!File.Exists(path))
-            {
-                File.Create(path);
-            }
+            if (!File.Exists(path)) { File.Create(path); }
 
             FileStream stream = new FileStream(path, FileMode.Append, FileAccess.Write);
             StreamWriter sw = new StreamWriter(stream);
@@ -110,22 +88,16 @@ namespace MediaLibrary
         }
 
 
-        /**
-         * <summary>
-         *      Register a new movie, puts the movie data in the file.
-         * </summary>
-         * 
-         * <param name="title"> the title of the film</param>
-         * <param name="resolution"> the movie resolution </param>
-         * <param name="playTime"> the movie playtime </param>
-         */
+        /// <summary>
+        ///  Registers a new movie and adds its data to the file.
+        /// </summary>
+        /// 
+        /// <param name="playTime"> The movie playtime </param>
+        /// <param name="title"> The title of the film </param>
+        /// <param name="resolution"> The movie resolution </param>
         public void RegisterMovie(string title, string resolution, double playTime)
         {
-            if (!File.Exists(path))
-            {
-                File.Create(path);
-            }
-
+            if (!File.Exists(path)) { File.Create(path); }
 
             FileStream stream = new FileStream(path, FileMode.Append, FileAccess.Write);
             StreamWriter sw = new StreamWriter(stream);

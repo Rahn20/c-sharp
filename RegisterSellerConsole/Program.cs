@@ -11,7 +11,7 @@ namespace RegisterSellerConsole
         {
             new Start();
 
-            //Console.ReadKey();
+            Console.ReadKey();
         }
     }
 
@@ -22,15 +22,12 @@ namespace RegisterSellerConsole
         private string personNr; 
         private string district;
         private string soldItems;
-
         RegisterSeller register = new RegisterSeller("sellers.csv");
 
-        /**
-         * <summary>
-         *      the user enters the seller's information.
-         *      Prints the result of the sellers who are registered plus how many sellers have reached a certain level.
-         * </summary>
-         */
+
+        /// <summary>
+        ///  The user enters the seller's information.  Prints the result of the registered sellers and the count of sellers who have reached each level.
+        /// </summary>
         public Start()
         {
             Console.WriteLine("Välkommen till säljare register mini program. Skriv in namn, personnummer (endast 10 sifror), distrikt och antal sålda artiklar.\n");
@@ -39,7 +36,7 @@ namespace RegisterSellerConsole
             string readNrOfSellers = Console.ReadLine();
             int nrSeller = Int16.Parse(readNrOfSellers);
 
-            register.AddToList();       // reads the file's data and adds it to a list
+            register.AddToList();
 
             while (nrSeller > 0)
             {
@@ -61,27 +58,19 @@ namespace RegisterSellerConsole
                 Console.ResetColor();
                 Console.WriteLine("________________________________________________________________________");
 
-
                 nrSeller--;
             }
 
-            // sort the result 
             register.SortBySolditems(register.Sellers, (register.Sellers).Count);
 
-            // prints the result
             PrintResult();
-
-            // shows item level results
             ItemLevels();
-
         }
 
 
-        /**
-         * <summary>
-         *      Prints a table of all registered sellers.
-         * </summary>
-         */
+        /// <summary>
+        ///  Prints a table of all registered sellers
+        /// </summary>
         private void PrintResult()
         {
             Console.WriteLine("\n--------------------------------------------------------------------------");
@@ -102,22 +91,20 @@ namespace RegisterSellerConsole
         }
 
 
-        /**
-         * <summary>
-         *     Validates the seller's data and checks if the seller is already registered,
-         *     if the data passes the validation and the seller is not registered then the seller will be registered/created.
-         * </summary>
-         * 
-         * <returns> a string with information if the seller has been registered or if something went wrong with validation</returns>
-         */
+        /// <summary>
+        ///   Validates the seller's data and checks if the seller is already registered.
+        ///    If the data passes validation and the seller is not registered, then the seller will be registered/created
+        /// </summary>
+        /// 
+        /// <returns> A string with information about whether the seller has been registered or if something went wrong with validation </returns>
         private string Register()
         {
-            try // check the validation
+            try // Check the validation.
             {
-                bool validateOk = Validations.ValidateData(name, personNr, district, soldItems); //raises exception if something goes wrong with the validation
-                bool searchPersonnr = register.CheckPersonNr(personNr);      // false if the seller is not registered
+                bool checkDataAndId = Validations.ValidateData(name, personNr, district, soldItems);
+                bool searchPersonnr = register.CheckPersonNr(personNr);             // False if the seller is not registered.
 
-                if (validateOk && searchPersonnr is false)
+                if (checkDataAndId && searchPersonnr is false)
                 {
                     register.AddSeller(name, personNr, district, Int16.Parse(soldItems));
                     return $"\nSäljaren {name} har skapats.";
@@ -135,11 +122,9 @@ namespace RegisterSellerConsole
         }
 
 
-        /**
-         * <summary>
-         *      Prints number of sellers who have reached a certain level on items, showing only levels that registered sellers have reached.
-         * </summary>
-         */
+        /// <summary>
+        ///  Prints the number of sellers who have reached a certain level on items, showing only levels that registered sellers have reached.
+        /// </summary>
         private void ItemLevels()
         {
             var items = register.GetItemLevels();
@@ -149,7 +134,7 @@ namespace RegisterSellerConsole
 
             foreach (KeyValuePair<string, int> kv in items)
             {
-                // only shows levels that sellers have reached.
+                // Only shows levels that sellers have reached.
                 if (kv.Value > 0)
                 {
                     Console.WriteLine($"{kv.Value} säljare har nått nivå {i}: {kv.Key}");
@@ -157,7 +142,6 @@ namespace RegisterSellerConsole
 
                 i++;
             }
-
             Console.WriteLine("________________________________________________________________________");
         }
     }
