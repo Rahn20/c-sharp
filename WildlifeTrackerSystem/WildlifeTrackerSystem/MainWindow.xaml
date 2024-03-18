@@ -1,0 +1,346 @@
+﻿<Window x:Class="WildlifeTrackerSystem.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WildlifeTrackerSystem"
+        mc:Ignorable="d" Height="760" Width="600"
+        Title="Wildlife Tracker"
+        WindowStartupLocation="CenterScreen" FontSize="13">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <!-- Header Row -->
+            <RowDefinition Height="Auto" />
+            <!-- Text with Input Row -->
+            <RowDefinition Height="*" />
+            <!-- Button add Row -->
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!-- Two columns, one on the right and one on the left -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,15">
+            <TextBlock Text="Animal Specifications" HorizontalAlignment="Left" Margin="10,10,0,10" FontSize="18" FontWeight="Bold"/>
+            <Border BorderBrush="#FFC7BDBD" BorderThickness="0,0,0,1"/>
+        </StackPanel>
+
+        <!-- Text with input on the left side -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="5" HorizontalAlignment="Left">
+
+            <!-- Animal Name -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Label Content="Name:" Width="80" />
+                <TextBox x:Name="BoxName" Width="165" Height="25" VerticalContentAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Animal Age -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Label Content="Age:" Width="80"/>
+                <TextBox x:Name="BoxAge" PreviewTextInput="NumericOnly" Width="165" Height="25" VerticalContentAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Animal gender  -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Label Content="Gender:" Width="80"/>
+                <ComboBox x:Name="BoxGender" Width="165">
+                    <ComboBoxItem Content="Male"></ComboBoxItem>
+                    <ComboBoxItem Content="Female"></ComboBoxItem>
+                    <ComboBoxItem Content="Unknown"></ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+
+            <!-- Add animal image -->
+            <StackPanel Margin="0,10,0,10">
+                <Button x:Name="BtnAddImage" Content="Add Image" Padding="3" Width="165" HorizontalAlignment="Right" Click="BtnAddImage_Click"></Button>
+                <TextBlock x:Name="TxtImagePath" TextAlignment="Right"></TextBlock>
+            </StackPanel>
+
+            <!-- Animal Category and species -->
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,5">
+                <ListBox x:Name="BoxCategory"  Width="120" Margin="0,0,5,0" Height="150" SelectionChanged="BoxCategory_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="2">
+                                <TextBlock Text="{Binding}" ></TextBlock>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <ListBox x:Name="BoxSpecies" Width="120" Height="150" SelectionChanged="BoxSpecies_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="2">
+                                <TextBlock Text="{Binding}" ></TextBlock>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+
+            <!-- Animal specification text with inputs -->
+            <StackPanel x:Name="PanelContainer">
+                <!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+                <!-- The specific animal data for the Bird category -->
+                <StackPanel x:Name="PanelBird" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Color:" Width="100"/>
+                        <TextBox x:Name="BoxBirdColor" Width="145" Height="25" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Wingspan (cm):" Width="100"/>
+                        <TextBox x:Name="BoxBirdWingspan" PreviewTextInput="FloatAndIntOnly" Width="145" Height="25" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Dove data (Text with Input) -->
+                <StackPanel x:Name="PanelDove" Orientation="Horizontal" Margin="0,0,0,5" Visibility="Collapsed">
+                    <Label Content="Noise Level:" Width="100"/>
+                    <ComboBox x:Name="BoxDoveNoiseLevel" Width="145">
+                        <ComboBoxItem Content="High" IsSelected="True"></ComboBoxItem>
+                        <ComboBoxItem Content="Medium"></ComboBoxItem>
+                        <ComboBoxItem Content="Low"></ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- Eagle data (Text with Input) -->
+                <StackPanel x:Name="PanelEagle" Orientation="Horizontal" Margin="0,0,0,5" Visibility="Collapsed">
+                    <Label Content="Speed:" Width="100" />
+                    <TextBox x:Name="BoxEagleSpeed" PreviewTextInput="FloatAndIntOnly" Width="145" Height="25" VerticalContentAlignment="Center"/>
+                </StackPanel>
+
+
+                <!-- - - - - - - - - - - - - - - - - - - - - - - -->
+                <!-- The specific animal data for the Fish category -->
+                <StackPanel x:Name="PanelFish" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Habitat:" Width="80"/>
+                        <TextBox x:Name="BoxFishHabitat" Width="165" Height="25" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Water temperature:" Width="128"/>
+                        <TextBox x:Name="BoxFishWaterTemp" PreviewTextInput="FloatAndIntOnly" Width="117" Height="25" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Goldfish data (Text with Input) -->
+                <StackPanel x:Name="PanelGoldfish" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Tail typ:" Width="128"/>
+                        <ComboBox x:Name="BoxGoldfishTailType" Width="117">
+                            <ComboBoxItem Content="Single"></ComboBoxItem>
+                            <ComboBoxItem Content="Double"></ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Goldfish breed:" Width="128"/>
+                        <ComboBox x:Name="BoxGoldfishBreed" Width="117" SelectedIndex="0">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" ></TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Shark data (Text with Input) -->
+                <StackPanel x:Name="PanelShark" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Shark specie:" Width="128"/>
+                        <ComboBox x:Name="BoxSharkSpecies" Width="117" SelectedIndex="0">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" ></TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Swimming speed (km/h):" Width="150"/>
+                        <TextBox x:Name="BoxSharkSwimmingSpeed" PreviewTextInput="FloatAndIntOnly" Width="85" Height="25" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Shark length (m):" Width="150"/>
+                        <TextBox x:Name="BoxSharkLength" PreviewTextInput="NumericOnly" Width="85" Height="25" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Weight (kg):" Width="150"/>
+                        <TextBox x:Name="BoxSharkWeight" PreviewTextInput="FloatAndIntOnly" Width="85" Height="25" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+
+
+                <!-- - - - - - - - - - - - - - - - - - - - - - - - -->
+                <!-- The specific animal data for the Mammal category -->
+                <StackPanel x:Name="PanelMammal" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Height (cm):" Width="115"/>
+                        <TextBox x:Name="BoxMammalHeight" PreviewTextInput="FloatAndIntOnly" Width="130" Height="25" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Weight (kg):" Width="115"/>
+                        <TextBox x:Name="BoxMammalWeight" PreviewTextInput="FloatAndIntOnly" Width="130" Height="25" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Speed (km/h):" Width="115"/>
+                        <TextBox x:Name="BoxMammalSpeed" PreviewTextInput="FloatAndIntOnly" Width="130" Height="25" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Number of teeth:" Width="115"/>
+                        <TextBox x:Name="BoxMammalNumOfTeeth" PreviewTextInput="NumericOnly" Width="130" Height="25" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Lifespan:" Width="115"/>
+                        <TextBox x:Name="BoxMammalLifespan" PreviewTextInput="NumericOnly" Width="130" Height="25" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Color:" Width="115"/>
+                        <TextBox x:Name="BoxMammalColor" Width="130" Height="25" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!--  Dog data (Text with Input) -->
+                <StackPanel x:Name="PanelDog" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Dog breed:" Width="115"/>
+                        <ComboBox x:Name="BoxDogBreed" Width="130" SelectedIndex="0">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" ></TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Energy level:" Width="115"/>
+                        <ComboBox x:Name="BoxDogEnergilevel" Width="130">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" ></TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                </StackPanel>
+
+                <!--  Wolf data (Text with Input) -->
+                <StackPanel x:Name="PanelWolf" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Wolf specie:" Width="115"/>
+                        <ComboBox x:Name="BoxWolfSpecies" Width="130" SelectedIndex="0">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" ></TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Eye color:" Width="115"/>
+                        <TextBox x:Name="BoxWolfEyeColor" Width="130" Height="25" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+
+
+                <!-- - - - - - - - - - - - - - - - - - - -  - - - - - -->
+                <!-- The specific animal data for the Reptile category-->
+                <StackPanel x:Name="PanelReptile" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Habitat:" Width="115"/>
+                        <TextBox x:Name="BoxReptileHabitat" Width="130" Height="25" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Number of legs:" Width="115"/>
+                        <TextBox x:Name="BoxReptileNumOfLegs" Width="130" Height="25" PreviewTextInput="NumericOnly" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Frog data (Text with Input) -->
+                <StackPanel x:Name="PanelFrog" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Diet:" Width="115"/>
+                        <TextBox x:Name="BoxFrogDiet" Width="130" Height="25" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Snake data (Text with Input) -->
+                <StackPanel x:Name="PanelSnake" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Length (cm):" Width="115"/>
+                        <TextBox x:Name="BoxSnakeLength" Width="130" Height="25" PreviewTextInput="NumericOnly" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                        <Label Content="Venomous" Width="115"/>
+                        <CheckBox x:Name="CheckboxIsVenomous" Margin="0,5,0,0"></CheckBox>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Add button -->
+        <StackPanel Grid.Row="2" Grid.Column="0" Margin="5,0,0,10">
+            <Button x:Name="BtnAdd" Content="Add animal" Padding="8" Click="BtnAdd_Click" Background="#FF92C189" BorderBrush="#FFC7BDBD"></Button>
+        </StackPanel>
+
+        <!-- Text with Image on the right side -->
+        <StackPanel Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Margin="5" HorizontalAlignment="Right">
+            
+            <!-- Image with border -->
+            <Border x:Name="ImageBorder" BorderBrush="Black" BorderThickness="0.5">
+                <Image x:Name="BoxImageViewAnimal" Stretch="Fill" Height="250" Width="250"/>
+            </Border>
+
+            <!-- View animal information -->
+            <Border BorderBrush="#FFC7BDBD" BorderThickness="1,0,1,1" Width="250" Height="380">
+                <StackPanel>
+                    <ItemsControl x:Name="ItemsControlAnimalView">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="{Binding Key}" Padding="6,2,2,5"/>
+                                    <TextBlock Text="{Binding Value}" Grid.Column="1" Padding="2,2,6,5" HorizontalAlignment="Right"/>
+
+                                    <Border Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="#FFC7BDBD" BorderThickness="0,0.3,0,0" Margin="0.5"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+
+
+        <!--
+        <StackPanel Grid.Column="0" Grid.Row="3">
+            <Label x:Name="LblTesting"></Label>
+        </StackPanel>
+        -->
+    </Grid>
+</Window>

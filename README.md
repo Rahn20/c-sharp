@@ -2,6 +2,17 @@
 
 This repository contains simple programs implemented in C#
 
+## Wildlife Tracker system
+
+This Windows Presentation Foundation (WPF) application, utilizing .NET 8, is suitable for use by animal parks or zoos. This application is designed with features for effectively registering and administering a diverse range of animal inhabitants. The following are the animal categories and species that can be administered:
+
+1. **Bird**: dove and eagle
+2. **Mammal**: wolf and dog
+3. **Fish**: shark and goldfish
+4. **Reptile**: frog and snake
+
+<img src="WildlifeTrackerSystem/program.png" width="60%" height="60%">
+
 
 ## RegisterSeller 
 
@@ -24,7 +35,7 @@ This Windows Forms application, utilizing .NET 8, calculates the amount of chang
 
 ## PersonRegistration
 
-This Windows Forms application, utilizing the .NET Framework, is designed for registering individuals. The user inputs the person's first name, last name, and personnumber. A validator checks the entered data to ensure that the person is not already registered. If the data passes validation, the person is successfully registered. Registered individuals are displayed on the form under the ***Registrerade personer*** section. The person's data is also saved to a file, which the program can later read..
+This Windows Forms application, utilizing the .NET Framework, is designed for registering individuals. The user inputs the person's first name, last name, and personnumber. A validator checks the entered data to ensure that the person is not already registered. If the data passes validation, the person is successfully registered. Registered individuals are displayed on the form under the ***Registrerade personer*** section. The person's data is also saved to a file, which the program can later read.
 
 <img src="PersonRegistration/forms.jpg" width="60%" height="60%">
 
