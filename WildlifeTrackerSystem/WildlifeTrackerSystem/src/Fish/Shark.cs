@@ -1,5 +1,4 @@
-﻿
-namespace WildlifeTrackerSystem.Fish
+﻿namespace WildlifeTrackerSystem.src.Fish
 {
     public class Shark : Fish
     {
@@ -8,15 +7,18 @@ namespace WildlifeTrackerSystem.Fish
         private float swimmingSpeed;    // The shark swimming capabilities in km/h
         private int length;             // the shark length in meter
         private float weight;           // the shark weight in kg
+
+        private FoodSchedule foodSchedule = new FoodSchedule();
         #endregion
 
 
         /// <summary>
         ///   Default constructor, sets the fishtype to Shark.
         /// </summary>
-        public Shark() : base() 
+        public Shark() : base()
         {
             FishType = FishType.Shark;
+            SetFoodSchedule();
         }
 
 
@@ -45,27 +47,6 @@ namespace WildlifeTrackerSystem.Fish
             length = shark.length;
             weight = shark.weight;
         }
-
-        /// <summary>
-        ///   Copy the common data from a Fish object
-        /// </summary>
-        /// <param name="other"> The Fish instance to copy </param>
-        public Shark(Fish other)
-        {
-            // Animal properties
-            Category = CategoryType.Fish;
-            Name = other.Name;
-            Age = other.Age;
-            Gender = other.Gender;
-            ImagePath = other.ImagePath;
-            Id = other.Id;
-
-            // Fish properties
-            Habitat = other.Habitat;
-            WaterTemperature = other.WaterTemperature;
-            FishType = FishType.Shark;
-        }
-
 
         #region Properties
         public SharkSpecie Specie
@@ -108,21 +89,52 @@ namespace WildlifeTrackerSystem.Fish
         /// <returns> A dictionary containing the Shark's data </returns>
         public override Dictionary<string, string> GetAnimalData()
         {
-            return new()
-            {
-                { "ID", Id },
-                { "Name", Name },
-                { "Age", Age.ToString() },
-                { "Gender", Gender.ToString() },
-                { "Category", Category.ToString() },
-                { "Fish type", FishType.ToString() },
-                { "Habitat", Habitat == "-1" ? "-" : Habitat },
-                { "Water temperature", WaterTemperature.ToString() },
-                { "Shark specie", specie.ToString() },
-                { "Swimming speed", swimmingSpeed.ToString() },
-                { "Weight", weight.ToString() },
-                { "Length", length.ToString() },
-            };
+            Dictionary<string, string> keyValuePairs = base.GetAnimalData();
+
+            keyValuePairs.Add("Shark specie", specie.ToString());
+            keyValuePairs.Add("Swimming speed", swimmingSpeed.ToString());
+            keyValuePairs.Add("Weight", weight.ToString());
+            keyValuePairs.Add("Length", length.ToString());
+
+            return keyValuePairs;
+        }
+
+
+        /// <summary>
+        ///   Gets the animal information as a string with values.
+        /// </summary>
+        /// <returns> A string containing the animal's data </returns>
+        public override string GetExtraInfo()
+        {
+            string info = base.GetExtraInfo();
+
+            info += string.Format("{0, -15} {1, 10}\n", "Shark specie:", specie);
+            info += string.Format("{0, -15} {1, 10}\n", "Swimming speed:", swimmingSpeed);
+            info += string.Format("{0, -15} {1, 10}\n", "Weight:", weight);
+            info += string.Format("{0, -15} {1, 10}\n", "Length:", length);
+            return info;
+        }
+
+
+        /// <summary>
+        ///   Sets the food schedule for the animal.
+        /// </summary>
+        private void SetFoodSchedule()
+        {
+            foodSchedule.EaterType = EaterType.Omnivorous;
+            foodSchedule.AddToFoodList("Morning: fish (tuna, salmon, bass, rays) ");
+            foodSchedule.AddToFoodList("Lunch: seals, sea lions and mollusks");
+            foodSchedule.AddToFoodList("Evening: continuation of fish and seals");
+        }
+
+
+        /// <summary>
+        ///   Retrieves the foodschedule for the animal.
+        /// </summary>
+        /// <returns> The food schedule for the animal. </returns>
+        public override FoodSchedule GetFoodSchedule()
+        {
+            return foodSchedule;
         }
     }
 }

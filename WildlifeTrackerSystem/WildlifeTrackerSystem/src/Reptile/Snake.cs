@@ -1,19 +1,21 @@
-﻿
-namespace WildlifeTrackerSystem.Reptile
+﻿namespace WildlifeTrackerSystem.src.Reptile
 {
     public class Snake : Reptile
     {
         #region Fields
         private int length;         // The length of the snake
         private bool isVenomous;    // Whether the snake is venomous or non-venomous.
+
+        private FoodSchedule foodSchedule = new FoodSchedule();
         #endregion
 
         /// <summary>
         ///   Default constructor, sets the reptiletype to snake.
         /// </summary>
-        public Snake() : base() 
+        public Snake() : base()
         {
             ReptileType = ReptileType.Snake;
+            SetFoodSchedule();
         }
 
         /// <summary>
@@ -40,28 +42,8 @@ namespace WildlifeTrackerSystem.Reptile
             isVenomous = snake.isVenomous;
         }
 
-        /// <summary>
-        ///    Copy the common data from an reptile object
-        /// </summary>
-        /// <param name="other"> The reptile instance to copy </param>
-        public Snake(Reptile other)
-        {
-            // Animal properties
-            Category = CategoryType.Reptile;
-            Name = other.Name;
-            Age = other.Age;
-            Gender = other.Gender;
-            ImagePath = other.ImagePath;
-            Id = other.Id;
-
-            // Reptile properties
-            ReptileType = ReptileType.Snake;
-            Habitat = other.Habitat;
-            NumOfLegs = other.NumOfLegs;
-        }
 
         #region Properties
-
         public int Length
         {
             get { return length; }
@@ -90,19 +72,47 @@ namespace WildlifeTrackerSystem.Reptile
         /// <returns> A dictionary containing the snake's data </returns>
         public override Dictionary<string, string> GetAnimalData()
         {
-            return new()
-            {
-                { "ID", Id },
-                { "Name", Name },
-                { "Age", Age.ToString() },
-                { "Gender", Gender.ToString() },
-                { "Category", Category.ToString() },
-                { "Reptile type", ReptileType.ToString() },
-                { "Habitat", Habitat == "-1" ? "-" : Habitat },
-                { "Number of legs", NumOfLegs.ToString() },
-                { "Snake length", length.ToString() },
-                { "Is venomous", isVenomous ? "yes" : "No" },
-            };
+            Dictionary<string, string> keyValuePairs = base.GetAnimalData();
+
+            keyValuePairs.Add("Snake length", length.ToString());
+            keyValuePairs.Add("Is venomous", isVenomous ? "yes" : "No");
+
+            return keyValuePairs;
+        }
+
+        /// <summary>
+        ///   Gets the animal information as a string with values.
+        /// </summary>
+        /// <returns> A string containing the animal's data </returns>
+        public override string GetExtraInfo()
+        {
+            string info = base.GetExtraInfo();
+
+            info += string.Format("{0, -15} {1, 10}\n", "Snake length:", length);
+            info += string.Format("{0, -15} {1, 10}\n", "Is venomous:", isVenomous ? "yes" : "No");
+            return info;
+        }
+
+
+        /// <summary>
+        ///   Sets the food schedule for the animal.
+        /// </summary>
+        private void SetFoodSchedule()
+        {
+            foodSchedule.EaterType = EaterType.Carnivore;
+            foodSchedule.AddToFoodList("Morning: rodents and birds");
+            foodSchedule.AddToFoodList("Lunch: frogs, toads and lizards");
+            foodSchedule.AddToFoodList("Evening: small snakes");
+        }
+
+
+        /// <summary>
+        ///   Retrieves the foodschedule for the animal.
+        /// </summary>
+        /// <returns> The food schedule for the animal. </returns>
+        public override FoodSchedule GetFoodSchedule()
+        {
+            return foodSchedule;
         }
     }
 }

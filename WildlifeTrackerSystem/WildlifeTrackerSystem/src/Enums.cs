@@ -1,4 +1,4 @@
-﻿namespace WildlifeTrackerSystem
+﻿namespace WildlifeTrackerSystem.src
 {
     public enum GenderType
     {
@@ -103,4 +103,10 @@
         Arabian
     }
 
+    public enum EaterType
+    {
+        Carnivore,      // meat eater
+        Herbivore,      // plant easter
+        Omnivorous      // all easter
+    }
 }

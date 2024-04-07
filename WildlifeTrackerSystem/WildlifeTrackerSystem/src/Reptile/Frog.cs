@@ -1,10 +1,9 @@
-﻿
-namespace WildlifeTrackerSystem.Reptile
+﻿namespace WildlifeTrackerSystem.src.Reptile
 {
     public class Frog : Reptile
     {
         private string diet = "";   // The diet of the frog, example: Most frogs eat insects and spiders.
-
+        private FoodSchedule foodSchedule = new FoodSchedule();
 
         /// <summary>
         ///   Default constructor, sets the reptiletype to frog.
@@ -12,6 +11,7 @@ namespace WildlifeTrackerSystem.Reptile
         public Frog() : base()
         {
             ReptileType = ReptileType.Frog;
+            SetFoodSchedule();
         }
 
         /// <summary>
@@ -34,27 +34,7 @@ namespace WildlifeTrackerSystem.Reptile
             NumOfLegs = frog.NumOfLegs;
 
             // Set frog properties
-            diet = frog.diet;  
-        }
-
-        /// <summary>
-        ///    Copy the common data from an reptile object
-        /// </summary>
-        /// <param name="other"> The reptile instance to copy </param>
-        public Frog(Reptile other)
-        {
-            // Animal properties
-            Category = CategoryType.Reptile;
-            Name = other.Name;
-            Age = other.Age;
-            Gender = other.Gender;
-            ImagePath = other.ImagePath;
-            Id = other.Id;
-
-            // reptile properties
-            ReptileType = ReptileType.Frog;
-            Habitat = other.Habitat;
-            NumOfLegs = other.NumOfLegs;
+            diet = frog.diet;
         }
 
         public string Diet
@@ -78,18 +58,42 @@ namespace WildlifeTrackerSystem.Reptile
         /// <returns> A dictionary containing the frog's data </returns>
         public override Dictionary<string, string> GetAnimalData()
         {
-            return new()
-            {
-                { "ID", Id },
-                { "Name", Name },
-                { "Age", Age.ToString() },
-                { "Gender", Gender.ToString() },
-                { "Category", Category.ToString() },
-                { "Reptile type", ReptileType.ToString() },
-                { "Habitat", Habitat == "-1" ? "-" : Habitat },
-                { "Number of legs", NumOfLegs.ToString() },
-                { "Frog diet", diet },
-            };
+            Dictionary<string, string> keyValuePairs = base.GetAnimalData();
+            keyValuePairs.Add("Frog diet", diet);
+
+            return keyValuePairs;
+        }
+
+        /// <summary>
+        ///   Gets the animal information as a string with values.
+        /// </summary>
+        /// <returns> A string containing the animal's data </returns>
+        public override string GetExtraInfo()
+        {
+            string info = string.Format("{0, -15} {1, 10}\n", "Frog diet:", diet);
+            return base.GetExtraInfo() + info;
+        }
+
+
+        /// <summary>
+        ///   Sets the food schedule for the animal.
+        /// </summary>
+        private void SetFoodSchedule()
+        {
+            foodSchedule.EaterType = EaterType.Carnivore;
+            foodSchedule.AddToFoodList("Morning: insects (snails, spiders and crickets), mealworms and waxworms");
+            foodSchedule.AddToFoodList("Lunch: caterpillars or worms");
+            foodSchedule.AddToFoodList("Evening: mice");
+        }
+
+        /// <summary>
+        ///   Retrieves the foodschedule for the animal.
+        /// </summary>
+        /// <returns> The food schedule for the animal. </returns>
+
+        public override FoodSchedule GetFoodSchedule()
+        {
+            return foodSchedule;
         }
     }
 }

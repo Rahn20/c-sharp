@@ -1,7 +1,7 @@
 ﻿
-namespace WildlifeTrackerSystem.Reptile
+namespace WildlifeTrackerSystem.src.Reptile
 {
-    public class Reptile : Animal
+    public abstract class Reptile : Animal
     {
         #region Fields
         private ReptileType reptileType;
@@ -13,45 +13,9 @@ namespace WildlifeTrackerSystem.Reptile
         /// <summary>
         ///   Default constructor, sets the categorytype to Reptile.
         /// </summary>
-        public Reptile() : base() 
-        { 
-            Category = CategoryType.Reptile;
-        }
-
-
-        /// <summary>
-        ///    Copy constructor
-        /// </summary>
-        /// <param name="reptile"> The reptile instance (object) to copy </param>
-        public Reptile(Reptile reptile)
-        {
-            // Set common properties (Animal attributes)
-            Category = CategoryType.Reptile;
-            Name = reptile.Name;
-            Age = reptile.Age;
-            Gender = reptile.Gender;
-            ImagePath = reptile.ImagePath;
-            Id = reptile.Id;
-
-            // Set Reptile properties
-            reptileType = reptile.reptileType;
-            habitat = reptile.habitat;
-            numOfLegs = reptile.numOfLegs;
-        }
-
-
-        /// <summary>
-        ///  Copy the common data from an Animal object
-        /// </summary>
-        /// <param name="animal"> The Animal instance to copy </param>
-        public Reptile(Animal animal)
+        public Reptile() : base()
         {
             Category = CategoryType.Reptile;
-            Name = animal.Name;
-            Age = animal.Age;
-            Gender = animal.Gender;
-            ImagePath = animal.ImagePath;
-            Id = animal.Id;
         }
 
         #region Properties
@@ -68,7 +32,7 @@ namespace WildlifeTrackerSystem.Reptile
         public string Habitat
         {
             get { return habitat; }
-            set { habitat = (!string.IsNullOrEmpty(value) ? value : "-1"); }
+            set { habitat = !string.IsNullOrEmpty(value) ? value : "-1"; }
         }
 
         public int NumOfLegs
@@ -91,15 +55,14 @@ namespace WildlifeTrackerSystem.Reptile
         ///    Creates a new instance based on the specified reptile type.
         /// </summary>
         /// <param name="type"> The type of reptile to create </param>
-        /// <param name="reptile"> The reptile object </param>
         /// <returns>  A new object of the specified reptile type </returns>
         /// <exception cref="ArgumentException"></exception>
-        public static Reptile CreateReptile(ReptileType type, Reptile reptile)
+        public static Reptile CreateReptile(ReptileType type)
         {
             switch (type)
             {
-                case ReptileType.Frog: return new Frog(reptile);
-                case ReptileType.Snake: return new Snake(reptile);
+                case ReptileType.Frog: return new Frog();
+                case ReptileType.Snake: return new Snake();
                 default:
                     throw new ArgumentException("Invalid reptile type", nameof(type));
             }
@@ -111,18 +74,31 @@ namespace WildlifeTrackerSystem.Reptile
         /// <returns> A dictionary containing the reptile's data </returns>
         public override Dictionary<string, string> GetAnimalData()
         {
-            return new()
-            {
-                { "ID", Id },
-                { "Name", Name },
-                { "Age", Age.ToString() },
-                { "Gender", Gender.ToString() },
-                { "Category", Category.ToString() },
-                { "Reptile type", reptileType.ToString() },
-                { "Habitat", habitat == "-1" ? "-" : habitat },
-                { "Number of legs", numOfLegs.ToString() },
-            };
+            Dictionary<string, string> keyValuePairs = base.GetAnimalData();
+
+            keyValuePairs.Add("Reptile type", reptileType.ToString());
+            keyValuePairs.Add("Habitat", habitat == "-1" ? "-" : habitat);
+            keyValuePairs.Add("Number of legs", numOfLegs.ToString());
+
+            return keyValuePairs;
         }
+
+        /// <summary>
+        ///   Gets the animal information as a string with values.
+        /// </summary>
+        /// <returns> A string containing the animal's data </returns>
+        public override string GetExtraInfo()
+        {
+            string info = base.GetExtraInfo();
+
+            info += string.Format("{0, -15} {1, 10}\n", "Reptile type:", reptileType);
+            info += string.Format("{0, -15} {1, 10}\n", "Habitat:", habitat);
+            info += string.Format("{0, -15} {1, 10}\n", "Number of legs:", numOfLegs);
+            return info;
+        }
+
+
+        public override abstract FoodSchedule GetFoodSchedule();
         #endregion
     }
 }

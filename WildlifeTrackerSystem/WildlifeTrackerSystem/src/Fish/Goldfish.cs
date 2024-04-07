@@ -1,18 +1,19 @@
-﻿
-namespace WildlifeTrackerSystem.Fish
+﻿namespace WildlifeTrackerSystem.src.Fish
 {
     public class Goldfish : Fish
     {
         private GoldfishBreed breed;
         private string tailType = "";        // The goldfish tail type, which can have various tail types (single-tail, double-tail)
-
+        
+        private FoodSchedule foodSchedule = new FoodSchedule();
 
         /// <summary>
         ///   Default constructor, sets the fishtype to Goldfish.
         /// </summary>
-        public Goldfish() : base() 
+        public Goldfish() : base()
         {
             FishType = FishType.Goldfish;
+            SetFoodSchedule();
         }
 
 
@@ -39,25 +40,6 @@ namespace WildlifeTrackerSystem.Fish
             breed = goldfish.breed;
         }
 
-        /// <summary>
-        ///   Copy the common data from a Fish object
-        /// </summary>
-        /// <param name="other"> The Fish instance to copy </param>
-        public Goldfish(Fish other)
-        {
-            // Animal properties
-            Category = CategoryType.Fish;
-            Name = other.Name;
-            Age = other.Age;
-            Gender = other.Gender;
-            ImagePath = other.ImagePath;
-            Id = other.Id;
-
-            // Fish properties
-            Habitat = other.Habitat;
-            WaterTemperature = other.WaterTemperature;
-            FishType = FishType.Goldfish;
-        }
 
         #region Properties
         public GoldfishBreed Breed
@@ -69,7 +51,7 @@ namespace WildlifeTrackerSystem.Fish
         public string TailType
         {
             get { return tailType; }
-            set {  tailType = value; }
+            set { tailType = value; }
         }
         #endregion
 
@@ -88,19 +70,46 @@ namespace WildlifeTrackerSystem.Fish
         /// <returns> A dictionary containing the goldfish's data </returns>
         public override Dictionary<string, string> GetAnimalData()
         {
-            return new()
-            {
-                { "ID", Id },
-                { "Name", Name },
-                { "Age", Age.ToString() },
-                { "Gender", Gender.ToString() },
-                { "Category", Category.ToString() },
-                { "Fish type", FishType.ToString() },
-                { "Habitat", Habitat == "-1" ? "-" : Habitat },
-                { "Water temperature", WaterTemperature.ToString() },
-                { "Goldfish breed", breed.ToString() },
-                { "Tail type", tailType },
-            };
+            Dictionary<string, string> keyValuePairs = base.GetAnimalData();
+
+            keyValuePairs.Add("Goldfish breed", breed.ToString());
+            keyValuePairs.Add("Tail type", tailType);
+  
+            return keyValuePairs;
+        }
+
+        /// <summary>
+        ///   Gets the animal information as a string with values.
+        /// </summary>
+        /// <returns> A string containing the animal's data </returns>
+        public override string GetExtraInfo()
+        {
+            string info = base.GetExtraInfo();
+
+            info += string.Format("{0, -15} {1, 10}\n", "Goldfish breed:", breed);
+            info += string.Format("{0, -15} {1, 10}\n", "Tail type:", tailType);
+            return info;
+        }
+
+        /// <summary>
+        ///   Sets the food schedule for the animal.
+        /// </summary>
+        private void SetFoodSchedule()
+        {
+            foodSchedule.EaterType = EaterType.Omnivorous;
+            foodSchedule.AddToFoodList("Morning: flakes or pellets");
+            foodSchedule.AddToFoodList("Lunch: peas and chopped lettuce");
+            foodSchedule.AddToFoodList("Evening: insects and insect larvae");
+        }
+
+
+        /// <summary>
+        ///   Retrieves the foodschedule for the animal.
+        /// </summary>
+        /// <returns> The food schedule for the animal. </returns>
+        public override FoodSchedule GetFoodSchedule()
+        {
+            return foodSchedule;
         }
     }
 }

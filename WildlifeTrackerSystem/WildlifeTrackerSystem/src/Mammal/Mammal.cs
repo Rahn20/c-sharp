@@ -1,10 +1,10 @@
 ﻿
-namespace WildlifeTrackerSystem.Mammal
+namespace WildlifeTrackerSystem.src.Mammal
 {
-    public class Mammal : Animal
+    public abstract class Mammal : Animal
     {
         #region Fields
-        private MammalType mammalType;   
+        private MammalType mammalType;
         private int lifespan;                   // Represents the average lifespan of the mammal.
         private int numOfTeeth;                 // The number of teeth of the mammal.
         private float weight;                   // The weight of the mammal in kg
@@ -17,48 +17,9 @@ namespace WildlifeTrackerSystem.Mammal
         /// <summary>
         ///   Default constructor, sets the categorytype to Mammal.
         /// </summary>
-        public Mammal() : base() 
+        public Mammal() : base()
         {
             Category = CategoryType.Mammal;
-        }
-
-
-        /// <summary>
-        ///  Copy constructor
-        /// </summary>
-        /// <param name="mammal"> The mammal instance (object) to copy </param>
-        public Mammal(Mammal mammal)
-        {
-            // Set common properties (Animal attributes)
-            Category = CategoryType.Mammal;
-            Name = mammal.Name;
-            Age = mammal.Age;
-            Gender = mammal.Gender;
-            ImagePath = mammal.ImagePath;
-            Id = mammal.Id;
-
-            // Set mammal properties
-            mammalType = mammal.mammalType;
-            color = mammal.color;  
-            lifespan = mammal.lifespan;
-            numOfTeeth = mammal.numOfTeeth;
-            weight = mammal.weight;
-            speed = mammal.speed;
-            height = mammal.height;
-        }
-
-        /// <summary>
-        ///  Copy the common data from an Animal object
-        /// </summary>
-        /// <param name="animal"> The Animal instance to copy </param>
-        public Mammal(Animal animal)
-        {
-            Category = CategoryType.Mammal;
-            Name = animal.Name;
-            Age = animal.Age;
-            Gender = animal.Gender;
-            ImagePath = animal.ImagePath;
-            Id = animal.Id;
         }
 
 
@@ -76,7 +37,7 @@ namespace WildlifeTrackerSystem.Mammal
         public string Color
         {
             get { return color; }
-            set { color = (!string.IsNullOrEmpty(value) ? value : "-1"); }
+            set { color = !string.IsNullOrEmpty(value) ? value : "-1"; }
         }
 
         public int Lifespan
@@ -122,15 +83,14 @@ namespace WildlifeTrackerSystem.Mammal
         ///   Creates a new instance based on the specified mammal type.
         /// </summary>
         /// <param name="type"> The type of mammal to create </param>
-        /// <param name="mammal"> The mammal object </param>
-        /// <returns>  A new object of the specified mammal type </returns>
+        /// <returns> A new object of the specified mammal type </returns>
         /// <exception cref="ArgumentException"></exception>
-        public static Mammal CreateMammal(MammalType type, Mammal mammal)
+        public static Mammal CreateMammal(MammalType type)
         {
             switch (type)
             {
-                case MammalType.Dog: return new Dog(mammal);
-                case MammalType.Wolf: return new Wolf(mammal);
+                case MammalType.Dog: return new Dog();
+                case MammalType.Wolf: return new Wolf();
                 default:
                     throw new ArgumentException("Invalid mammal type", nameof(type));
             }
@@ -142,22 +102,39 @@ namespace WildlifeTrackerSystem.Mammal
         /// <returns> A dictionary containing the mammal's data </returns>
         public override Dictionary<string, string> GetAnimalData()
         {
-            return new()
-            {
-                { "ID", Id },
-                { "Name", Name },
-                { "Age", Age.ToString() },
-                { "Gender", Gender.ToString() },
-                { "Category", Category.ToString() },
-                { "Mammal type", mammalType.ToString() },
-                { "Color", color == "-1" ? "-" : color },
-                { "Lifespan", lifespan.ToString() },
-                { "Number of teeth", numOfTeeth.ToString() },
-                { "Weight",  weight.ToString()},
-                { "Height", height.ToString() },
-                { "Speed", speed.ToString() },
-            };
+            Dictionary<string, string> keyValuePairs = base.GetAnimalData();
+
+            keyValuePairs.Add("Mammal type", mammalType.ToString());
+            keyValuePairs.Add("Color", color == "-1" ? "-" : color);
+            keyValuePairs.Add("Lifespan", lifespan.ToString());
+            keyValuePairs.Add("Number of teeth", numOfTeeth.ToString());
+            keyValuePairs.Add("Weight", weight.ToString());
+            keyValuePairs.Add("Height", height.ToString());
+            keyValuePairs.Add("Speed", speed.ToString());
+
+            return keyValuePairs;
         }
+
+
+        /// <summary>
+        ///   Gets the animal information as a string with values.
+        /// </summary>
+        /// <returns> A string containing the animal's data </returns>
+        public override string GetExtraInfo()
+        {
+            string info = base.GetExtraInfo();
+
+            info += string.Format("{0, -15} {1, 10}\n", "Mammal type:", mammalType);
+            info += string.Format("{0, -15} {1, 10}\n", "Color:", color);
+            info += string.Format("{0, -15} {1, 10}\n", "Lifespan:", lifespan);
+            info += string.Format("{0, -15} {1, 10}\n", "Number of teeth:", numOfTeeth);
+            info += string.Format("{0, -15} {1, 10}\n", "Weight:", weight);
+            info += string.Format("{0, -15} {1, 10}\n", "Height:", height);
+            info += string.Format("{0, -15} {1, 10}\n", "Speed:", speed);
+            return info;
+        }
+
+        public override abstract FoodSchedule GetFoodSchedule();
         #endregion
     }
 }

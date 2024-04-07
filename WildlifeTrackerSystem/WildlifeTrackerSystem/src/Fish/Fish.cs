@@ -1,7 +1,7 @@
 ﻿
-namespace WildlifeTrackerSystem.Fish
+namespace WildlifeTrackerSystem.src.Fish
 {
-    public class Fish : Animal
+    public abstract class Fish : Animal
     {
         #region Fields
         private FishType fishType;
@@ -13,43 +13,9 @@ namespace WildlifeTrackerSystem.Fish
         /// <summary>
         ///   Default constructor, sets the categorytype to Fish.
         /// </summary>
-        public Fish() : base() 
+        public Fish() : base()
         {
             Category = CategoryType.Fish;
-        }
-
-        /// <summary>
-        ///   Copy constructor
-        /// </summary>
-        /// <param name="fish"> The fish instance (object) to copy </param>
-        public Fish(Fish fish)
-        {
-            // Set common properties (Animal attributes)
-            Category = CategoryType.Fish;
-            Name = fish.Name;
-            Age = fish.Age;
-            Gender = fish.Gender;
-            ImagePath = fish.ImagePath;
-            Id = fish.Id;
-
-            // Set Fish properties
-            habitat = fish.habitat; 
-            waterTemperature = fish.waterTemperature;
-            fishType = fish.fishType;
-        }
-
-        /// <summary>
-        ///  Copy the common data from an Animal object
-        /// </summary>
-        /// <param name="animal"> The Animal instance to copy </param>
-        public Fish(Animal animal)
-        {
-            Category = CategoryType.Fish;
-            Name = animal.Name;
-            Age = animal.Age;
-            Gender = animal.Gender;
-            ImagePath = animal.ImagePath;
-            Id = animal.Id;
         }
 
         #region Properties
@@ -66,7 +32,7 @@ namespace WildlifeTrackerSystem.Fish
         public string Habitat
         {
             get { return habitat; }
-            set { habitat = (!string.IsNullOrEmpty(value) ? value : "-1"); }
+            set { habitat = !string.IsNullOrEmpty(value) ? value : "-1"; }
         }
 
         public float WaterTemperature
@@ -89,15 +55,14 @@ namespace WildlifeTrackerSystem.Fish
         ///    Creates a new instance based on the specified fish type.
         /// </summary>
         /// <param name="type"> The type of Fish to create </param>
-        /// <param name="fish"> The fish object  </param>
         /// <returns> A new object of the specified fish type </returns>
         /// <exception cref="ArgumentException"></exception>
-        public static Fish CreateFish(FishType type, Fish fish)
+        public static Fish CreateFish(FishType type)
         {
             switch (type)
             {
-                case FishType.Goldfish: return new Goldfish(fish);
-                case FishType.Shark: return new Shark(fish);
+                case FishType.Goldfish: return new Goldfish();
+                case FishType.Shark: return new Shark();
                 default:
                     throw new ArgumentException("Invalid fish type", nameof(type));
             }
@@ -110,18 +75,30 @@ namespace WildlifeTrackerSystem.Fish
         /// <returns> A dictionary containing the fish's data </returns>
         public override Dictionary<string, string> GetAnimalData()
         {
-            return new()
-            {
-                { "ID", Id },
-                { "Name", Name },
-                { "Age", Age.ToString() },
-                { "Gender", Gender.ToString() },
-                { "Category", Category.ToString() },
-                { "Fish type", FishType.ToString() },
-                { "Habitat", habitat == "-1" ? "-" : habitat },
-                { "Water temperature", waterTemperature.ToString() },
-            };
+            Dictionary<string, string> keyValuePairs = base.GetAnimalData();
+
+            keyValuePairs.Add("Fish type", fishType.ToString());
+            keyValuePairs.Add("Habitat", habitat == "-1" ? "-" : habitat);
+            keyValuePairs.Add("Water temperature", waterTemperature.ToString());
+
+            return keyValuePairs;
         }
+
+
+        /// <summary>
+        ///   Gets the animal information as a string with values.
+        /// </summary>
+        /// <returns> A string containing the animal's data </returns>
+        public override string GetExtraInfo()
+        {
+            string fishInfo = base.GetExtraInfo();
+            fishInfo += string.Format("{0, -15} {1, 10}\n", "Fish type:", fishType);
+            fishInfo += string.Format("{0, -15} {1, 10}\n", "Habitat:", habitat);
+            fishInfo += string.Format("{0, -15} {1, 10}\n", "Water temperature:", waterTemperature);
+            return fishInfo;
+        }
+
+        public override abstract FoodSchedule GetFoodSchedule();
         #endregion
     }
 }

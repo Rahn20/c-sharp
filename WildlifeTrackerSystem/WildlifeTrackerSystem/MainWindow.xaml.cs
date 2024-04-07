@@ -11,10 +11,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-using WildlifeTrackerSystem.Bird;
-using WildlifeTrackerSystem.Fish;
-using WildlifeTrackerSystem.Mammal;
-using WildlifeTrackerSystem.Reptile;
+using WildlifeTrackerSystem.src;
+using WildlifeTrackerSystem.src.Bird;
+using WildlifeTrackerSystem.src.Fish;
+using WildlifeTrackerSystem.src.Mammal;
+using WildlifeTrackerSystem.src.Reptile;
 
 namespace WildlifeTrackerSystem
 {
@@ -33,8 +34,6 @@ namespace WildlifeTrackerSystem
             InitializeComponent();
 
             animalManager = new AnimalManager();
-
-            // My initializations
             InitializeGUI();
         }
 
@@ -93,7 +92,6 @@ namespace WildlifeTrackerSystem
             }
         }
 
-
         // Event handler for the selectionChange in the species selection listbox.
         private void BoxSpecies_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -101,8 +99,14 @@ namespace WildlifeTrackerSystem
             {
                 PanelContainer.Visibility = Visibility.Visible;
                 SetVisibilityToCollapsed();
+                
+                //var animalType = BoxSpecies.SelectedItem.ToString();
+                var animalType = BoxSpecies.SelectedValue.ToString();
 
-                var animalType = BoxSpecies.SelectedItem.ToString();
+                // View animals based on the animal species
+                ListViewAnimals.ItemsSource = animalManager.FindAnimalsBySpecies(animalType);
+                BoxEaterType.Text = string.Empty;
+                BoxViewFoodSchedule.ItemsSource = null;
 
                 // Show the appropriate Stackpanel based on the selected animal type and category
                 switch ((CategoryType)BoxCategory.SelectedIndex)
@@ -193,23 +197,22 @@ namespace WildlifeTrackerSystem
         ///   Reads and validates animal input from GUI elements. 
         /// </summary>
         /// <param name="animal"> An object of Animal to store the input data </param>
-        /// <returns> True if the input is valid and successfully read, otherwise false </returns>
-        private bool ReadAnimalInput(out Animal animal)
+        private void ReadAnimalInput(out Animal? animal)
         {
-            animal = new Animal();
+            animal = null;
 
             if (BoxGender.SelectedItem != null && BoxCategory.SelectedItem != null && BoxSpecies.SelectedItem != null)
             {
-                animal.ImagePath = animalImagePath;
-                animal.Gender = (GenderType)BoxGender.SelectedIndex;
-                animal.Category = (CategoryType)BoxCategory.SelectedIndex;
-
                 // Try to convert age from Age TextBox to a valid integer and validate Name TextBox
                 if (int.TryParse(BoxAge.Text, out int ageValue) && !string.IsNullOrEmpty(BoxName.Text))
                 {
+                    animal = AnimalManager.CreateAnimal((CategoryType)BoxCategory.SelectedIndex, BoxSpecies.SelectedItem);
+
+                    animal.ImagePath = animalImagePath;
+                    animal.Gender = (GenderType)BoxGender.SelectedIndex;
+                    animal.Category = (CategoryType)BoxCategory.SelectedIndex;
                     animal.Name = BoxName.Text;
                     animal.Age = ageValue;
-                    return true;
                 } 
                 else
                 {
@@ -219,22 +222,20 @@ namespace WildlifeTrackerSystem
             {
                 MessageBox.Show("The Gender, Animal category, and animal species need to be selected", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-
-            return false;
         }
 
 
         /// <summary>
         ///    Reads and validates Bird input from GUI elements. 
         /// </summary>
-        /// <param name="birdObj"> An object of Bird class to store the bird input data </param>
+        /// <param name="animal"> An object of Bird class to store the bird input data </param>
         /// <returns> True if the input is valid, otherwise false </returns>
-        private bool ReadBirdInput(Bird.Bird birdObj)
+        private bool ReadBirdInput(Bird animal)
         {
             if (float.TryParse(BoxBirdWingspan.Text, out float wingspanValue) && !string.IsNullOrEmpty(BoxBirdColor.Text))
             {
-                birdObj.Wingspan = wingspanValue;
-                birdObj.Color = BoxBirdColor.Text;
+                animal.Wingspan = wingspanValue;
+                animal.Color = BoxBirdColor.Text;
                 return true;
             }
             else
@@ -251,7 +252,6 @@ namespace WildlifeTrackerSystem
         /// <returns> True if the input is valid, otherwise false </returns>
         private bool ReadBirdTypeInput(Animal animalObj)
         {
-            // Check if the animal is a Dove and Dove noise level is selected
             if (animalObj is Dove dove && BoxDoveNoiseLevel.SelectedItem != null)
             {
                 dove.NoiseLevel = BoxDoveNoiseLevel.Text;
@@ -275,7 +275,7 @@ namespace WildlifeTrackerSystem
         /// </summary>
         /// <param name="fishObj"> An object of Fish to store the input data </param>
         /// <returns> True if the fish input is valid, otherwise false  </returns>
-        private bool ReadFishInput(Fish.Fish fishObj)
+        private bool ReadFishInput(Fish fishObj)
         {
             fishObj.Habitat = BoxFishHabitat.Text;  // Can be empty, no need to validate
 
@@ -335,7 +335,7 @@ namespace WildlifeTrackerSystem
         /// </summary>
         /// <param name="mammalObj"> An object of Mammal to store the input data </param>
         /// <returns> True if the input is valid, otherwise false </returns>
-        private bool ReadMammalInput(Mammal.Mammal mammalObj)
+        private bool ReadMammalInput(Mammal mammalObj)
         {
             mammalObj.Color = BoxMammalColor.Text;  // can be empty, no need to validate
 
@@ -393,7 +393,7 @@ namespace WildlifeTrackerSystem
         /// </summary>
         /// <param name="reptileObj"> An object of Reptile to store the input data </param>
         /// <returns> True if the input is valid, otherwise false </returns>
-        private bool ReadReptileInput(Reptile.Reptile reptileObj)
+        private bool ReadReptileInput(Reptile reptileObj)
         {
             reptileObj.Habitat = BoxReptileHabitat.Text;  // can be empty, no need to validate
 
@@ -441,61 +441,48 @@ namespace WildlifeTrackerSystem
             return false;
         }
 
+
         // Event handler for the click event of the "Add Animal" button.
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            Animal animalObj;
-            bool animalInputOk = ReadAnimalInput(out animalObj);
+            Animal? animalObj;
+            ReadAnimalInput(out animalObj);
 
             // check animal validation
-            if (animalInputOk)
+            if (animalObj != null)
             {
                 switch ((CategoryType)BoxCategory.SelectedItem)
                 {
                     case CategoryType.Bird:
-                        Bird.Bird birdObj = new Bird.Bird(animalObj);
-                        bool readBirdOk = ReadBirdInput(birdObj);
+                        bool readBirdOk = ReadBirdInput((Bird)animalObj);
 
-                        // check Bird validation
                         if (readBirdOk)
                         {
-                            animalObj = Bird.Bird.CreateBird((BirdType)BoxSpecies.SelectedIndex, birdObj);
-
                             // True if bird passes validation
                             if (ReadBirdTypeInput(animalObj)) allDataAdded = true;
                         }
                         break;
                     case CategoryType.Fish:
-                        Fish.Fish fishObj = new Fish.Fish(animalObj);
-                        bool readFishOk = ReadFishInput(fishObj);
+                        bool readFishOk = ReadFishInput((Fish)animalObj);
 
                         if (readFishOk)
                         {
-                            animalObj = Fish.Fish.CreateFish((FishType)BoxSpecies.SelectedIndex, fishObj);
-                            
                             if (ReadFishTypeInput(animalObj)) allDataAdded = true;
                         }
                         break;
-
                     case CategoryType.Mammal:
-                        Mammal.Mammal mammalObj = new Mammal.Mammal(animalObj);
-                        bool readMammalOk = ReadMammalInput(mammalObj);
+                        bool readMammalOk = ReadMammalInput((Mammal)animalObj);
 
                         if (readMammalOk)
                         {
-                            animalObj = Mammal.Mammal.CreateMammal((MammalType)BoxSpecies.SelectedIndex, mammalObj);
-
                             if (ReadMammalTypeInput(animalObj)) allDataAdded = true;
                         }
                         break;
                     case CategoryType.Reptile:
-                        Reptile.Reptile reptileObj = new Reptile.Reptile(animalObj);
-                        bool readReptileOk = ReadReptileInput(reptileObj);
+                        bool readReptileOk = ReadReptileInput((Reptile)animalObj);
 
                         if (readReptileOk)
                         {
-                            animalObj = Reptile.Reptile.CreateReptile((ReptileType)BoxSpecies.SelectedIndex, reptileObj);
-
                             if (ReadReptileTypeInput(animalObj)) allDataAdded = true;
                         }
                         break;
@@ -527,13 +514,13 @@ namespace WildlifeTrackerSystem
         /// <param name="animalObj"> The animal object to update the result view with </param>
         private void UpdateAnimalResult(Animal animalObj)
         {
-            Animal? getAnimalData = animalManager.GetLastAnimal;
+            Animal? lastAnimal = animalManager.GetLastAnimal;
 
-            // Checks if the animalList is not empty and the animal object has an ID
-            if (getAnimalData != null &&  !string.IsNullOrEmpty(animalObj.Id))
+            if (lastAnimal != null && !string.IsNullOrEmpty(animalObj.Id))
             {
-                ItemsControlAnimalView.ItemsSource = getAnimalData.GetAnimalData();
-                LoadAndDisplayImage(getAnimalData.ImagePath);
+                ItemsControlAnimalView.ItemsSource = lastAnimal.GetAnimalData();
+                LoadAndDisplayImage(lastAnimal.ImagePath);
+                ListViewAnimals.ItemsSource = animalManager.FindAnimalsBySpecies(BoxSpecies.SelectedValue.ToString());
 
                 TxtImagePath.Text = "";
                 animalImagePath = "";
@@ -541,10 +528,7 @@ namespace WildlifeTrackerSystem
             }
         }
 
-
-        /// <summary>
-        ///   Sets visibility to collapsed for all child StackPanels within PanelContainer (Animal specification text with inputs).
-        /// </summary>
+        // Sets visibility to collapsed for all child StackPanels within PanelContainer (Animal specification text with inputs).
         private void SetVisibilityToCollapsed()
         {
             // Iterate through each child StackPanel in PanelContainer
@@ -558,19 +542,14 @@ namespace WildlifeTrackerSystem
             }
         }
 
-
-        /// <summary>
-        ///   Allows only numeric input in a TextBox and limits the input length to fit Int16 range.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        // Allows only numeric input in a TextBox and limits the input length to fit Int16 range.
         private void NumericOnly(object sender, TextCompositionEventArgs e)
         {
             System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex("[^0-9]");
             bool isTextNumeric = reg.IsMatch(e.Text);
 
-            // Check if the sender is a TextBox and its length is equal or greater than 5
-            if (sender is System.Windows.Controls.TextBox textBox && textBox.Text.Length >= 5)    // Adjust for int16's max range (5 digits)
+            // Adjust for int16's max range (5 digits)
+            if (sender is System.Windows.Controls.TextBox textBox && textBox.Text.Length >= 5)
             {
                 e.Handled = true; // Prevent further input if the length is already at maximum.
                 return;
@@ -579,11 +558,8 @@ namespace WildlifeTrackerSystem
             e.Handled = isTextNumeric;
         }
 
-        /// <summary>
-        ///   Allows only float and integer (numeric or comma) input in a TextBox.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
+        // Allows only float and integer (numeric or comma) input in a TextBox.
         private void FloatAndIntOnly(object sender, TextCompositionEventArgs e)
         {
             System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex("[^0-9,]");
@@ -591,11 +567,33 @@ namespace WildlifeTrackerSystem
 
             if (sender is System.Windows.Controls.TextBox textBox && textBox.Text.Length >= 5)
             {
-                e.Handled = true; // Prevent further input if the length is already at maximum.
+                e.Handled = true;
                 return;
             }
 
             e.Handled = isTextOk;
+        }
+
+        // Event handler for the selected animal, view animal info and foodschedule.
+        private void ListViewAnimals_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = ListViewAnimals.SelectedIndex;
+            if (index == -1) return;
+
+            Animal[] animalsArr = animalManager.FindAnimalsBySpecies(BoxSpecies.SelectedValue.ToString());
+            Animal? animal = AnimalManager.GetSpecificAnimalBy(index, animalsArr);
+
+            if (animal != null)
+            {
+                ItemsControlAnimalView.ItemsSource =  animal.GetAnimalData();
+                LoadAndDisplayImage(animal.ImagePath);
+
+                FoodSchedule foodSchedule = animal.GetFoodSchedule();
+
+                BoxEaterType.Text = foodSchedule.ToString();
+                BoxViewFoodSchedule.ItemsSource = null;
+                BoxViewFoodSchedule.ItemsSource = foodSchedule.GetFoodListInfoString();
+            }
         }
     }
 }

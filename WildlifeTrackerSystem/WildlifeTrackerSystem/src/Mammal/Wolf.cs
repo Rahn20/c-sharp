@@ -1,22 +1,22 @@
-﻿
-namespace WildlifeTrackerSystem.Mammal
+﻿namespace WildlifeTrackerSystem.src.Mammal
 {
     public class Wolf : Mammal
     {
         #region Fields
         private WolfSpecie wolfSpecie;
         private string eyeColor = "";       // The eye color of the wolf
+        private FoodSchedule foodSchedule = new FoodSchedule();
         #endregion
 
 
         /// <summary>
         ///   Default constructor, sets the mammaltype to Wolf.
         /// </summary>
-        public Wolf() : base() 
+        public Wolf() : base()
         {
             MammalType = MammalType.Wolf;
+            SetFoodSchedule();
         }
-
 
         /// <summary>
         ///   Copy constructor
@@ -46,29 +46,6 @@ namespace WildlifeTrackerSystem.Mammal
             eyeColor = wolf.eyeColor;
         }
 
-        /// <summary>
-        ///    Copy the common data from a mammal object
-        /// </summary>
-        /// <param name="other"> The mammal instance to copy </param>
-        public Wolf(Mammal other)
-        {
-            // Animal properties
-            Category = CategoryType.Mammal;
-            Name = other.Name;
-            Age = other.Age;
-            Gender = other.Gender;
-            ImagePath = other.ImagePath;
-            Id = other.Id;
-
-            // mammal properties
-            MammalType = MammalType.Wolf;
-            Color = other.Color;
-            Lifespan = other.Lifespan;
-            NumOfTeeth = other.NumOfTeeth;
-            Weight = other.Weight;
-            Speed = other.Speed;
-            Height = other.Height;
-        }
 
         #region Properties
         public WolfSpecie WolfSpecie
@@ -98,23 +75,47 @@ namespace WildlifeTrackerSystem.Mammal
         /// <returns> A dictionary containing the wolf's data </returns>
         public override Dictionary<string, string> GetAnimalData()
         {
-            return new()
-            {
-                { "ID", Id },
-                { "Name", Name },
-                { "Age", Age.ToString() },
-                { "Gender", Gender.ToString() },
-                { "Category", Category.ToString() },
-                { "Mammal type", MammalType.ToString() },
-                { "Color", Color == "-1" ? "-" : Color },
-                { "Lifespan", Lifespan.ToString() },
-                { "Number of teeth", NumOfTeeth.ToString() },
-                { "Weight",  Weight.ToString()},
-                { "Height", Height.ToString() },
-                { "Speed", Speed.ToString() },
-                { "Wolf specie", wolfSpecie.ToString() },
-                { "Eye color", eyeColor },
-            };
+            Dictionary<string, string> keyValuePairs = base.GetAnimalData();
+
+            keyValuePairs.Add("Wolf specie", wolfSpecie.ToString());
+            keyValuePairs.Add("Eye color", eyeColor);
+
+            return keyValuePairs;
+        }
+
+
+        /// <summary>
+        ///   Gets the animal information as a string with values.
+        /// </summary>
+        /// <returns> A string containing the animal's data </returns>
+        public override string GetExtraInfo()
+        {
+            string info = base.GetExtraInfo();
+
+            info += string.Format("{0, -15} {1, 10}\n", "Wolf specie:", wolfSpecie);
+            info += string.Format("{0, -15} {1, 10}\n", "Eye color:", eyeColor);
+            return info;
+        }
+
+        /// <summary>
+        ///   Sets the food schedule for the animal.
+        /// </summary>
+        private void SetFoodSchedule()
+        {
+            foodSchedule.EaterType = EaterType.Carnivore;
+            foodSchedule.AddToFoodList("Morning: fish (salmon) and smaller mammals like hares, rabbits, beavers, and raccoons");
+            foodSchedule.AddToFoodList("Lunch: birds and rodents");
+            foodSchedule.AddToFoodList("Evening: ungulates (deer, bison, elk, and moose)");
+        }
+
+
+        /// <summary>
+        ///   Retrieves the foodschedule for the animal.
+        /// </summary>
+        /// <returns> The food schedule for the animal. </returns>
+        public override FoodSchedule GetFoodSchedule()
+        {
+            return foodSchedule;
         }
     }
 }
