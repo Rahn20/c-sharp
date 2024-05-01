@@ -87,8 +87,16 @@ namespace WildlifeTrackerSystem.src
             };
         }
 
+
         /// <summary>
-        ///   Get the food schedule for a specific animal species.
+        ///   Copies the animal object, used to prevent unintended modifications to the original objects stored in the (collection) ListManager class.
+        /// </summary>
+        /// <returns> Animal object </returns>
+        public abstract object CopyAnimal();
+
+
+        /// <summary>
+        ///   Gets the food schedule for a specific animal species.
         ///   The implementation of this method is to be provided by the subclasses.
         /// </summary>
         /// <returns> An object of the FoodSchedule assigned to the particular object. </returns>

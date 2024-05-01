@@ -10,9 +10,6 @@ namespace WildlifeTrackerSystem.src.Reptile
         #endregion
 
 
-        /// <summary>
-        ///   Default constructor, sets the categorytype to Reptile.
-        /// </summary>
         public Reptile() : base()
         {
             Category = CategoryType.Reptile;
@@ -55,7 +52,7 @@ namespace WildlifeTrackerSystem.src.Reptile
         ///    Creates a new instance based on the specified reptile type.
         /// </summary>
         /// <param name="type"> The type of reptile to create </param>
-        /// <returns>  A new object of the specified reptile type </returns>
+        /// <returns> A new object of the specified reptile type </returns>
         /// <exception cref="ArgumentException"></exception>
         public static Reptile CreateReptile(ReptileType type)
         {
@@ -99,6 +96,8 @@ namespace WildlifeTrackerSystem.src.Reptile
 
 
         public override abstract FoodSchedule GetFoodSchedule();
+
+        public override abstract object CopyAnimal();
         #endregion
     }
 }

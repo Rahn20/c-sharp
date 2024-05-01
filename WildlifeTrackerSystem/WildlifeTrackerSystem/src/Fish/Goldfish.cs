@@ -1,4 +1,6 @@
-﻿namespace WildlifeTrackerSystem.src.Fish
+﻿using WildlifeTrackerSystem.src.Bird;
+
+namespace WildlifeTrackerSystem.src.Fish
 {
     public class Goldfish : Fish
     {
@@ -7,9 +9,6 @@
         
         private FoodSchedule foodSchedule = new FoodSchedule();
 
-        /// <summary>
-        ///   Default constructor, sets the fishtype to Goldfish.
-        /// </summary>
         public Goldfish() : base()
         {
             FishType = FishType.Goldfish;
@@ -56,6 +55,8 @@
         #endregion
 
 
+        #region Methods
+
         public override string ToString()
         {
             string output = string.Format("Id: {0}, name: {1}, fishtype: {2}, watertemperature {3}, tailtype: {4}",
@@ -91,15 +92,16 @@
             return info;
         }
 
+
         /// <summary>
-        ///   Sets the food schedule for the animal.
+        ///   Sets the food schedule for the goldfish.
         /// </summary>
         private void SetFoodSchedule()
         {
             foodSchedule.EaterType = EaterType.Omnivorous;
-            foodSchedule.AddToFoodList("Morning: flakes or pellets");
-            foodSchedule.AddToFoodList("Lunch: peas and chopped lettuce");
-            foodSchedule.AddToFoodList("Evening: insects and insect larvae");
+            foodSchedule.Food.AddToList("Morning: flakes or pellets");
+            foodSchedule.Food.AddToList("Lunch: peas and chopped lettuce");
+            foodSchedule.Food.AddToList("Evening: insects and insect larvae");
         }
 
 
@@ -111,5 +113,30 @@
         {
             return foodSchedule;
         }
+
+
+        /// <summary>
+        ///    Copies the animal object, used to prevent unintended modifications to the original objects.
+        /// </summary>
+        /// <returns> Goldfish object with all data </returns>
+        public override object CopyAnimal()
+        {
+            return new Goldfish
+            {
+                Category = CategoryType.Fish,
+                Name = Name,
+                Age = Age,
+                Gender = Gender,
+                ImagePath = ImagePath,
+                Id = Id,
+                Habitat = Habitat,
+                WaterTemperature = WaterTemperature,
+                FishType = FishType.Goldfish,
+                TailType = tailType,
+                Breed = breed,
+            };
+        }
     }
+
+    #endregion
 }

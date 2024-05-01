@@ -9,9 +9,6 @@
         #endregion
 
 
-        /// <summary>
-        ///   Default constructor, sets the mammaltype to Wolf.
-        /// </summary>
         public Wolf() : base()
         {
             MammalType = MammalType.Wolf;
@@ -98,14 +95,14 @@
         }
 
         /// <summary>
-        ///   Sets the food schedule for the animal.
+        ///   Sets the food schedule for the Wolf.
         /// </summary>
         private void SetFoodSchedule()
         {
             foodSchedule.EaterType = EaterType.Carnivore;
-            foodSchedule.AddToFoodList("Morning: fish (salmon) and smaller mammals like hares, rabbits, beavers, and raccoons");
-            foodSchedule.AddToFoodList("Lunch: birds and rodents");
-            foodSchedule.AddToFoodList("Evening: ungulates (deer, bison, elk, and moose)");
+            foodSchedule.Food.AddToList("Morning: fish (salmon) and smaller mammals like hares, rabbits, beavers, and raccoons");
+            foodSchedule.Food.AddToList("Lunch: birds and rodents");
+            foodSchedule.Food.AddToList("Evening: ungulates (deer, bison, elk, and moose)");
         }
 
 
@@ -116,6 +113,33 @@
         public override FoodSchedule GetFoodSchedule()
         {
             return foodSchedule;
+        }
+
+
+        /// <summary>
+        ///   Copies the animal object, used to prevent unintended modifications to the original objects.
+        /// </summary>
+        /// <returns> Wolf object with all data </returns>
+        public override object CopyAnimal()
+        {
+            return new Wolf
+            {
+                Category = Category,
+                Name = Name,
+                Age = Age,
+                Gender = Gender,
+                ImagePath = ImagePath,
+                Id = Id,
+                MammalType = MammalType,
+                Color = Color,
+                Lifespan = Lifespan,
+                NumOfTeeth = NumOfTeeth,
+                Weight = Weight,
+                Speed = Speed,
+                Height = Height,
+                WolfSpecie = wolfSpecie,
+                EyeColor = eyeColor,
+            };
         }
     }
 }

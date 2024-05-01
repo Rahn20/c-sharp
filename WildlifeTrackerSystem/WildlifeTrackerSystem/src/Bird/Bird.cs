@@ -13,9 +13,6 @@ namespace WildlifeTrackerSystem.src.Bird
         #endregion
 
 
-        /// <summary>
-        ///   Default constructor, sets the categorytype to Bird.
-        /// </summary>
         public Bird() : base()
         {
             Category = CategoryType.Bird;
@@ -101,6 +98,8 @@ namespace WildlifeTrackerSystem.src.Bird
         }
 
         public override abstract FoodSchedule GetFoodSchedule();
+
+        public override abstract object CopyAnimal();
 
         #endregion
     }

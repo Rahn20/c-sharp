@@ -8,9 +8,6 @@
         private string noiseLevel = "";         // 3 levels, high, medium and low.
         private FoodSchedule foodSchedule = new FoodSchedule();
 
-        /// <summary>
-        ///   Default constructor, sets the birdtype to Dove.
-        /// </summary>
         public Dove() : base()
         {
             BirdType = BirdType.Dove;
@@ -60,7 +57,6 @@
         /// <returns> A dictionary containing the Dove's data </returns>
         public override Dictionary<string, string> GetAnimalData()
         {
-            // Call the base implementation to get the dictionary
             Dictionary<string, string> keyValuePairs = base.GetAnimalData();
             keyValuePairs.Add("Noise level", noiseLevel);
             return keyValuePairs;
@@ -79,15 +75,15 @@
 
 
         /// <summary>
-        ///   Sets the food schedule for the animal.
+        ///   Sets the food schedule for the Dove.
         /// </summary>
         private void SetFoodSchedule()
         {
             //foodSchedule = new FoodSchedule();
             foodSchedule.EaterType = EaterType.Herbivore;
-            foodSchedule.AddToFoodList("Morning: grasses and weed seeds");
-            foodSchedule.AddToFoodList("Lunch: grains");
-            foodSchedule.AddToFoodList("Evening: berries and greens (parts of grasses)");
+            foodSchedule.Food.AddToList("Morning: grasses and weed seeds");
+            foodSchedule.Food.AddToList("Lunch: grains");
+            foodSchedule.Food.AddToList("Evening: berries and greens (parts of grasses)");
         }
 
         /// <summary>
@@ -97,6 +93,28 @@
         public override FoodSchedule GetFoodSchedule()
         {
             return foodSchedule;
+        }
+
+
+        /// <summary>
+        ///   Copies the animal object, used to prevent unintended modifications to the original objects.
+        /// </summary>
+        /// <returns> Dove object with all data </returns>
+        public override object CopyAnimal()
+        {
+            return new Dove
+            {
+                Category = Category,
+                Name = Name,
+                Age = Age,
+                Gender = Gender,
+                ImagePath = ImagePath,
+                Id = Id,
+                Wingspan = Wingspan,
+                Color = Color,
+                BirdType = BirdType,
+                NoiseLevel = noiseLevel,
+            };
         }
     }
 }

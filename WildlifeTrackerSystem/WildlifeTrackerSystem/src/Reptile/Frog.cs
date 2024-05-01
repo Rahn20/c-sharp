@@ -1,13 +1,12 @@
-﻿namespace WildlifeTrackerSystem.src.Reptile
+﻿
+namespace WildlifeTrackerSystem.src.Reptile
 {
     public class Frog : Reptile
     {
         private string diet = "";   // The diet of the frog, example: Most frogs eat insects and spiders.
         private FoodSchedule foodSchedule = new FoodSchedule();
 
-        /// <summary>
-        ///   Default constructor, sets the reptiletype to frog.
-        /// </summary>
+
         public Frog() : base()
         {
             ReptileType = ReptileType.Frog;
@@ -76,24 +75,45 @@
 
 
         /// <summary>
-        ///   Sets the food schedule for the animal.
+        ///   Sets the food schedule for the Frog.
         /// </summary>
         private void SetFoodSchedule()
         {
             foodSchedule.EaterType = EaterType.Carnivore;
-            foodSchedule.AddToFoodList("Morning: insects (snails, spiders and crickets), mealworms and waxworms");
-            foodSchedule.AddToFoodList("Lunch: caterpillars or worms");
-            foodSchedule.AddToFoodList("Evening: mice");
+            foodSchedule.Food.AddToList("Morning: insects (snails, spiders and crickets), mealworms and waxworms");
+            foodSchedule.Food.AddToList("Lunch: caterpillars or worms");
+            foodSchedule.Food.AddToList("Evening: mice");
         }
 
         /// <summary>
         ///   Retrieves the foodschedule for the animal.
         /// </summary>
         /// <returns> The food schedule for the animal. </returns>
-
         public override FoodSchedule GetFoodSchedule()
         {
             return foodSchedule;
+        }
+
+
+        /// <summary>
+        ///   Copies the animal object, used to prevent unintended modifications to the original objects.
+        /// </summary>
+        /// <returns> Frog object with all data </returns>
+        public override object CopyAnimal()
+        {
+            return new Frog
+            {
+                Category = Category,
+                Name = Name,
+                Age = Age,
+                Gender = Gender,
+                ImagePath = ImagePath,
+                Id = Id,
+                ReptileType = ReptileType,
+                Habitat = Habitat,
+                NumOfLegs = NumOfLegs,
+                Diet = diet,
+            };
         }
     }
 }

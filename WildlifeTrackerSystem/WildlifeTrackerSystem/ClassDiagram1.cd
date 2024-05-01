@@ -1,198 +1,228 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="WildlifeTrackerSystem.src.Bird.Bird" Collapsed="true">
-    <Position X="1.5" Y="1.75" Width="1.5" />
+    <Position X="2.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAAAACABAAAAAUAAAABAAEAAAAAACAAAAAgACgAAA=</HashCode>
+      <HashCode>AAIAAAACABAAAAAUAAAABAAEAAAAAACAAAAAgAChAAA=</HashCode>
       <FileName>src\Bird\Bird.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTrackerSystem.src.Bird.Dove" Collapsed="true">
-    <Position X="0.5" Y="3.25" Width="1.5" />
+    <Position X="1.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEQAAABAAAAAAAAEAAAABABEAAAAAAAAAAAAAACAAAA=</HashCode>
+      <HashCode>AEQAAABAAAAAAAAEAAAABABEAAAAAAAAAAAAAACBAAA=</HashCode>
       <FileName>src\Bird\Dove.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTrackerSystem.src.Bird.Eagle" Collapsed="true">
-    <Position X="2.75" Y="3.25" Width="1.5" />
+    <Position X="3.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAEAAAABABFAAAAAQAAAAAAAACAAAA=</HashCode>
+      <HashCode>AAQAAAAAAAAAAAAEAAAABABFAAAAAQAAAAAAAACBAAA=</HashCode>
       <FileName>src\Bird\Eagle.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTrackerSystem.src.Fish.Fish" Collapsed="true">
-    <Position X="10.5" Y="1.75" Width="1.5" />
+    <Position X="11.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQAAAAAABAAAAAAEIAAABAAEAAAAQBAAAAAQAAGAAAA=</HashCode>
+      <HashCode>AQAAAAAABAAAAAAEIAAABAAEAAAAQBAAAAAQAAGBAAA=</HashCode>
       <FileName>src\Fish\Fish.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTrackerSystem.src.Fish.Goldfish" Collapsed="true">
-    <Position X="9.5" Y="3.25" Width="1.5" />
+    <Position X="10.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgQAAAAAAAAAAAAEAABABABEQAAAAAAAAAAAAAKAAAA=</HashCode>
+      <HashCode>AgQAAAAAAAAAAAAEAABABABEQAAAAAAAAAAAAAKBAAA=</HashCode>
       <FileName>src\Fish\Goldfish.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTrackerSystem.src.Fish.Shark" Collapsed="true">
-    <Position X="11.75" Y="3.25" Width="1.5" />
+    <Position X="12.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgQAAAAAAAAAAAAEAEAABABEACAAAAAgAAAEAAKABAA=</HashCode>
+      <HashCode>AgQAAAAAAAAAAAAEAEAABABEACAAAAAgAAAEAAKBBAA=</HashCode>
       <FileName>src\Fish\Shark.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTrackerSystem.src.Mammal.Dog" Collapsed="true">
-    <Position X="5" Y="3.25" Width="1.5" />
+    <Position X="6" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAABAEAAAABAEAAAABABEAAAAAAAAAAAAAACAAAA=</HashCode>
+      <HashCode>AAQAAABAEAAAABAEAAAABABEAAAAAAAAAAAAAACBAAA=</HashCode>
       <FileName>src\Mammal\Dog.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTrackerSystem.src.Mammal.Mammal" Collapsed="true">
-    <Position X="6" Y="1.75" Width="1.5" />
+    <Position X="7" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAAAQUEBAAAAAQEAAAABAEFACAAAQChAAAAgACAAAA=</HashCode>
+      <HashCode>BAAAAQUEBAAAAAQEAAAABAEFACAAAQChAAAAgACBAAA=</HashCode>
       <FileName>src\Mammal\Mammal.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTrackerSystem.src.Mammal.Wolf" Collapsed="true">
-    <Position X="7.25" Y="3.25" Width="1.5" />
+    <Position X="8.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAgAAAAIEAAAABABEAAAAAAAAAAAAAACEAAA=</HashCode>
+      <HashCode>AAQAAAAAAgAAAAIEAAAABABEAAAAAAAAAAAAAACFAAA=</HashCode>
       <FileName>src\Mammal\Wolf.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTrackerSystem.src.Reptile.Frog" Collapsed="true">
-    <Position X="14" Y="3.25" Width="1.5" />
+    <Position X="15" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQCAAAAAAAAAAAEAAAABABEAAAAAAAAAAAAAACAAgA=</HashCode>
+      <HashCode>AAQCAAAAAAAAAAAEAAAABABEAAAAAAAAAAAAAACBAgA=</HashCode>
       <FileName>src\Reptile\Frog.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTrackerSystem.src.Reptile.Reptile" Collapsed="true">
-    <Position X="15" Y="1.75" Width="1.5" />
+    <Position X="16" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQAAAACAQAAAAAAEAAAABAAEQAAAAAAAAAAEAAGABAA=</HashCode>
+      <HashCode>AQAAAACAQAAAAAAEAAAABAAEQAAAAAAAAAAEAAGBBAA=</HashCode>
       <FileName>src\Reptile\Reptile.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTrackerSystem.src.Reptile.Snake" Collapsed="true">
-    <Position X="16.25" Y="3.25" Width="1.5" />
+    <Position X="17.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAEAEAABABEQAAAAEAAAAAAAACAAAA=</HashCode>
+      <HashCode>AAQAAAAAAAAAAAAEAEAABABEQAAAAEAAAAAAAACBAAA=</HashCode>
       <FileName>src\Reptile\Snake.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WildlifeTrackerSystem.src.Animal" Collapsed="true">
-    <Position X="8.25" Y="0.5" Width="1.5" />
+    <Position X="9.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAQACEgEAAhIQEAAAEAAAAAAAIAACACgA=</HashCode>
+      <HashCode>AAACAAAAAAAAQACEgEAAhIQEAAAEAAAAAAAIAACBCgA=</HashCode>
       <FileName>src\Animal.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="WildlifeTrackerSystem.src.AnimalManager" Collapsed="true">
-    <Position X="18.75" Y="0.5" Width="1.5" />
+    <Position X="0.75" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gQUQACAAAAABCAAAAAAAAQAAQAABBgIAAAAAAEAAAAA=</HashCode>
+      <HashCode>gQQQAAAAAAAAAAAAAAAAAQAAAAAAAgAAAAAAAEAAAAA=</HashCode>
       <FileName>src\AnimalManager.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="WildlifeTrackerSystem.src.FoodSchedule" Collapsed="true">
-    <Position X="21.25" Y="0.5" Width="1.5" />
+  <Class Name="WildlifeTrackerSystem.src.FoodItem" Collapsed="true">
+    <Position X="19.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CAAACAAAAEAAAEAEAAAAAAQAAgAAAAQAQAAAAEAAAIA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAEIAAAACQAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\FoodItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WildlifeTrackerSystem.src.FoodSchedule" Collapsed="true">
+    <Position X="21.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAQAAAAkAAAAI=</HashCode>
       <FileName>src\FoodSchedule.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="WildlifeTrackerSystem.MainWindow" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="23.75" Y="0.5" Width="1.75" />
+  <Class Name="WildlifeTrackerSystem.src.ListManager&lt;T&gt;" Collapsed="true">
+    <Position X="0.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>iAACIIMBAAAAEEAAAAJCABABAAAAMAAAIAAEAgAA0QA=</HashCode>
+      <HashCode>CAAACABAAIACAAAgAAAAQAQARAIAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>src\ListManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WildlifeTrackerSystem.FoodItemForm" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAhAAAAAAACAAAAAAAAAAEABAAA=</HashCode>
+      <FileName>FoodItemForm.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="WildlifeTrackerSystem.MainWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAACAIEBAAAAEECJAAJCABABAAAAMAAAIAAEAoAA0QA=</HashCode>
       <FileName>MainWindow.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Interface Name="WildlifeTrackerSystem.src.IAnimal" Collapsed="true">
-    <Position X="18.75" Y="1.75" Width="1.5" />
+    <Position X="19.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAACAAAAABAQEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAACAAAAABAQEAAAAAAAAAAAAAACAAAA=</HashCode>
       <FileName>src\IAnimal.cs</FileName>
     </TypeIdentifier>
   </Interface>
+  <Interface Name="WildlifeTrackerSystem.src.IListManager&lt;T&gt;" Collapsed="true">
+    <Position X="21.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAACAAAAIACAAAgAAAAQAQAQAIAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>src\IListManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Enum Name="WildlifeTrackerSystem.src.GenderType" Collapsed="true">
-    <Position X="20.5" Y="4.5" Width="1.5" />
+    <Position X="21.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAABA=</HashCode>
       <FileName>src\Enums.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="WildlifeTrackerSystem.src.CategoryType" Collapsed="true">
-    <Position X="20.5" Y="3.75" Width="1.5" />
+    <Position X="21.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAwAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAgAAA=</HashCode>
       <FileName>src\Enums.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="WildlifeTrackerSystem.src.BirdType" Collapsed="true">
-    <Position X="18.75" Y="3.75" Width="1.5" />
+    <Position X="19.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>src\Enums.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="WildlifeTrackerSystem.src.FishType" Collapsed="true">
-    <Position X="18.75" Y="4.5" Width="1.5" />
+    <Position X="19.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAQAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>src\Enums.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="WildlifeTrackerSystem.src.MammalType" Collapsed="true">
-    <Position X="24" Y="4.5" Width="1.5" />
+    <Position X="25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>src\Enums.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="WildlifeTrackerSystem.src.ReptileType" Collapsed="true">
-    <Position X="18.75" Y="5.25" Width="1.5" />
+    <Position X="19.75" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAgAA=</HashCode>
       <FileName>src\Enums.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="WildlifeTrackerSystem.src.GoldfishBreed" Collapsed="true">
-    <Position X="22.25" Y="4.5" Width="1.5" />
+    <Position X="23.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAYBAAAAAAEAAAIAAAAAIgAABAABAAAgAAAAAAAAQA=</HashCode>
       <FileName>src\Enums.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="WildlifeTrackerSystem.src.SharkSpecie" Collapsed="true">
-    <Position X="20.5" Y="5.25" Width="1.5" />
+    <Position X="21.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AACAgCAAAAAAAACAAAAAAAAAAACAAAAAAEAAAAAAEAA=</HashCode>
       <FileName>src\Enums.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="WildlifeTrackerSystem.src.DogBreed" Collapsed="true">
-    <Position X="22.25" Y="3.75" Width="1.5" />
+    <Position X="23.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAAAAACACAAQAAQIAAAAABAACQAAAAAAEAABAKAAAAA=</HashCode>
       <FileName>src\Enums.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="WildlifeTrackerSystem.src.WolfSpecie" Collapsed="true">
-    <Position X="22.25" Y="5.25" Width="1.5" />
+    <Position X="23.25" Y="5.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAEAAAgAAAAAEAAIAAABAAAAAAAIAAgQAAAA=</HashCode>
       <FileName>src\Enums.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="WildlifeTrackerSystem.src.EaterType" Collapsed="true">
-    <Position X="24" Y="3.75" Width="1.5" />
+    <Position X="25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAIAAAAAAAA=</HashCode>
       <FileName>src\Enums.cs</FileName>

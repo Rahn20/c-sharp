@@ -1,4 +1,6 @@
-﻿namespace WildlifeTrackerSystem.src.Mammal
+﻿using WildlifeTrackerSystem.src.Fish;
+
+namespace WildlifeTrackerSystem.src.Mammal
 {
     public class Dog : Mammal
     {
@@ -11,9 +13,6 @@
         #endregion
 
 
-        /// <summary>
-        ///   Default constructor, sets the mammaltype to Dog.
-        /// </summary>
         public Dog() : base()
         {
             MammalType = MammalType.Dog;
@@ -102,14 +101,14 @@
 
 
         /// <summary>
-        ///   Sets the food schedule for the animal.
+        ///   Sets the food schedule for the Dog.
         /// </summary>
         private void SetFoodSchedule()
         {
             foodSchedule.EaterType = EaterType.Omnivorous;
-            foodSchedule.AddToFoodList("Morning: chicken or turkey");
-            foodSchedule.AddToFoodList("Lunch: carrots, green beans, sweet potatoes and brown rice");
-            foodSchedule.AddToFoodList("Evening: eggs and fish like salmon and sardines");
+            foodSchedule.Food.AddToList("Morning: chicken or turkey");
+            foodSchedule.Food.AddToList("Lunch: carrots, green beans, sweet potatoes and brown rice");
+            foodSchedule.Food.AddToList("Evening: eggs and fish like salmon and sardines");
         }
 
         /// <summary>
@@ -119,6 +118,33 @@
         public override FoodSchedule GetFoodSchedule()
         {
             return foodSchedule;
+        }
+
+
+        /// <summary>
+        ///   Copies the animal object, used to prevent unintended modifications to the original objects.
+        /// </summary>
+        /// <returns> Dog object with all data </returns>
+        public override object CopyAnimal()
+        {
+            return new Dog
+            {
+                Category = Category,
+                Name = Name,
+                Age = Age,
+                Gender = Gender,
+                ImagePath = ImagePath,
+                Id = Id,
+                MammalType = MammalType,
+                Color = Color,
+                Lifespan = Lifespan,
+                NumOfTeeth = NumOfTeeth,
+                Weight = Weight,
+                Speed = Speed,
+                Height = Height,
+                DogBreed = dogBreed,
+                EnergyLevel = energyLevel,
+            };
         }
     }
 }

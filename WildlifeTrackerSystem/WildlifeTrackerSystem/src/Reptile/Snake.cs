@@ -9,9 +9,6 @@
         private FoodSchedule foodSchedule = new FoodSchedule();
         #endregion
 
-        /// <summary>
-        ///   Default constructor, sets the reptiletype to snake.
-        /// </summary>
         public Snake() : base()
         {
             ReptileType = ReptileType.Snake;
@@ -95,14 +92,14 @@
 
 
         /// <summary>
-        ///   Sets the food schedule for the animal.
+        ///   Sets the food schedule for the Snake.
         /// </summary>
         private void SetFoodSchedule()
         {
             foodSchedule.EaterType = EaterType.Carnivore;
-            foodSchedule.AddToFoodList("Morning: rodents and birds");
-            foodSchedule.AddToFoodList("Lunch: frogs, toads and lizards");
-            foodSchedule.AddToFoodList("Evening: small snakes");
+            foodSchedule.Food.AddToList("Morning: rodents and birds");
+            foodSchedule.Food.AddToList("Lunch: frogs, toads and lizards");
+            foodSchedule.Food.AddToList("Evening: small snakes");
         }
 
 
@@ -113,6 +110,29 @@
         public override FoodSchedule GetFoodSchedule()
         {
             return foodSchedule;
+        }
+
+
+        /// <summary>
+        ///   Copies the animal object, used to prevent unintended modifications to the original objects.
+        /// </summary>
+        /// <returns> Snake object with all data </returns>
+        public override object CopyAnimal()
+        {
+            return new Snake
+            {
+                Category = Category,
+                Name = Name,
+                Age = Age,
+                Gender = Gender,
+                ImagePath = ImagePath,
+                Id = Id,
+                ReptileType = ReptileType,
+                Habitat = Habitat,
+                NumOfLegs = NumOfLegs,
+                Length = length,
+                IsVenomous = isVenomous,
+            };
         }
     }
 }

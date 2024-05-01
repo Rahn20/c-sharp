@@ -14,9 +14,6 @@ namespace WildlifeTrackerSystem.src.Mammal
         #endregion
 
 
-        /// <summary>
-        ///   Default constructor, sets the categorytype to Mammal.
-        /// </summary>
         public Mammal() : base()
         {
             Category = CategoryType.Mammal;
@@ -135,6 +132,9 @@ namespace WildlifeTrackerSystem.src.Mammal
         }
 
         public override abstract FoodSchedule GetFoodSchedule();
+
+        public override abstract object CopyAnimal();
+
         #endregion
     }
 }

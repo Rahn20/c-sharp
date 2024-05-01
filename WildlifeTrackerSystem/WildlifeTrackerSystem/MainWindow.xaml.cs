@@ -26,7 +26,6 @@ namespace WildlifeTrackerSystem
     {
         private AnimalManager animalManager;
         private string animalImagePath = "";        // Temporarily store the image; it will later be added to the animal list
-        private bool allDataAdded = false;          // Indicates whether all animal data has been added and validated. 
 
         public MainWindow()
         {
@@ -100,11 +99,10 @@ namespace WildlifeTrackerSystem
                 PanelContainer.Visibility = Visibility.Visible;
                 SetVisibilityToCollapsed();
                 
-                //var animalType = BoxSpecies.SelectedItem.ToString();
                 var animalType = BoxSpecies.SelectedValue.ToString();
 
                 // View animals based on the animal species
-                ListViewAnimals.ItemsSource = animalManager.FindAnimalsBySpecies(animalType);
+                ListViewAnimals.ItemsSource = animalManager.SearchSpecificObject(animalType);
                 BoxEaterType.Text = string.Empty;
                 BoxViewFoodSchedule.ItemsSource = null;
 
@@ -442,6 +440,55 @@ namespace WildlifeTrackerSystem
         }
 
 
+        /// <summary>
+        ///   Validates all animal data, including category and species
+        /// </summary>
+        /// <param name="category"> The animal category </param>
+        /// <param name="animalObj"> The animal object to validate </param>
+        /// <returns> True if all data passes through validations; otherwise, false </returns>
+        private bool ValidateAnimal(CategoryType category, Animal animalObj)
+        {
+            switch (category)
+            {
+                case CategoryType.Bird:
+                    bool readBirdOk = ReadBirdInput((Bird)animalObj);
+
+                    // True if bird passes validation
+                    if (readBirdOk && ReadBirdTypeInput(animalObj))
+                    {
+                        return true;
+                    }
+                    break;
+                case CategoryType.Fish:
+                    bool readFishOk = ReadFishInput((Fish)animalObj);
+
+                    if (readFishOk && ReadFishTypeInput(animalObj))
+                    {
+                        return true;
+                    }
+                    break;
+                case CategoryType.Mammal:
+                    bool readMammalOk = ReadMammalInput((Mammal)animalObj);
+
+                    if (readMammalOk && ReadMammalTypeInput(animalObj))
+                    {
+                        return true;
+                    }
+                    break;
+                case CategoryType.Reptile:
+                    bool readReptileOk = ReadReptileInput((Reptile)animalObj);
+
+                    if (readReptileOk && ReadReptileTypeInput(animalObj))
+                    {
+                        return true;
+                    }
+                    break;
+            }
+
+            return false;
+        }
+
+
         // Event handler for the click event of the "Add Animal" button.
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -451,80 +498,28 @@ namespace WildlifeTrackerSystem
             // check animal validation
             if (animalObj != null)
             {
-                switch ((CategoryType)BoxCategory.SelectedItem)
+                bool validation = ValidateAnimal((CategoryType)BoxCategory.SelectedItem, animalObj);
+
+                if (validation)
                 {
-                    case CategoryType.Bird:
-                        bool readBirdOk = ReadBirdInput((Bird)animalObj);
+                    animalObj.Id = animalManager.GetNewID(animalObj.Category);
+                    bool addedAnimal = animalManager.AddToList(animalObj);
+                    Animal? lastAnimal = animalManager.GetLastElement; // get last added animal
 
-                        if (readBirdOk)
-                        {
-                            // True if bird passes validation
-                            if (ReadBirdTypeInput(animalObj)) allDataAdded = true;
-                        }
-                        break;
-                    case CategoryType.Fish:
-                        bool readFishOk = ReadFishInput((Fish)animalObj);
+                    if (addedAnimal == true && lastAnimal != null)
+                    {
+                        // Update the animal result view with the data of the last added animal.
+                        ItemsControlAnimalView.ItemsSource = lastAnimal.GetAnimalData();
+                        LoadAndDisplayImage(lastAnimal.ImagePath);
+                        ListViewAnimals.ItemsSource = animalManager.SearchSpecificObject(BoxSpecies.SelectedValue.ToString());
 
-                        if (readFishOk)
-                        {
-                            if (ReadFishTypeInput(animalObj)) allDataAdded = true;
-                        }
-                        break;
-                    case CategoryType.Mammal:
-                        bool readMammalOk = ReadMammalInput((Mammal)animalObj);
+                        BoxTotalAnimalsNr.Text = animalManager.Count.ToString();
 
-                        if (readMammalOk)
-                        {
-                            if (ReadMammalTypeInput(animalObj)) allDataAdded = true;
-                        }
-                        break;
-                    case CategoryType.Reptile:
-                        bool readReptileOk = ReadReptileInput((Reptile)animalObj);
-
-                        if (readReptileOk)
-                        {
-                            if (ReadReptileTypeInput(animalObj)) allDataAdded = true;
-                        }
-                        break;
+                        TxtImagePath.Text = "";
+                        animalImagePath = "";
+                        ClearAllTextBoxes(this);
+                    }
                 }
-
-                CreateAnimal(animalObj);
-                UpdateAnimalResult(animalObj);
-            }
-          
-        }
-
-        /// <summary>
-        ///   Creates an animal ID and adds the animal object to the animal list if all data is added and has passed validations.
-        /// </summary>
-        /// <param name="animalObj"> The animal object to be created/added to the list </param>
-        private void CreateAnimal(Animal animalObj)
-        {
-            if (allDataAdded)
-            {
-                animalObj.Id = animalManager.GetNewID(animalObj.Category);
-                animalManager.AddToList(animalObj);
-                allDataAdded = false;
-            }
-        }
-
-        /// <summary>
-        ///   Updates the animal result view with the data of the last added animal.
-        /// </summary>
-        /// <param name="animalObj"> The animal object to update the result view with </param>
-        private void UpdateAnimalResult(Animal animalObj)
-        {
-            Animal? lastAnimal = animalManager.GetLastAnimal;
-
-            if (lastAnimal != null && !string.IsNullOrEmpty(animalObj.Id))
-            {
-                ItemsControlAnimalView.ItemsSource = lastAnimal.GetAnimalData();
-                LoadAndDisplayImage(lastAnimal.ImagePath);
-                ListViewAnimals.ItemsSource = animalManager.FindAnimalsBySpecies(BoxSpecies.SelectedValue.ToString());
-
-                TxtImagePath.Text = "";
-                animalImagePath = "";
-                ClearAllTextBoxes(this); // passing MainWindow instance  
             }
         }
 
@@ -558,7 +553,6 @@ namespace WildlifeTrackerSystem
             e.Handled = isTextNumeric;
         }
 
-
         // Allows only float and integer (numeric or comma) input in a TextBox.
         private void FloatAndIntOnly(object sender, TextCompositionEventArgs e)
         {
@@ -577,23 +571,100 @@ namespace WildlifeTrackerSystem
         // Event handler for the selected animal, view animal info and foodschedule.
         private void ListViewAnimals_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int index = ListViewAnimals.SelectedIndex;
-            if (index == -1) return;
+            if (ListViewAnimals.SelectedIndex == -1) return;
 
-            Animal[] animalsArr = animalManager.FindAnimalsBySpecies(BoxSpecies.SelectedValue.ToString());
-            Animal? animal = AnimalManager.GetSpecificAnimalBy(index, animalsArr);
+            Animal animal = (Animal)ListViewAnimals.SelectedItem;
 
             if (animal != null)
             {
-                ItemsControlAnimalView.ItemsSource =  animal.GetAnimalData();
+                ItemsControlAnimalView.ItemsSource = animal.GetAnimalData();
                 LoadAndDisplayImage(animal.ImagePath);
 
                 FoodSchedule foodSchedule = animal.GetFoodSchedule();
 
                 BoxEaterType.Text = foodSchedule.ToString();
                 BoxViewFoodSchedule.ItemsSource = null;
-                BoxViewFoodSchedule.ItemsSource = foodSchedule.GetFoodListInfoString();
+                BoxViewFoodSchedule.ItemsSource = foodSchedule.Food.ToStringArray();
             }
         }
+
+        // Event handler for the Food item button, and view food items in the list box.
+        private void BtnFoodItems_Click(object sender, RoutedEventArgs e)
+        {
+            FoodItemForm foodItemForm = new FoodItemForm();
+
+            // The user clicked "OK" in the FoodItemForm Window
+            if (foodItemForm.ShowDialog() == true && foodItemForm.items.Ingredients.Count != 0)
+            {
+                BoxViewIngredients.Items.Add(foodItemForm.items.ToString());
+            }
+        }
+
+        // Event handler for Change animal button. Update selected animal
+        private void BtnChangeAnimal_Click(object sender, RoutedEventArgs e)
+        {
+            if (ListViewAnimals.SelectedIndex != -1)
+            {
+                Animal animalObj = (Animal)ListViewAnimals.SelectedItem;
+                int index = animalManager.GetIndexById(animalObj.Id);
+
+                if (index == -1) return;
+
+                // Try to convert age from Age TextBox to a valid integer and validate Name TextBox
+                if (int.TryParse(BoxAge.Text, out int ageValue) && !string.IsNullOrEmpty(BoxName.Text))
+                {
+                    animalObj.ImagePath = string.IsNullOrEmpty(animalImagePath) ? animalObj.ImagePath : animalImagePath;
+                    animalObj.Gender = BoxGender.SelectedIndex != -1 ? (GenderType)BoxGender.SelectedIndex : animalObj.Gender;
+                    animalObj.Name = BoxName.Text;
+                    animalObj.Age = ageValue;
+
+                    // validate all animal data
+                    bool validation = ValidateAnimal(animalObj.Category, animalObj);
+
+                    if (validation)
+                    {
+                        animalManager.ChangeAt(index, animalObj);
+
+                        ListViewAnimals.ItemsSource = null;
+                        ListViewAnimals.ItemsSource = animalManager.SearchSpecificObject(BoxSpecies.SelectedValue.ToString());
+                        TxtImagePath.Text = "";
+                        animalImagePath = "";
+                        ClearAllTextBoxes(this);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Name and age cannot be empty.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select an animal from the list above to change", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        // Event handler for delete animal button. detele the selected animal.
+        private void BtnDeleteAnimal_Click(object sender, RoutedEventArgs e)
+        {
+            if (ListViewAnimals.SelectedIndex != -1)
+            {
+                int index = animalManager.GetIndexById(((Animal)ListViewAnimals.SelectedItem).Id);
+
+                if (index == -1) return;
+
+                animalManager.DeleteAt(index);
+                BoxTotalAnimalsNr.Text = animalManager.Count.ToString();
+
+                ListViewAnimals.ItemsSource = null;
+                ListViewAnimals.ItemsSource = animalManager.SearchSpecificObject(BoxSpecies.SelectedValue.ToString());
+            }
+            else
+            {
+                MessageBox.Show("Select an animal from the list above to delete", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+    
+        
+    
     }
 }

@@ -4,15 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WildlifeTrackerSystem"
-        mc:Ignorable="d" Height="800" Width="900"
+        mc:Ignorable="d" Height="840" Width="1230"
         Title="Wildlife Tracker"
-        WindowStartupLocation="CenterScreen" FontSize="13">
+        WindowStartupLocation="CenterScreen" FontSize="12">
 
 
     <Grid>
         <Grid.RowDefinitions>
-             <!-- Header Row -->
-            <RowDefinition Height="Auto" />
+            <!-- Menu file -->
+            <RowDefinition Height="Auto"/>
+            <!-- Line Separator -->
+            <RowDefinition Height="Auto"/>
+            <!-- Header Row -->
+            <RowDefinition Height="Auto"/>
              <!-- Text with Input Row -->
             <RowDefinition Height="*" />
              <!-- Button add Row -->
@@ -24,20 +28,50 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
-         <!-- Headers -->
-        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,15">
-            <TextBlock Text="Animal Specifications" HorizontalAlignment="Left" Margin="10,10,0,10" FontSize="18" FontWeight="Bold"/>
-            <Border BorderBrush="#FFC7BDBD" BorderThickness="0,0,0,1"/>
+        
+        <!-- File menu with (New, open, save, save as, exit) -->
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+            <Menu Background="#ffffff" FontSize="14">
+                <MenuItem Padding="8,8,15,3" x:Name="MnuFile" Header="_File">
+
+                    <MenuItem x:Name="MnuFileNew" Header="_New" InputGestureText="Ctrl+N"/>
+                    <MenuItem x:Name="MnuFileOpen" Header="_Open...">
+                        <MenuItem Header="Text File"/>
+                        <MenuItem Header="JSON"/>
+                    </MenuItem>
+                    <MenuItem x:Name="MnuFileSave" Header="_Save"/>
+                    <MenuItem x:Name="MnuFileSaveAs" Header="_Save as...">
+                        <MenuItem Header="Text File"/>
+                        <MenuItem Header="JSON"/>
+                    </MenuItem>
+                    <Separator Style="{StaticResource {x:Static MenuItem.SeparatorStyleKey}}"/>
+                    <MenuItem x:Name="MnuFileExit" Header="_Exit" InputGestureText="Alt+X"/>
+
+                </MenuItem>
+            </Menu>
+
+            <Rectangle Fill="#FF2C5048" Width="0.5" VerticalAlignment="Stretch"/>
         </StackPanel>
-        <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,0,15">
-            <TextBlock Text="List of registered animals" HorizontalAlignment="Left" Margin="10,10,0,10" FontSize="18" FontWeight="Bold"/>
-            <Border BorderBrush="#FFC7BDBD" BorderThickness="0,0,0,1"/>
+        
+        <Separator Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch"/>
+       
+
+        <!-- Headers -->
+        <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,15,15,15">
+            <TextBlock Text="Animal Specifications" HorizontalAlignment="Left" Margin="10,10,0,10" FontSize="18" FontWeight="Bold"/>
+            <Rectangle Fill="#FF5A7C91" Height="1" HorizontalAlignment="Stretch"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="2" Grid.Column="1" Margin="12,15,15,15">
+            <TextBlock Text="List of registered animals" HorizontalAlignment="Left" Margin="5,10,0,10" FontSize="18" FontWeight="Bold"/>
+            <Rectangle Fill="#FF5A7C91" Height="1" HorizontalAlignment="Stretch"/>
         </StackPanel>
 
         <!-- Text with input on the left side -->
-        <StackPanel Grid.Row="1" Grid.Column="0" Margin="5" HorizontalAlignment="Left">
+        <StackPanel Grid.Row="3" Grid.Column="0" Margin="5" HorizontalAlignment="Left">
 
             <!-- Animal Category and species -->
             <StackPanel Orientation="Horizontal">
@@ -305,12 +339,12 @@
         </StackPanel>
 
          <!-- Add button -->
-        <StackPanel Grid.Row="2" Grid.Column="0" Margin="5,0,0,10">
+        <StackPanel Grid.Row="4" Grid.Column="0" Margin="5,0,0,10">
             <Button x:Name="BtnAdd" Content="Add animal" Padding="8" Click="BtnAdd_Click" Background="#FF92C189" BorderBrush="#FFC7BDBD"></Button>
         </StackPanel>
 
         <!-- List of registrered animals and food schechule -->
-        <StackPanel Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Margin="10,0,10,0" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="3" Grid.RowSpan="2" Grid.Column="1" Margin="10,0,10,0" HorizontalAlignment="Right">
 
             <!-- List of registrered animals -->
             <StackPanel>
@@ -326,34 +360,38 @@
                 </ListView>
             </StackPanel>
 
+            <!-- Total registered animals -->
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <TextBlock Text="Current registered animals: "></TextBlock>
+                <TextBlock x:Name="BoxTotalAnimalsNr" Text="0"></TextBlock>
+            </StackPanel>
+            
+            <!-- Change and delete animal buttons -->
+            <DockPanel Margin="0,10,0,0">
+                <Button Content="Change the selected animal" Padding="10" HorizontalAlignment="Left" DockPanel.Dock="Left" Click="BtnChangeAnimal_Click" Background="#FFEAD863" BorderBrush="#FF399E50"/>
+                <Button Content="Delete the selected animal" Padding="10" HorizontalAlignment="Right" DockPanel.Dock="Right" Click="BtnDeleteAnimal_Click" Background="#FFEAD863" BorderBrush="#FF399E50"/>
+            </DockPanel>
+
             <!-- List of food schechule -->
             <StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,30,0,5">
+                <StackPanel Orientation="Horizontal" Margin="0,25,0,5">
                     <TextBlock x:Name="BoxEaterType" FontSize="14" FontWeight="Bold"/>
                 </StackPanel>
 
-                <ListBox x:Name="BoxViewFoodSchedule" Width="350" Height="300">
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="IsHitTestVisible" Value="False"/>
-                            <Setter Property="Background" Value="Transparent"/>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-
+                <ListBox x:Name="BoxViewFoodSchedule" Width="350" Height="250" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsHitTestVisible="False">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border Padding="2">
-                                <TextBlock Text="{Binding}" ></TextBlock>
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" HorizontalAlignment="Stretch" ></TextBlock>
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </StackPanel>
-            
         </StackPanel>
 
         <!--  txt with Image on the right side -->
-        <StackPanel Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Margin="5" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="3" Grid.RowSpan="2" Grid.Column="2" Margin="5,0,5,5" HorizontalAlignment="Right">
             
              <!-- Image with border -->
             <Border x:Name="ImageBorder" BorderBrush="Black" BorderThickness="0.5">
@@ -385,13 +423,38 @@
 
         </StackPanel>
 
- 
-        <!-- 
+
+        <!-- Ingredients text with Food items button -->
+        <StackPanel Grid.Row="3" Grid.RowSpan="2" Grid.Column="3" Margin="15,0,0,0">
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Name" FontSize="14" Padding="0,0,100,0" FontWeight="Bold"/>
+                <TextBlock Text="Ingredients" FontSize="14" FontWeight="Bold"/>
+            </StackPanel>
+
+            <!-- List box View Ingredients -->
+            <ListBox x:Name="BoxViewIngredients" Width="300" Height="250" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsHitTestVisible="False">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="2">
+                            <TextBlock Text="{Binding}" TextWrapping="Wrap" HorizontalAlignment="Stretch"></TextBlock>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Add/change/delete ingredients, new form -->
+            <Button x:Name="BtnFoodItems" Content="Food Items" Padding="10" Margin="20" Width="150" Click="BtnFoodItems_Click" BorderBrush="#FF607EAF" Background="#FFC5DFE2"></Button>
+        </StackPanel>
+        
+
+
+        <!--  
         <StackPanel Grid.Column="1" Grid.Row="2">
-            <Label x:Name="LblTesting"></Label>
+            <Label x:Name="LblTesting1"></Label>
+            <Label x:Name="LblTesting2"></Label>
         </StackPanel>
         -->
-        
+
 
     </Grid>
 

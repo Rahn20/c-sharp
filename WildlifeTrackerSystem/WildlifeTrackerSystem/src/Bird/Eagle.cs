@@ -8,9 +8,7 @@
         private float speed;            // The flight speed of the eagle in km/h.
         private FoodSchedule foodSchedule = new FoodSchedule();
 
-        /// <summary>
-        ///   Default constructor, sets the birdtype to Eagle.
-        /// </summary>
+
         public Eagle() : base()
         {
             BirdType = BirdType.Eagle;
@@ -56,7 +54,6 @@
         }
 
 
-
         /// <summary>
         ///   Gets the data of the Eagle as a dictionary. (Contains Animal + Bird + Eagle data)
         /// </summary>
@@ -80,14 +77,14 @@
 
 
         /// <summary>
-        ///   Sets the food schedule for the animal.
+        ///   Sets the food schedule for the eagle.
         /// </summary>
         private void SetFoodSchedule()
         {
             foodSchedule.EaterType = EaterType.Carnivore;
-            foodSchedule.AddToFoodList("Morning: fish and small birds");
-            foodSchedule.AddToFoodList("Lunch: snakes, small mammals and rodents");
-            foodSchedule.AddToFoodList("Evening: reptiles");
+            foodSchedule.Food.AddToList("Morning: fish and small birds");
+            foodSchedule.Food.AddToList("Lunch: snakes, small mammals and rodents");
+            foodSchedule.Food.AddToList("Evening: reptiles");
         }
 
 
@@ -98,6 +95,28 @@
         public override FoodSchedule GetFoodSchedule()
         {
             return foodSchedule;
+        }
+
+
+        /// <summary>
+        ///    Copies the animal object, used to prevent unintended modifications to the original objects.
+        /// </summary>
+        /// <returns> Eagle object with all data </returns>
+        public override object CopyAnimal()
+        {
+            return new Eagle
+            {
+                Category = Category,
+                Name = Name,
+                Age = Age,
+                Gender = Gender,
+                ImagePath = ImagePath,
+                Id = Id,
+                Wingspan = Wingspan,
+                Color = Color,
+                BirdType = BirdType,
+                Speed = speed,
+            };
         }
     }
 }

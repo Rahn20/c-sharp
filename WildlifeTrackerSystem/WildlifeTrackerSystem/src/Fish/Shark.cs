@@ -12,9 +12,6 @@
         #endregion
 
 
-        /// <summary>
-        ///   Default constructor, sets the fishtype to Shark.
-        /// </summary>
         public Shark() : base()
         {
             FishType = FishType.Shark;
@@ -117,14 +114,14 @@
 
 
         /// <summary>
-        ///   Sets the food schedule for the animal.
+        ///   Sets the food schedule for the Shark.
         /// </summary>
         private void SetFoodSchedule()
         {
             foodSchedule.EaterType = EaterType.Omnivorous;
-            foodSchedule.AddToFoodList("Morning: fish (tuna, salmon, bass, rays) ");
-            foodSchedule.AddToFoodList("Lunch: seals, sea lions and mollusks");
-            foodSchedule.AddToFoodList("Evening: continuation of fish and seals");
+            foodSchedule.Food.AddToList("Morning: fish (tuna, salmon, bass, rays) ");
+            foodSchedule.Food.AddToList("Lunch: seals, sea lions and mollusks");
+            foodSchedule.Food.AddToList("Evening: continuation of fish and seals");
         }
 
 
@@ -135,6 +132,31 @@
         public override FoodSchedule GetFoodSchedule()
         {
             return foodSchedule;
+        }
+
+
+        /// <summary>
+        ///   Copies the animal object, used to prevent unintended modifications to the original objects.
+        /// </summary>
+        /// <returns> Shark object with all data </returns>
+        public override object CopyAnimal()
+        {
+            return new Shark
+            {
+                Category = Category,
+                Name = Name,
+                Age = Age,
+                Gender = Gender,
+                ImagePath = ImagePath,
+                Id = Id,
+                Habitat = Habitat,
+                WaterTemperature = WaterTemperature,
+                FishType = FishType,
+                Specie = specie,
+                SwimmingSpeed = swimmingSpeed,
+                Length = length,
+                Weight = weight,
+            };
         }
     }
 }

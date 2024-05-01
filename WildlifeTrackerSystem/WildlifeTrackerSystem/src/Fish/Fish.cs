@@ -10,9 +10,6 @@ namespace WildlifeTrackerSystem.src.Fish
         #endregion
 
 
-        /// <summary>
-        ///   Default constructor, sets the categorytype to Fish.
-        /// </summary>
         public Fish() : base()
         {
             Category = CategoryType.Fish;
@@ -99,6 +96,8 @@ namespace WildlifeTrackerSystem.src.Fish
         }
 
         public override abstract FoodSchedule GetFoodSchedule();
+
+        public override abstract object CopyAnimal();
         #endregion
     }
 }
