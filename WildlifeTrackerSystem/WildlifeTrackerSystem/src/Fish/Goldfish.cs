@@ -1,17 +1,19 @@
-﻿using WildlifeTrackerSystem.src.Bird;
-
-namespace WildlifeTrackerSystem.src.Fish
+﻿namespace WildlifeTrackerSystem.src.Fish
 {
+    /// <summary>
+    ///   A concrete class inheriting from Fish
+    /// </summary>
     public class Goldfish : Fish
     {
         private GoldfishBreed breed;
-        private string tailType = "";        // The goldfish tail type, which can have various tail types (single-tail, double-tail)
-        
+        private string tailType;        // The goldfish tail type, which can have various tail types (single-tail, double-tail)
         private FoodSchedule foodSchedule = new FoodSchedule();
 
         public Goldfish() : base()
         {
             FishType = FishType.Goldfish;
+            tailType = string.Empty;
+
             SetFoodSchedule();
         }
 
@@ -78,20 +80,6 @@ namespace WildlifeTrackerSystem.src.Fish
   
             return keyValuePairs;
         }
-
-        /// <summary>
-        ///   Gets the animal information as a string with values.
-        /// </summary>
-        /// <returns> A string containing the animal's data </returns>
-        public override string GetExtraInfo()
-        {
-            string info = base.GetExtraInfo();
-
-            info += string.Format("{0, -15} {1, 10}\n", "Goldfish breed:", breed);
-            info += string.Format("{0, -15} {1, 10}\n", "Tail type:", tailType);
-            return info;
-        }
-
 
         /// <summary>
         ///   Sets the food schedule for the goldfish.

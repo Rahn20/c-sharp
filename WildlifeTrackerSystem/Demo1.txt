@@ -1,0 +1,45 @@
+[
+  {
+    "WildlifeTrackerSystem.src.Bird.Dove": {
+      "NoiseLevel": "High",
+      "BirdType": 0,
+      "Wingspan": 12.3,
+      "Color": "black",
+      "Name": "Dove 1",
+      "Age": 1,
+      "Id": "B001",
+      "ImagePath": "",
+      "Category": 0,
+      "Gender": 1
+    }
+  },
+  {
+    "WildlifeTrackerSystem.src.Bird.Eagle": {
+      "Speed": 25,
+      "BirdType": 1,
+      "Wingspan": 12.34,
+      "Color": "yellow",
+      "Name": "eagle 1",
+      "Age": 3,
+      "Id": "B002",
+      "ImagePath": "",
+      "Category": 0,
+      "Gender": 0
+    }
+  },
+  {
+    "WildlifeTrackerSystem.src.Reptile.Snake": {
+      "Length": 30,
+      "IsVenomous": true,
+      "ReptileType": 1,
+      "Habitat": "-1",
+      "NumOfLegs": 0,
+      "Name": "snake 123",
+      "Age": 3,
+      "Id": "R001",
+      "ImagePath": "",
+      "Category": 3,
+      "Gender": 2
+    }
+  }
+]

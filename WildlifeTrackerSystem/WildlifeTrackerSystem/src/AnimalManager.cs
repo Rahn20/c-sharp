@@ -16,8 +16,74 @@ namespace WildlifeTrackerSystem.src
 
         public AnimalManager() { }
 
+        #region Delegates
+        private delegate IEnumerable GetAnimalTypeValuesDelegate();
+        private delegate string GetNewIDDelegate();
+        private delegate Animal CreateAnimalDelegate(object animalType);
+        private delegate void UpdateCurrentIDsDelegate(string animalID);
+        #endregion
 
         #region Methods
+        /// <summary>
+        ///  Retrieves the delegates for Retrieving the animal type values, generating animal IDs and creating animals based on the specified category type.
+        ///  Using Delegates, a type that represents references to methods with a specific signature.
+        ///  Are used to pass methods as arguments to other methods, which allows for flexible and dynamic method execution.
+        /// </summary>
+        /// <param name="category"> The category type of the animal (Bird, Fish, Mammal, Reptile) </param>
+        /// <returns> A tuple containing a delegate </returns>
+        /// <exception cref="ArgumentException"> Thrown when an invalid category type is provided </exception>
+        private (GetAnimalTypeValuesDelegate, GetNewIDDelegate, CreateAnimalDelegate, UpdateCurrentIDsDelegate) GetHandlers(CategoryType category)
+        {
+            switch (category)
+            {
+                case CategoryType.Bird:
+                    return (
+                        () => Enum.GetValues(typeof(BirdType)).Cast<BirdType>(),
+                        () => {
+                            birdCurrentID += 1;
+                            return "B" + birdCurrentID.ToString("D3");
+                        },
+                        animalType => Bird.Bird.CreateBird((BirdType)animalType),
+                        animalID => birdCurrentID = int.Parse((animalID).Substring(1))
+                        );
+
+                case CategoryType.Fish:
+                    return (
+                        () => Enum.GetValues(typeof(FishType)).Cast<FishType>(),
+                        () => {
+                            fishCurrentID += 1;
+                            return "F" + fishCurrentID.ToString("D3");
+                        },
+                        animalType => Fish.Fish.CreateFish((FishType)animalType),
+                        animalID => fishCurrentID = int.Parse((animalID).Substring(1))
+                        );
+
+                case CategoryType.Mammal:
+                    return (
+                        () => Enum.GetValues(typeof(MammalType)).Cast<MammalType>(),
+                        () => {
+                            mammalCurrentID += 1;
+                            return "M" + mammalCurrentID.ToString("D3");
+                        },
+                        animalType => Mammal.Mammal.CreateMammal((MammalType)animalType),
+                        animalID => mammalCurrentID = int.Parse((animalID).Substring(1))
+                        );
+
+                case CategoryType.Reptile:
+                    return (
+                        () => Enum.GetValues(typeof(ReptileType)).Cast<ReptileType>(),
+                        () => {
+                            reptileCurrentID += 1;
+                            return "R" + reptileCurrentID.ToString("D3");
+                        },
+                         animalType => Reptile.Reptile.CreateReptile((ReptileType)animalType),
+                         animalID => reptileCurrentID = int.Parse((animalID).Substring(1))
+                        );
+                default:
+                    throw new ArgumentException("Invalid categorytype", nameof(category));
+            }
+        }
+
 
         /// <summary>
         ///    Gets the values of the specified animal type enumeration based on the provided category type.
@@ -25,21 +91,10 @@ namespace WildlifeTrackerSystem.src
         /// <param name="category"> The category type of animal </param>
         /// <returns> An enumerable collection of animal type values </returns>
         /// <exception cref="ArgumentException"> Throw an exception for invalid category type </exception>
-        public static IEnumerable GetAnimalTypeValues(CategoryType category)
+        public IEnumerable GetAnimalTypeValues(CategoryType category)
         {
-            switch (category)
-            {
-                case CategoryType.Bird:
-                    return Enum.GetValues(typeof(BirdType)).Cast<BirdType>();
-                case CategoryType.Fish:
-                    return Enum.GetValues(typeof(FishType)).Cast<FishType>();
-                case CategoryType.Mammal:
-                    return Enum.GetValues(typeof(MammalType)).Cast<MammalType>();
-                case CategoryType.Reptile:
-                    return Enum.GetValues(typeof(ReptileType)).Cast<ReptileType>();
-                default:
-                    throw new ArgumentException("Invalid categorytype", nameof(category));
-            }
+            var (getAnimalTypeValuesHandler, _, _, _) = GetHandlers(category);
+            return getAnimalTypeValuesHandler();
         }
 
 
@@ -51,23 +106,8 @@ namespace WildlifeTrackerSystem.src
         /// <exception cref="ArgumentException"> Throw an exception for invalid category type </exception>
         public string GetNewID(CategoryType category)
         {
-            switch (category)
-            {
-                case CategoryType.Bird:
-                    birdCurrentID += 1;
-                    return "B" + birdCurrentID.ToString("D3");
-                case CategoryType.Fish:
-                    fishCurrentID += 1;
-                    return "F" + fishCurrentID.ToString("D3");
-                case CategoryType.Mammal:
-                    mammalCurrentID += 1;
-                    return "M" + mammalCurrentID.ToString("D3");
-                case CategoryType.Reptile:
-                    reptileCurrentID += 1;
-                    return "R" + reptileCurrentID.ToString("D3");
-                default:
-                    throw new ArgumentException("Invalid categorytype", nameof(category));
-            }
+            var (_, GetNewIDHandler, _, _) = GetHandlers(category);
+            return GetNewIDHandler();
         }
 
 
@@ -77,23 +117,44 @@ namespace WildlifeTrackerSystem.src
         /// <param name="category"> Animal category type </param>
         /// <param name="animalType"> animal specie </param>
         /// <returns> Instance of animal based on the animal specie</returns>
-        /// <exception cref="ArgumentException"></exception>
-        public static Animal CreateAnimal(CategoryType category, object animalType)
+        /// <exception cref="ArgumentException"> Throw an exception for invalid category type </exception>
+        public Animal CreateAnimal(CategoryType category, object animalType)
         {
-            switch (category)
+            var (_, _, CreateAnimalHandler, _) = GetHandlers(category);
+            return CreateAnimalHandler(animalType);
+        }
+
+
+        /// <summary>
+        ///   Sets values to the four current animal IDs by looping through each animal in the list.
+        /// </summary>
+        /// <exception cref="ArgumentException"> Throw an exception for invalid category type</exception>
+        public void UpdateCurrentIDs()
+        {
+            for (int count = 0; count < this.Count; count++)
             {
-                case CategoryType.Bird:
-                    return Bird.Bird.CreateBird((BirdType)animalType); 
-                case CategoryType.Fish:
-                    return Fish.Fish.CreateFish((FishType)animalType);
-                case CategoryType.Mammal:
-                    return Mammal.Mammal.CreateMammal((MammalType)animalType);
-                case CategoryType.Reptile:
-                    return Reptile.Reptile.CreateReptile((ReptileType)animalType);
-                default:
-                    throw new ArgumentException("Invalid categorytype", nameof(category));
+                Animal? animalObj = this.GetAt(index: count);
+
+                if (animalObj != null)
+                {
+                    var (_, _, _, UpdateCurrentIDsHandler) = GetHandlers(animalObj.Category);
+                    UpdateCurrentIDsHandler(animalObj.Id);
+                }
             }
         }
+
+
+        /// <summary>
+        ///   Sets the animal's current IDs to 0.
+        /// </summary>
+        public void ResetAnimalsIDs()
+        {
+            birdCurrentID = 0;
+            fishCurrentID = 0;
+            mammalCurrentID = 0;
+            reptileCurrentID = 0;
+        }
+
         #endregion
     }
 }

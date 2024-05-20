@@ -1,18 +1,21 @@
-﻿
-namespace WildlifeTrackerSystem.src.Reptile
+﻿namespace WildlifeTrackerSystem.src.Reptile
 {
+    /// <summary>
+    ///   An abstract class inheriting from Animal
+    /// </summary>
     public abstract class Reptile : Animal
     {
         #region Fields
         private ReptileType reptileType;
-        private int numOfLegs;                  // The number of legs the reptile has.
-        private string habitat = "";            // The natural environment where the reptile is commonly found, (deserts, forests .. )
+        private int numOfLegs;              // The number of legs the reptile has.
+        private string habitat;            // The natural environment where the reptile is commonly found, (deserts, forests .. )
         #endregion
 
 
         public Reptile() : base()
         {
             Category = CategoryType.Reptile;
+            habitat = string.Empty;
         }
 
         #region Properties
@@ -79,21 +82,6 @@ namespace WildlifeTrackerSystem.src.Reptile
 
             return keyValuePairs;
         }
-
-        /// <summary>
-        ///   Gets the animal information as a string with values.
-        /// </summary>
-        /// <returns> A string containing the animal's data </returns>
-        public override string GetExtraInfo()
-        {
-            string info = base.GetExtraInfo();
-
-            info += string.Format("{0, -15} {1, 10}\n", "Reptile type:", reptileType);
-            info += string.Format("{0, -15} {1, 10}\n", "Habitat:", habitat);
-            info += string.Format("{0, -15} {1, 10}\n", "Number of legs:", numOfLegs);
-            return info;
-        }
-
 
         public override abstract FoodSchedule GetFoodSchedule();
 

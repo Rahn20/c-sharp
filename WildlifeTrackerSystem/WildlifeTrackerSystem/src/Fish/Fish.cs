@@ -1,18 +1,21 @@
-﻿
-namespace WildlifeTrackerSystem.src.Fish
+﻿namespace WildlifeTrackerSystem.src.Fish
 {
+    /// <summary>
+    ///   An abstract class inheriting from Animal
+    /// </summary>
     public abstract class Fish : Animal
     {
         #region Fields
         private FishType fishType;
-        private float waterTemperature;         // The water temperature for the fish in Celsius
-        private string habitat = "";            // The environment where the fish is commonly found (saltwater, freshwater , ..)
+        private float waterTemperature;     // The water temperature for the fish in Celsius
+        private string habitat;            // The environment where the fish is commonly found (saltwater, freshwater , ..)
         #endregion
 
 
         public Fish() : base()
         {
             Category = CategoryType.Fish;
+           habitat = string.Empty;
         }
 
         #region Properties
@@ -79,20 +82,6 @@ namespace WildlifeTrackerSystem.src.Fish
             keyValuePairs.Add("Water temperature", waterTemperature.ToString());
 
             return keyValuePairs;
-        }
-
-
-        /// <summary>
-        ///   Gets the animal information as a string with values.
-        /// </summary>
-        /// <returns> A string containing the animal's data </returns>
-        public override string GetExtraInfo()
-        {
-            string fishInfo = base.GetExtraInfo();
-            fishInfo += string.Format("{0, -15} {1, 10}\n", "Fish type:", fishType);
-            fishInfo += string.Format("{0, -15} {1, 10}\n", "Habitat:", habitat);
-            fishInfo += string.Format("{0, -15} {1, 10}\n", "Water temperature:", waterTemperature);
-            return fishInfo;
         }
 
         public override abstract FoodSchedule GetFoodSchedule();

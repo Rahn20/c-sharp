@@ -1,15 +1,18 @@
-﻿
-namespace WildlifeTrackerSystem.src.Reptile
+﻿namespace WildlifeTrackerSystem.src.Reptile
 {
+    /// <summary>
+    ///   A concrete class inheriting from Reptile
+    /// </summary>
     public class Frog : Reptile
     {
-        private string diet = "";   // The diet of the frog, example: Most frogs eat insects and spiders.
+        private string diet;       // The diet of the frog, example: Most frogs eat insects and spiders.
         private FoodSchedule foodSchedule = new FoodSchedule();
 
 
         public Frog() : base()
         {
             ReptileType = ReptileType.Frog;
+            diet = string.Empty;
             SetFoodSchedule();
         }
 
@@ -62,17 +65,6 @@ namespace WildlifeTrackerSystem.src.Reptile
 
             return keyValuePairs;
         }
-
-        /// <summary>
-        ///   Gets the animal information as a string with values.
-        /// </summary>
-        /// <returns> A string containing the animal's data </returns>
-        public override string GetExtraInfo()
-        {
-            string info = string.Format("{0, -15} {1, 10}\n", "Frog diet:", diet);
-            return base.GetExtraInfo() + info;
-        }
-
 
         /// <summary>
         ///   Sets the food schedule for the Frog.

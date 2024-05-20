@@ -5,7 +5,7 @@
     /// </summary>
     public class Dove : Bird
     {
-        private string noiseLevel = "";         // 3 levels, high, medium and low.
+        private string noiseLevel = "";                 // 3 levels, high, medium and low.
         private FoodSchedule foodSchedule = new FoodSchedule();
 
         public Dove() : base()
@@ -61,18 +61,6 @@
             keyValuePairs.Add("Noise level", noiseLevel);
             return keyValuePairs;
         }
-
-
-        /// <summary>
-        ///   Gets the animal information as a string with values.
-        /// </summary>
-        /// <returns> A string containing the animal's data </returns>
-        public override string GetExtraInfo()
-        {
-            string doveInfo = string.Format("{0, -15} {1, 10}\n", "NoiseLevel:", noiseLevel);
-            return base.GetExtraInfo() + doveInfo;
-        }
-
 
         /// <summary>
         ///   Sets the food schedule for the Dove.

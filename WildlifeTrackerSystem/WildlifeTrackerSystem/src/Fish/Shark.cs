@@ -1,5 +1,8 @@
 ﻿namespace WildlifeTrackerSystem.src.Fish
 {
+    /// <summary>
+    ///   A concrete class inheriting from Fish
+    /// </summary>
     public class Shark : Fish
     {
         #region Fields
@@ -95,23 +98,6 @@
 
             return keyValuePairs;
         }
-
-
-        /// <summary>
-        ///   Gets the animal information as a string with values.
-        /// </summary>
-        /// <returns> A string containing the animal's data </returns>
-        public override string GetExtraInfo()
-        {
-            string info = base.GetExtraInfo();
-
-            info += string.Format("{0, -15} {1, 10}\n", "Shark specie:", specie);
-            info += string.Format("{0, -15} {1, 10}\n", "Swimming speed:", swimmingSpeed);
-            info += string.Format("{0, -15} {1, 10}\n", "Weight:", weight);
-            info += string.Format("{0, -15} {1, 10}\n", "Length:", length);
-            return info;
-        }
-
 
         /// <summary>
         ///   Sets the food schedule for the Shark.

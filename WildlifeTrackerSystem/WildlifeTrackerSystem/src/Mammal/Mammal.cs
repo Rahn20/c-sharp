@@ -1,6 +1,8 @@
-﻿
-namespace WildlifeTrackerSystem.src.Mammal
+﻿namespace WildlifeTrackerSystem.src.Mammal
 {
+    /// <summary>
+    ///   An abstract class inheriting from Animal
+    /// </summary>
     public abstract class Mammal : Animal
     {
         #region Fields
@@ -110,25 +112,6 @@ namespace WildlifeTrackerSystem.src.Mammal
             keyValuePairs.Add("Speed", speed.ToString());
 
             return keyValuePairs;
-        }
-
-
-        /// <summary>
-        ///   Gets the animal information as a string with values.
-        /// </summary>
-        /// <returns> A string containing the animal's data </returns>
-        public override string GetExtraInfo()
-        {
-            string info = base.GetExtraInfo();
-
-            info += string.Format("{0, -15} {1, 10}\n", "Mammal type:", mammalType);
-            info += string.Format("{0, -15} {1, 10}\n", "Color:", color);
-            info += string.Format("{0, -15} {1, 10}\n", "Lifespan:", lifespan);
-            info += string.Format("{0, -15} {1, 10}\n", "Number of teeth:", numOfTeeth);
-            info += string.Format("{0, -15} {1, 10}\n", "Weight:", weight);
-            info += string.Format("{0, -15} {1, 10}\n", "Height:", height);
-            info += string.Format("{0, -15} {1, 10}\n", "Speed:", speed);
-            return info;
         }
 
         public override abstract FoodSchedule GetFoodSchedule();

@@ -1,5 +1,8 @@
 ﻿namespace WildlifeTrackerSystem.src.Mammal
 {
+    /// <summary>
+    ///   A concrete class inheriting from Mammal
+    /// </summary>
     public class Wolf : Mammal
     {
         #region Fields
@@ -78,20 +81,6 @@
             keyValuePairs.Add("Eye color", eyeColor);
 
             return keyValuePairs;
-        }
-
-
-        /// <summary>
-        ///   Gets the animal information as a string with values.
-        /// </summary>
-        /// <returns> A string containing the animal's data </returns>
-        public override string GetExtraInfo()
-        {
-            string info = base.GetExtraInfo();
-
-            info += string.Format("{0, -15} {1, 10}\n", "Wolf specie:", wolfSpecie);
-            info += string.Format("{0, -15} {1, 10}\n", "Eye color:", eyeColor);
-            return info;
         }
 
         /// <summary>

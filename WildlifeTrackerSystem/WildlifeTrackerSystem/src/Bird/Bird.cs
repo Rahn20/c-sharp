@@ -1,5 +1,4 @@
-﻿
-namespace WildlifeTrackerSystem.src.Bird
+﻿namespace WildlifeTrackerSystem.src.Bird
 {
     /// <summary>
     ///   An abstract class inheriting from Animal
@@ -8,7 +7,7 @@ namespace WildlifeTrackerSystem.src.Bird
     {
         #region Fields
         private BirdType birdType;
-        private float wingspan;         // The length of the bird's wings when fully extended, in cm.
+        private float wingspan;         // The length of the bird's wings when fully extended.
         private string color = "";      // The color of the bird
         #endregion
 
@@ -80,21 +79,6 @@ namespace WildlifeTrackerSystem.src.Bird
             keyValuePairs.Add("Color", color);
 
             return keyValuePairs;
-        }
-
-
-        /// <summary>
-        ///   Gets the animal information as a string with values.
-        /// </summary>
-        /// <returns> A string containing the animal's data </returns>
-        public override string GetExtraInfo()
-        {
-            string birdInfo = base.GetExtraInfo();
-
-            birdInfo += string.Format("{0, -15} {1, 10}\n", "Bird type:", birdType);
-            birdInfo += string.Format("{0, -15} {1, 10}\n", "Wingspan:", wingspan);
-            birdInfo += string.Format("{0, -15} {1, 10}\n", "Color:", color);
-            return birdInfo;
         }
 
         public override abstract FoodSchedule GetFoodSchedule();

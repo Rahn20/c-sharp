@@ -5,7 +5,7 @@
     /// </summary>
     public class Eagle : Bird
     {
-        private float speed;            // The flight speed of the eagle in km/h.
+        private float speed;            // The flight speed of the eagle.
         private FoodSchedule foodSchedule = new FoodSchedule();
 
 
@@ -64,17 +64,6 @@
             keyValuePairs.Add("Speed", speed.ToString());
             return keyValuePairs;
         }
-
-        /// <summary>
-        ///   Gets the animal information as a string with values.
-        /// </summary>
-        /// <returns> A string containing the animal's data </returns>
-        public override string GetExtraInfo()
-        {
-            string eagleInfo = string.Format("{0, -15} {1, 10}\n", "Speed:", speed);
-            return base.GetExtraInfo() + eagleInfo;
-        }
-
 
         /// <summary>
         ///   Sets the food schedule for the eagle.

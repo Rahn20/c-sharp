@@ -1,8 +1,7 @@
-﻿
-namespace WildlifeTrackerSystem.src
+﻿namespace WildlifeTrackerSystem.src
 {
     /// <summary>
-    ///   Class with name and ingredients as fields.
+    ///   Class with name and list of ingredients as fields.
     /// </summary>
     public class FoodItem
     {
@@ -30,15 +29,15 @@ namespace WildlifeTrackerSystem.src
 
 
         /// <summary>
+        ///   Retrieves food items data
         /// </summary>
         /// <returns> A string with name and ingredients. </returns>
         public new string ToString()
         {
             // Separate elements in the list with comma.
             string strIngredients = string.Join(", ", ingredients.ToStringArray());
-            string output = string.Format("Name: {0}, ingredients {1}", name, strIngredients);
 
-            return output;
+            return string.Format("Name: {0}, ingredients {1}", name, strIngredients);
         }
     }
 }

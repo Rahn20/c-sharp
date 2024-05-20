@@ -1,5 +1,4 @@
-﻿
-namespace WildlifeTrackerSystem.src
+﻿namespace WildlifeTrackerSystem.src
 {
     /// <summary>
     ///   A generic list manager interface. The IListManager can be implemented by different classes passing any type <T> at declaration
@@ -77,18 +76,23 @@ namespace WildlifeTrackerSystem.src
         /// <returns> An array of objects that match the specified object </returns>
         T[] SearchSpecificObject(string searchStr);
 
+        /// <summary>
+        ///   Retrieves all the items in the collection.
+        /// </summary>
+        /// <returns> An array of type (T) containing data. </returns>
+        public T[] GetAllItems();
 
         /// <summary>
-        ///   
+        ///   Adds/ writes the data in the m_list to a file in JSON format.
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filename"> The full path of the file or filename to be written the data into it. </param>
         void JsonSerialize(string filename);
 
 
         /// <summary>
-        ///   
+        ///   Reads the JSON data from a file and adds it to the m_list.
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filename"> The full path of the file or filename to be written the data into it </param>
         void JsonDeserialize(string filename);
 
     }

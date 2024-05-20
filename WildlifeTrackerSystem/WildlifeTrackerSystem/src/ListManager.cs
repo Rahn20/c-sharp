@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System.IO;
+using System.Reflection;
+using System.Text.Json;
 
 namespace WildlifeTrackerSystem.src
 {
@@ -9,7 +11,6 @@ namespace WildlifeTrackerSystem.src
     public class ListManager<T> : IListManager<T>
     {
         private List<T> m_list;
-
 
         public ListManager()
         {
@@ -157,6 +158,30 @@ namespace WildlifeTrackerSystem.src
 
 
         /// <summary>
+        ///   Retrieves all the items in the collection.
+        /// </summary>
+        /// <returns> An array of type (T) containing data </returns>
+        public T[] GetAllItems() 
+        {
+            List<T> objList = new List<T>();
+
+            foreach (T item in m_list)
+            {
+                if (item is Animal animal)
+                {
+                    objList.Add((T)animal.CopyAnimal());
+                }
+                else
+                {
+                    objList.Add(item);
+                }
+            }
+            return objList.ToArray();
+        }
+
+
+
+        /// <summary>
         ///   Gets the first item in the collection that matches the specified Id property.
         /// </summary>
         /// <param name="id"> The ID property of the object to be retrieved </param>
@@ -173,18 +198,73 @@ namespace WildlifeTrackerSystem.src
         }
 
 
-
+        /// <summary>
+        ///   Adds/ writes the data in the m_list to a file in JSON format.
+        /// </summary>
+        /// <param name="filename"> The full path of the file or filename to be written the data into it. </param>
         public void JsonSerialize(string filename)
         {
+            var options = new JsonSerializerOptions
+            { 
+                //Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }, // Convert enums to string
+                WriteIndented = true,
+            };
 
-        } 
+            // A list representing the type of the instance as a string and the object as dynamic.
+            List<Dictionary<string, dynamic>> serializedObjects = new List<Dictionary<string, dynamic>>();
 
+            foreach (T element in m_list)
+            {
+                if (element is Animal animal)
+                {
+                    serializedObjects.Add(new Dictionary<string, object>
+                    {
+                        { animal.GetType().ToString(), animal.CopyAnimal() }
+                    });
+                }
+            }
 
-        public void JsonDeserialize(string filename)
-        {
+            string jsonOutput = JsonSerializer.Serialize(serializedObjects, options);
 
+            // Creates a new file and writes the contents to it. If the file already exists, it will be overwritten.
+            File.WriteAllText(filename, jsonOutput);
         }
 
 
+        /// <summary>
+        ///   Reads the JSON data from a file and adds it to the m_list.
+        /// </summary>
+        /// <param name="filename"> The full path of the file or filename to be written the data into it. </param>
+        /// <exception cref="FileNotFoundException"> Throw an exception when the file is not found </exception>
+        public void JsonDeserialize(string filename)
+        {
+            if (!File.Exists(filename)) throw new FileNotFoundException("File not Found");
+
+            // Read the JSON data from the file.
+            string jsonString = File.ReadAllText(filename);
+
+            // A list representing the type of the instance as a string and the object as dynamic.
+            List<Dictionary<string,dynamic>>? deserializedList = JsonSerializer.Deserialize<List<Dictionary<string,dynamic>>>(jsonString);
+
+            if (deserializedList == null) return;
+
+            // Loop through each element in the list of dictionaries
+            foreach (var element in deserializedList)
+            {
+                foreach (var keyValuePair in element)
+                {
+                    // Get the type that matches the keyValuePair.Key.
+                    Type? type = Assembly.GetExecutingAssembly().GetTypes().FirstOrDefault(t => t.FullName == keyValuePair.Key);
+
+                    if (type != null)
+                    {
+                        // Deserialize the object into the appropriate type example (Dove or Dog etc.)
+                        object instance = JsonSerializer.Deserialize(keyValuePair.Value.ToString(), type);
+
+                        m_list.Add((T)instance);
+                    }
+                }
+            }
+        }
     }
 }

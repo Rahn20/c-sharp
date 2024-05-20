@@ -1,5 +1,4 @@
-﻿
-namespace WildlifeTrackerSystem.src
+﻿namespace WildlifeTrackerSystem.src
 {
     /// <summary>
     ///   Class serves as schedule for feeding of the animals.
@@ -28,8 +27,7 @@ namespace WildlifeTrackerSystem.src
 
         public new string ToString()
         {
-            string output = string.Format("{0, -20} {1, 10}", "Eastertype:", eaterType);
-            return output;
+            return string.Format("{0, -20} {1, 10}", "Eastertype:", eaterType);
         }
     }
 }

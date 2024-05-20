@@ -1,10 +1,6 @@
 ﻿using Microsoft.Win32;
-using System;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -25,12 +21,18 @@ namespace WildlifeTrackerSystem
     public partial class MainWindow : Window
     {
         private AnimalManager animalManager;
-        private string animalImagePath = "";        // Temporarily store the image; it will later be added to the animal list
+        private string animalImagePath = string.Empty;      // Temporarily store the image; it will later be added to the animal list
+        private string fileNamePath = string.Empty;         // Temporarily store the file path; it will later be read and written
+        private int savedToFile = 0;                        // The number of objects that have been saved to the file.
+        private bool animalChanged = false;                 // False if the animal object hasn't changed, otherwise true.
+        private bool animalRemoved = false;                 // False if the animal object hasn't deleted, otherwise true.
 
         public MainWindow()
         {
             // Visual Studio initializations
             InitializeComponent();
+
+            Closing += MainWindow_Closing;  // Closing event
 
             animalManager = new AnimalManager();
             InitializeGUI();
@@ -50,6 +52,20 @@ namespace WildlifeTrackerSystem
             BoxDogBreed.ItemsSource = Enum.GetValues(typeof(DogBreed)).Cast<DogBreed>().OrderBy(dogBreed => dogBreed.ToString());
             BoxDogEnergilevel.ItemsSource = new int[] { 1, 2, 3, 4, 5 };
             BoxWolfSpecies.ItemsSource = Enum.GetValues(typeof(WolfSpecie)).Cast<WolfSpecie>().OrderBy(wolfSpecie => wolfSpecie.ToString());
+
+            BoxTotalAnimalsNr.Text = animalManager.Count.ToString();
+        }
+
+
+        // Closing event, if data hasn't been saved to the file and the user clicks "No", the window will not be closed.
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            bool dataSaved = CheckDataSavedToFile();
+
+            if (dataSaved is false)
+            {
+                e.Cancel = true;    // Cancel closing the window when the user clicks "No"
+            }
         }
 
 
@@ -87,7 +103,7 @@ namespace WildlifeTrackerSystem
             {
                 // Clear existing ItemsSource in Species-BoxList and add the selected value
                 BoxSpecies.ItemsSource = null;
-                BoxSpecies.ItemsSource = AnimalManager.GetAnimalTypeValues((CategoryType)BoxCategory.SelectedIndex);
+                BoxSpecies.ItemsSource = animalManager.GetAnimalTypeValues((CategoryType)BoxCategory.SelectedIndex);
             }
         }
 
@@ -204,7 +220,7 @@ namespace WildlifeTrackerSystem
                 // Try to convert age from Age TextBox to a valid integer and validate Name TextBox
                 if (int.TryParse(BoxAge.Text, out int ageValue) && !string.IsNullOrEmpty(BoxName.Text))
                 {
-                    animal = AnimalManager.CreateAnimal((CategoryType)BoxCategory.SelectedIndex, BoxSpecies.SelectedItem);
+                    animal = animalManager.CreateAnimal((CategoryType)BoxCategory.SelectedIndex, BoxSpecies.SelectedItem);
 
                     animal.ImagePath = animalImagePath;
                     animal.Gender = (GenderType)BoxGender.SelectedIndex;
@@ -575,17 +591,16 @@ namespace WildlifeTrackerSystem
 
             Animal animal = (Animal)ListViewAnimals.SelectedItem;
 
-            if (animal != null)
-            {
-                ItemsControlAnimalView.ItemsSource = animal.GetAnimalData();
-                LoadAndDisplayImage(animal.ImagePath);
+            if (animal == null) return;
 
-                FoodSchedule foodSchedule = animal.GetFoodSchedule();
+            ItemsControlAnimalView.ItemsSource = animal.GetAnimalData();
+            LoadAndDisplayImage(animal.ImagePath);
 
-                BoxEaterType.Text = foodSchedule.ToString();
-                BoxViewFoodSchedule.ItemsSource = null;
-                BoxViewFoodSchedule.ItemsSource = foodSchedule.Food.ToStringArray();
-            }
+            FoodSchedule foodSchedule = animal.GetFoodSchedule();
+
+            BoxEaterType.Text = foodSchedule.ToString();
+            BoxViewFoodSchedule.ItemsSource = null;
+            BoxViewFoodSchedule.ItemsSource = foodSchedule.Food.ToStringArray();
         }
 
         // Event handler for the Food item button, and view food items in the list box.
@@ -600,7 +615,7 @@ namespace WildlifeTrackerSystem
             }
         }
 
-        // Event handler for Change animal button. Update selected animal
+        // Event handler for Change animal button. Update selected animal, set the animalChanged to true.
         private void BtnChangeAnimal_Click(object sender, RoutedEventArgs e)
         {
             if (ListViewAnimals.SelectedIndex != -1)
@@ -624,6 +639,7 @@ namespace WildlifeTrackerSystem
                     if (validation)
                     {
                         animalManager.ChangeAt(index, animalObj);
+                        animalChanged = true;       // True, animal object has been changed
 
                         ListViewAnimals.ItemsSource = null;
                         ListViewAnimals.ItemsSource = animalManager.SearchSpecificObject(BoxSpecies.SelectedValue.ToString());
@@ -643,7 +659,7 @@ namespace WildlifeTrackerSystem
             }
         }
 
-        // Event handler for delete animal button. detele the selected animal.
+        // Event handler for delete animal button. detele the selected animal. set the animalRemoved to true.
         private void BtnDeleteAnimal_Click(object sender, RoutedEventArgs e)
         {
             if (ListViewAnimals.SelectedIndex != -1)
@@ -653,6 +669,8 @@ namespace WildlifeTrackerSystem
                 if (index == -1) return;
 
                 animalManager.DeleteAt(index);
+
+                animalRemoved = true;       // True, animal object has been removed
                 BoxTotalAnimalsNr.Text = animalManager.Count.ToString();
 
                 ListViewAnimals.ItemsSource = null;
@@ -663,8 +681,217 @@ namespace WildlifeTrackerSystem
                 MessageBox.Show("Select an animal from the list above to delete", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-    
-        
-    
+
+
+        /// <summary>
+        ///   Updates the FoodSchedule-, Ingredients- and Animals-views, empty the image path and clear all boxes.
+        /// </summary>
+        private void UpdateGUI()
+        {
+            TxtImagePath.Text = "";
+            animalImagePath = "";
+
+            BoxEaterType.Text = "";
+            BoxViewFoodSchedule.ItemsSource = null;         // empty food schedule box
+            BoxViewIngredients.ItemsSource = null;          // empty Ingredients box
+            ItemsControlAnimalView.ItemsSource = null;      // empty the animal specification view
+            ListViewAnimals.ItemsSource = null;             // empty the list of animals
+            ClearAllTextBoxes(this);
+        }
+
+        /// <summary>
+        ///   Checks if all data in the list has been saved to the file. If not, display a message box to 
+        ///   prompt the user to either save the data or ignore it.
+        /// </summary>
+        /// <returns> True if the data has been ignored. otherwise, false. </returns>
+        private bool CheckDataSavedToFile()
+        {
+            MessageBoxResult result = MessageBoxResult.Yes;     // "Yes" means ignoring the saved data
+
+            if (animalManager.Count != savedToFile || animalChanged == true || animalRemoved == true)
+            {
+                result = MessageBox.Show("There is unsaved data. Do you want to ignore it?", "Unsaved Data", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            }
+
+            if (result == MessageBoxResult.Yes) return true;
+            else return false;
+        }
+
+        // "New" submenu initialize the program exactly as at start-up. If data has not been saved a Messagebox will be
+        // display to confirm proceeding without saving current data or go back to the current session.
+        private void MnuFileNew_Click(object sender, RoutedEventArgs e)
+        {
+            bool dataSaved = CheckDataSavedToFile();
+
+            if (dataSaved is true)
+            {
+                animalManager.DeleteAll();
+                animalManager.ResetAnimalsIDs();
+                fileNamePath = "";
+                savedToFile = animalManager.Count;
+
+                CurrenFilePath.Text = "--";
+                BoxTotalAnimalsNr.Text = animalManager.Count.ToString();
+                UpdateGUI();
+            }
+        }
+
+
+        // "Save As" submenu lets the user to save data to either a text file or a Json file with a name and location selected by the user.
+        // Set the animalRemoved and animalChanged to the original boolean (False) and save the current amount of objects to savedToFile variable.
+        private void MnuFileSaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem? clickedItem = sender as MenuItem;
+
+            if (clickedItem == null) return;
+
+            string defaultExtension;
+            string filter;
+
+            if (clickedItem.Name == "MnuFileSaveAsText")
+            {
+                defaultExtension = ".txt";
+                filter = "File (.txt)|*.txt;";
+            }
+            else // Save as json file
+            {
+                defaultExtension = ".json";
+                filter = "File (.json)|*.json;";
+            }
+
+            // Configure save file dialog box
+            SaveFileDialog saveFile = new SaveFileDialog
+            {
+                Title = "Save file",
+                DefaultExt = defaultExtension,
+                Filter = filter
+            };
+
+
+            // Show save file dialog box
+            if (saveFile.ShowDialog() is true)
+            {
+                fileNamePath = saveFile.FileName;   // Store the current file path
+                CurrenFilePath.Text = saveFile.FileName;
+
+                try
+                {
+                    animalManager.JsonSerialize(fileNamePath);
+
+                    animalRemoved = false;
+                    animalChanged = false;
+                    savedToFile = animalManager.Count;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error saving the file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+        }
+
+
+        // "Save" submenu saves the data using the currently saved file. If the saved file is empty, display a SaveFileDialog for the user.
+        // Set the animalRemoved and animalChanged to the original boolean (False) and save the current amount of objects to savedToFile variable.
+        private void MnuFileSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(fileNamePath) && !File.Exists(fileNamePath))
+                {
+                    SaveFileDialog saveFile = new SaveFileDialog
+                    {
+                        Title = "Save file",
+                        DefaultExt = ".json",
+                        Filter = "JSON Files (*.json)|*.json|Text Files (*.txt)|*.txt" // Filter options
+                    };
+
+                    if (saveFile.ShowDialog() is true)
+                    {
+                        fileNamePath = saveFile.FileName;
+                        CurrenFilePath.Text = saveFile.FileName;
+
+                        animalManager.JsonSerialize(fileNamePath);
+                    }
+                }
+                else
+                {
+                    animalManager.JsonSerialize(fileNamePath);
+                }
+
+                animalRemoved = false;
+                animalChanged = false;
+                savedToFile = animalManager.Count;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving the file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+
+        // "Exit" submenu, closes the application
+        private void MnuFileExit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+
+        // "Open" submenu opens a text or Json file according to the user’s option.
+        // Set the animalRemoved and animalChanged to the original boolean (False) and save the current amount of objects to savedToFile variable.
+        private void MnuFileOpen_click(object sender, RoutedEventArgs e)
+        {
+            MenuItem? clickedItem = sender as MenuItem;
+
+            if (clickedItem == null) return;
+            if (CheckDataSavedToFile() is false) return;
+
+            string defaultExtension;
+            string filter;
+
+            if (clickedItem.Name == "MnuFileOpenText")
+            {
+                defaultExtension = ".txt";
+                filter = "File (.txt)|*.txt;";
+            }
+            else // Save as json file
+            {
+                defaultExtension = ".json";
+                filter = "File (.json)|*.json;";
+            }
+
+            // Configure open file dialog box
+            OpenFileDialog openFile = new OpenFileDialog
+            {
+                Title = "Open file",
+                DefaultExt = defaultExtension,
+                Filter = filter
+            };
+
+            // Show open file dialog box
+            if (openFile.ShowDialog() is true)
+            {
+                fileNamePath = openFile.FileName;   // Store the current file path
+                CurrenFilePath.Text = openFile.FileName;
+                UpdateGUI();
+
+                try
+                {
+                    animalManager.DeleteAll();
+                    animalManager.JsonDeserialize(fileNamePath);
+                    animalManager.UpdateCurrentIDs();
+
+                    animalRemoved = false;
+                    animalChanged = false;
+                    savedToFile = animalManager.Count;
+
+                    BoxTotalAnimalsNr.Text = animalManager.Count.ToString();
+                    ListViewAnimals.ItemsSource = animalManager.GetAllItems();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error reading/opening the file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+        }
     }
 }

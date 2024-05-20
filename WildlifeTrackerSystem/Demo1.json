@@ -1,0 +1,48 @@
+[
+  {
+    "WildlifeTrackerSystem.src.Bird.Dove": {
+      "NoiseLevel": "High",
+      "BirdType": 0,
+      "Wingspan": 43,
+      "Color": "black",
+      "Name": "dove 1",
+      "Age": 12,
+      "Id": "B001",
+      "ImagePath": "",
+      "Category": 0,
+      "Gender": 2
+    }
+  },
+  {
+    "WildlifeTrackerSystem.src.Fish.Goldfish": {
+      "Breed": 6,
+      "TailType": "Double",
+      "FishType": 0,
+      "Habitat": "-1",
+      "WaterTemperature": 23,
+      "Name": "fish 12",
+      "Age": 12,
+      "Id": "F001",
+      "ImagePath": "",
+      "Category": 1,
+      "Gender": 0
+    }
+  },
+  {
+    "WildlifeTrackerSystem.src.Fish.Shark": {
+      "Specie": 7,
+      "SwimmingSpeed": 30,
+      "Weight": 19,
+      "Length": 40,
+      "FishType": 1,
+      "Habitat": "-1",
+      "WaterTemperature": 20,
+      "Name": "shark 3",
+      "Age": 6,
+      "Id": "F002",
+      "ImagePath": "",
+      "Category": 1,
+      "Gender": 2
+    }
+  }
+]

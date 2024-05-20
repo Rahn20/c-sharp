@@ -1,5 +1,8 @@
 ﻿namespace WildlifeTrackerSystem.src.Reptile
 {
+    /// <summary>
+    ///   A concrete class inheriting from Reptile
+    /// </summary>
     public class Snake : Reptile
     {
         #region Fields
@@ -76,20 +79,6 @@
 
             return keyValuePairs;
         }
-
-        /// <summary>
-        ///   Gets the animal information as a string with values.
-        /// </summary>
-        /// <returns> A string containing the animal's data </returns>
-        public override string GetExtraInfo()
-        {
-            string info = base.GetExtraInfo();
-
-            info += string.Format("{0, -15} {1, 10}\n", "Snake length:", length);
-            info += string.Format("{0, -15} {1, 10}\n", "Is venomous:", isVenomous ? "yes" : "No");
-            return info;
-        }
-
 
         /// <summary>
         ///   Sets the food schedule for the Snake.

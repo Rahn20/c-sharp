@@ -1,7 +1,8 @@
-﻿using WildlifeTrackerSystem.src.Fish;
-
-namespace WildlifeTrackerSystem.src.Mammal
+﻿namespace WildlifeTrackerSystem.src.Mammal
 {
+    /// <summary>
+    ///   A concrete class inheriting from Mammal
+    /// </summary>
     public class Dog : Mammal
     {
 
@@ -84,21 +85,6 @@ namespace WildlifeTrackerSystem.src.Mammal
 
             return keyValuePairs;
         }
-
-
-        /// <summary>
-        ///   Gets the animal information as a string with values.
-        /// </summary>
-        /// <returns> A string containing the animal's data </returns>
-        public override string GetExtraInfo()
-        {
-            string info = base.GetExtraInfo();
-
-            info += string.Format("{0, -15} {1, 10}\n", "Dog breed:", dogBreed);
-            info += string.Format("{0, -15} {1, 10}\n", "Energy level:", energyLevel);
-            return info;
-        }
-
 
         /// <summary>
         ///   Sets the food schedule for the Dog.

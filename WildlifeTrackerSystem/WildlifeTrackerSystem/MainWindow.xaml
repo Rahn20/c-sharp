@@ -33,27 +33,39 @@
 
         
         <!-- File menu with (New, open, save, save as, exit) -->
-        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
-            <Menu Background="#ffffff" FontSize="14">
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="4" Orientation="Horizontal">
+            <Menu Background="#f2f2f2" FontSize="14">
                 <MenuItem Padding="8,8,15,3" x:Name="MnuFile" Header="_File">
 
-                    <MenuItem x:Name="MnuFileNew" Header="_New" InputGestureText="Ctrl+N"/>
+                    <MenuItem x:Name="MnuFileNew" Header="_New" InputGestureText="Ctrl+N" Click="MnuFileNew_Click"/>
+                    
                     <MenuItem x:Name="MnuFileOpen" Header="_Open...">
-                        <MenuItem Header="Text File"/>
-                        <MenuItem Header="JSON"/>
+                        <MenuItem x:Name="MnuFileOpenText" Header="Text File" Click="MnuFileOpen_click" />
+                        <MenuItem x:Name="MnuFileOpenJson" Header="JSON" Click="MnuFileOpen_click" />
                     </MenuItem>
-                    <MenuItem x:Name="MnuFileSave" Header="_Save"/>
+                    
+                    <MenuItem x:Name="MnuFileSave" Header="_Save" Click="MnuFileSave_Click"/>
+
                     <MenuItem x:Name="MnuFileSaveAs" Header="_Save as...">
-                        <MenuItem Header="Text File"/>
-                        <MenuItem Header="JSON"/>
+                        <MenuItem x:Name="MnuFileSaveAsText" Header="Text File"  Click="MnuFileSaveAs_Click"/>
+                        <MenuItem x:Name="MnuFileSaveAsJson" Header="JSON" Click="MnuFileSaveAs_Click" />
                     </MenuItem>
+
                     <Separator Style="{StaticResource {x:Static MenuItem.SeparatorStyleKey}}"/>
-                    <MenuItem x:Name="MnuFileExit" Header="_Exit" InputGestureText="Alt+X"/>
+                    <MenuItem x:Name="MnuFileExit" Header="_Exit" InputGestureText="Alt+X" Click="MnuFileExit_Click"/>
 
                 </MenuItem>
             </Menu>
 
             <Rectangle Fill="#FF2C5048" Width="0.5" VerticalAlignment="Stretch"/>
+
+            <!-- showing current file path that is used to write/read data -->
+            <StackPanel Orientation="Horizontal" Margin="10,5,0,0">
+                <TextBlock Text="Current file path: " Padding="3"></TextBlock>
+                <TextBlock x:Name="CurrenFilePath" Text="--" Padding="3" ></TextBlock>
+            </StackPanel>
+            
+
         </StackPanel>
         
         <Separator Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Stretch"/>
@@ -363,7 +375,7 @@
             <!-- Total registered animals -->
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Text="Current registered animals: "></TextBlock>
-                <TextBlock x:Name="BoxTotalAnimalsNr" Text="0"></TextBlock>
+                <TextBlock x:Name="BoxTotalAnimalsNr"></TextBlock>
             </StackPanel>
             
             <!-- Change and delete animal buttons -->
@@ -446,15 +458,11 @@
             <Button x:Name="BtnFoodItems" Content="Food Items" Padding="10" Margin="20" Width="150" Click="BtnFoodItems_Click" BorderBrush="#FF607EAF" Background="#FFC5DFE2"></Button>
         </StackPanel>
         
-
-
-        <!--  
-        <StackPanel Grid.Column="1" Grid.Row="2">
+     
+        <!--<StackPanel Grid.Column="1" Grid.Row="2">
             <Label x:Name="LblTesting1"></Label>
             <Label x:Name="LblTesting2"></Label>
-        </StackPanel>
-        -->
-
+        </StackPanel>-->
 
     </Grid>
 

@@ -1,14 +1,10 @@
-﻿
-namespace WildlifeTrackerSystem.src
+﻿namespace WildlifeTrackerSystem.src
 {
     /// <summary>
     ///     An interface which helps us to make rules for the subclasses: Animal, Bird, Fish , mammal and reptile
     /// </summary>
     public interface IAnimal
     {
-
-        // Property signatures
-
         /// <summary>
         ///   The animal name
         /// </summary>
@@ -18,6 +14,17 @@ namespace WildlifeTrackerSystem.src
         ///   The animal ID
         /// </summary>
         string Id { get; set; }
+
+        /// <summary>
+        ///   The animal age
+        /// </summary>
+        int Age { get; set; }
+
+
+        /// <summary>
+        ///   The animal category type
+        /// </summary>
+        CategoryType Category { get; set; }
 
         /// <summary>
         ///   the animal gender
@@ -30,13 +37,11 @@ namespace WildlifeTrackerSystem.src
         /// <returns> An object of the FoodSchedule assigned to the particular object </returns>
         FoodSchedule GetFoodSchedule();
 
-
         /// <summary>
-        ///   Gets the animal information as a string with values
+        ///   Copies the animal object, used to prevent unintended modifications to the original objects stored in the list.
         /// </summary>
-        /// <returns> A string with animal data </returns>
-        string GetExtraInfo();
-
+        /// <returns> Animal object </returns>
+        object CopyAnimal();
 
         /// <summary>
         ///   Gets the data of the animal as a dictionary. This method can be overridden in a derived class.

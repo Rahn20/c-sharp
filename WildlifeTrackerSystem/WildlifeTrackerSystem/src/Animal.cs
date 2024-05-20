@@ -101,24 +101,6 @@ namespace WildlifeTrackerSystem.src
         /// </summary>
         /// <returns> An object of the FoodSchedule assigned to the particular object. </returns>
         public abstract FoodSchedule GetFoodSchedule();
-
-
-        /// <summary>
-        ///  Gets the animal information as a string with values.
-        ///  This method can be overridden in a derived class.
-        /// </summary>
-        /// <returns> A string containing the animal's data </returns>
-        public virtual string GetExtraInfo()
-        {
-            string strOut = string.Empty;
-            strOut += string.Format("{0, -15} {1, 10}\n", "ID:", id);
-            strOut += string.Format("{0, -15} {1, 10}\n", "Name:", name);
-            strOut += string.Format("{0, -15} {1, 10}\n", "Age:", age.ToString());
-            strOut += string.Format("{0, -15} {1, 10}\n", "Gender:", gender.ToString());
-            strOut += string.Format("{0, -15} {1, 10}\n", "Category:", category.ToString());
-            return strOut;
-        }
-
         #endregion
     }
 }
