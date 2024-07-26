@@ -15,6 +15,9 @@
 *.suo
 *.sln.docstates
 
+# Class diagrams
+*.cd
+
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
