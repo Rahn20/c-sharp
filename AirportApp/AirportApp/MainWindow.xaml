@@ -1,0 +1,131 @@
+﻿<Window x:Class="AirportApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AirportApp"
+        mc:Ignorable="d"
+        Title="Airport Simulator" 
+        Height="650" Width="750"
+        MinHeight="500" MinWidth="550"
+        WindowStartupLocation="CenterScreen"
+        FontSize="12">
+
+    
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- The text and inputs -->
+        <Border Grid.Row="0" Grid.Column="0"
+                BorderBrush="Black"
+                BorderThickness="0.2"
+                Padding="10">
+
+            <StackPanel>
+                <StackPanel
+                    Orientation="Horizontal"
+                    Margin="5">
+                    <Label
+                        Content="Flight ID:"
+                        Width="80"/>
+                    <TextBox
+                        x:Name="BoxFlightID"
+                        Width="150"
+                        Height="25"
+                        VerticalContentAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel
+                    Orientation="Horizontal"
+                    Margin="5">
+                    <Label
+                        Content="Name:"
+                        Width="80"/>
+                    <TextBox
+                        x:Name="BoxName"
+                        Width="150"
+                        Height="25"
+                        VerticalContentAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel
+                    Orientation="Horizontal"
+                    Margin="5">
+                    <Label
+                        Content="Destination:"
+                        Width="80"/>
+                    <TextBox
+                        x:Name="BoxDestination"
+                        Width="150"
+                        Height="25"
+                        VerticalContentAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel
+                    Orientation="Horizontal"
+                    Margin="5">
+                    <Label
+                        Content="Flight time:"
+                        Width="80"/>
+                    <TextBox
+                        x:Name="BoxFlightTime"
+                        Width="150"
+                        Height="25"
+                        VerticalContentAlignment="Center"/>
+                </StackPanel>
+
+
+                <Button 
+                    x:Name="BtnAdd"
+                    Content="Add Flight"
+                    Margin="0,20,0,0"
+                    Padding="10"
+                    Background="#FF92C189"
+                    BorderBrush="#FFC7BDBD"
+                    Click="BtnAdd_Click"/>
+            </StackPanel>
+        </Border>
+
+
+        <!-- View all planes heading for destination (Added planes) -->
+        <ListBox Grid.Row="0" Grid.Column="1"
+                 x:Name="LstAirplane"
+                Margin="10,0,0,0"/>
+
+        <!-- take off button  -->
+        <Button Grid.Row="1" Grid.Column="1"
+                x:Name="BtnTakeOff"
+                Content="Take Off"
+                Width="110"
+                Margin="0,15,0,10"
+                Padding="10"
+                Background="#FF98D1E0"
+                BorderBrush="#FF695E5E"
+                Click="BtnTakeOff_Click"/>
+
+        <!-- View all planes uppdates  -->
+        <ScrollViewer Grid.Row="2" Grid.ColumnSpan="2"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto">
+            
+            <ListBox
+                x:Name="LstDisplayMsg">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Focusable" Value="False"/>
+                        <Setter Property="IsHitTestVisible" Value="False"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </ScrollViewer>
+    </Grid>
+</Window>
