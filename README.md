@@ -2,7 +2,7 @@
 
 This repository contains simple programs implemented in C#. The projects are currently under development.
 
-## Wildlife Tracker system
+## Airport App
 
 This WPF application, utilizing .NET 8, is a simple simulation system for flight departures in an airport. The airport has a control tower where a controller can manage flight operations. The flight time is measured in seconds, and once the flight time ends, the airplane will land, and its status will change from "in-flight" to "landed". The Airport App features:
 
