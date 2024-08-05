@@ -1,0 +1,37 @@
+﻿22-1108
+2024-06-01
+2024-07-31
+Sana Inc.
+Sana Milisory
+Green Twice 15
+78954
+Tokyo
+Japan			
+5
+Coca Cola
+45
+48.90
+25
+Cocolate with vanilla
+99
+9.55
+12
+Cocolate
+55
+15.99
+19
+Sprite
+60
+40.90
+19
+Vanilla
+120
+9.99
+35
+Apu Beverages Inc
+Nolland Island 41
+4547544
+Stockholm
+Sweden
+46 08 123456
+https://www.apubeverages.com
