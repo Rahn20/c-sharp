@@ -1,0 +1,28 @@
+﻿<Window x:Class="InvoiceMaker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InvoiceMaker"
+        mc:Ignorable="d"
+        Title="Invoice Maker"
+        Height="740"
+        Width="820"
+        WindowStartupLocation="CenterScreen"
+        FontSize="12">
+
+    <Grid>
+        <!-- Define Row Definitions -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header View -->
+        <ContentControl Grid.Row="0" Content="{Binding HeaderViewModel}"/>
+
+        <!-- Content View -->
+        <ContentControl Grid.Row="1" Content="{Binding InvoiceContentViewModel}"/>
+        
+    </Grid>
+</Window>

@@ -1,16 +1,39 @@
 ﻿using System.Globalization;
 using System.IO;
+using InvoiceMaker.Models;
 
-namespace InvoiceMaker.src
+namespace InvoiceMaker.Services
 {
+    /// <summary>
+    ///   Manages invoices with company and product data, reading invoice information from a file.
+    /// </summary>
     public class InvoiceManager
     {
-        private string[] lines;         // An array of strings containing datafile. 
+        // An array of strings containing datafile. 
+        private string[] lines;
 
-        public Invoice Invoice { get; private set; }
+        private Invoice _invoice;
+        public Invoice Invoice 
+        { 
+            get => _invoice;
+            private set
+            {
+                _invoice = value;
+                InvoiceUpdated?.Invoke(this, _invoice);
+            }
+        }
 
-        public InvoiceManager() { }
+        public InvoiceManager()
+        { 
+            lines = [];
+        }
 
+
+        // Event raised when the Invoice is updated.
+        public event EventHandler<Invoice?>? InvoiceUpdated;
+
+
+        #region Methods
 
         /// <summary>
         ///   Opens a text file, reads all lines of the file, and closes the file. Adds the file content to an Invoice object.
@@ -49,14 +72,14 @@ namespace InvoiceMaker.src
                 Street: lines[5],
                 City: lines[7],
                 Country: lines[8],
-                ZipCode: Int32.Parse(lines[6])
+                ZipCode: int.Parse(lines[6])
             );
 
             Address sender = new Address(
-                Street: lines[lines.Length - 6],
-                City: lines[lines.Length - 4],
-                Country: lines[lines.Length - 3],
-                ZipCode: Int32.Parse(lines[lines.Length - 5])
+                Street: lines[^6],      // lines.Length - 6
+                City: lines[^4],
+                Country: lines[^3],
+                ZipCode: int.Parse(lines[^5])
             );
 
             return (receiver, sender);
@@ -74,17 +97,17 @@ namespace InvoiceMaker.src
             // The receiver company does not have a URL or phone number.
             Company receiver = new Company(
                 Name: lines[3],
-               Address: addressReceiver
+                Address: addressReceiver
             );
 
-            // Removes all spaces
-            string phoneNr = lines[lines.Length - 2].Replace(" ", "");
+            // Removes all spaces, lines.Length - 2
+            string phoneNr = lines[^2].Replace(" ", "");
 
             Company sender = new Company(
-                Name: lines[lines.Length - 7],
+                Name: lines[^7],
                 Address: addressSender,
                 PhoneNumber: long.Parse(phoneNr),
-                URL: lines[lines.Length - 1]
+                URL: lines[^1]
             );
 
             return (receiver, sender);
@@ -100,16 +123,16 @@ namespace InvoiceMaker.src
             List<Product> products = new List<Product>();
 
             // Index 9 in the lines-variable represents the number of items. After index 9 comes the product data.
-            int NumberOfItems = Int16.Parse(lines[9]);
-            int index = 9;  
+            int NumberOfItems = short.Parse(lines[9]);
+            int index = 9;
             int count = 0;
-          
+
             while (count < NumberOfItems)
             {
                 // The CultureInfo.InvariantCulture ensures that the double separator is always a dot (.)
                 Product productObj = new Product(
                     name: lines[index + 1],
-                    quantity: Int32.Parse(lines[index + 2]),
+                    quantity: int.Parse(lines[index + 2]),
                     price: double.Parse(lines[index + 3], CultureInfo.InvariantCulture),
                     tax: double.Parse(lines[index + 4], CultureInfo.InvariantCulture)
                 );
@@ -130,15 +153,19 @@ namespace InvoiceMaker.src
         /// <returns> The total price of all products including tax, truncated to two decimal places </returns>
         public double GetTotalPrice()
         {
+            if (_invoice == null) return 0;
+
             // Total price including tax
             double totalPrice = 0;
 
-            foreach(Product product in Invoice.Products)
+            foreach (Product product in _invoice.Products)
             {
                 totalPrice += product.TotalPrice;
             }
 
             return Math.Truncate(totalPrice * 100) / 100;
         }
+
+        #endregion
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace InvoiceMaker.src
+﻿namespace InvoiceMaker.Models
 {
     /// <summary>
     ///    Represents a record address with street, city, country, and zip code.
@@ -17,5 +17,5 @@
     /// <param name="Address"> The address of the company.</param>
     /// <param name="PhoneNumber"> The phone number of the company (optional).</param>
     /// <param name="URL"> The URL of the company's website (optional).</param>
-    public record Company(string Name, Address Address, long? PhoneNumber = null , string? URL = null);
+    public record Company(string Name, Address Address, long? PhoneNumber = null, string? URL = null);
 }

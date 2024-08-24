@@ -1,8 +1,11 @@
-﻿
-namespace InvoiceMaker.src
+﻿namespace InvoiceMaker.Models
 {
+    /// <summary>
+    ///   Invoice information 
+    /// </summary>
     public class Invoice
     {
+        #region Properties
         public string InvoiceNumber { get; init; }
         public string Person { get; init; }
         public List<Product> Products { get; init; }
@@ -12,10 +15,9 @@ namespace InvoiceMaker.src
         public float Discount { get; set; }
         public DateOnly InvoiceDate { get; set; }
         public DateOnly DueDate { get; set; }
+        #endregion
 
-
-        public Invoice(
-            string invoiceNumber, DateOnly invoiceDate, DateOnly dueDate, string person,
+        public Invoice(string invoiceNumber, DateOnly invoiceDate, DateOnly dueDate, string person,
             Company receiver, Company sender, List<Product> products)
         {
             InvoiceNumber = invoiceNumber;
@@ -36,7 +38,7 @@ namespace InvoiceMaker.src
         /// <returns> The discounted price after applying the discount </returns>
         public double CalculateDiscount(double totalPrice)
         {
-            double amount = (Discount / 100) * totalPrice;
+            double amount = Discount / 100 * totalPrice;
             double calculation = totalPrice - amount;
 
             // returns result with two decimal.
