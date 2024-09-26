@@ -1,0 +1,146 @@
+﻿<UserControl x:Class="MediaPlaylist.Views.PlaylistViews.UpdatePlaylistView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MediaPlaylist.Views.PlaylistViews"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="{StaticResource BackgroundBrush}">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Button with an arrow back icon and text -->
+        <Button 
+             Grid.Row="0"
+             Style="{StaticResource DefaultBtn}"
+             Width="100" 
+             Height="40"
+             HorizontalAlignment="Left"
+             VerticalAlignment="Top"
+             Margin="0,10,0,0"
+             Command="{Binding BackToPlaylistCommand}">
+            <StackPanel Orientation="Horizontal">
+                <Image
+                     Source="{StaticResource BackIcon}"
+                     Width="32"
+                     Height="32" 
+                     Margin="0,0,5,0"
+                     VerticalAlignment="Center"/>
+                <TextBlock
+                     Text="Go Back"
+                     VerticalAlignment="Center"
+                     Foreground="#fff"/>
+            </StackPanel>
+        </Button>
+ 
+        <!-- The page main content -->
+        <Grid 
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Width="320"
+            Margin="0,30,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Page Header -->
+            <TextBlock
+                 Grid.Row="0"
+                 Text="{Binding HeaderTxt}"
+                 FontSize="22"
+                 FontWeight="Medium"
+                 TextAlignment="Center"
+                 Margin="0,0,0,20"/>
+
+            <!-- text with inputs -->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label
+                     Grid.Row="0"
+                     Grid.Column="0"
+                     Content="Title"/>
+                <TextBox
+                     Grid.Row="0"
+                     Grid.Column="1"
+                     Margin="0,0,0,15"
+                     MaxLength="15"
+                     Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <Label
+                     Grid.Row="1"
+                     Grid.Column="0"
+                     Content="Description"/>
+                <TextBox
+                     Grid.Row="1"
+                     Grid.Column="1"
+                     MaxLength="70"
+                     Height="100"
+                     Margin="0,0,0,15"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     VerticalContentAlignment="Stretch"
+                     Text="{Binding Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+
+                <!-- A list of media titles and remove buttons -->
+                <ScrollViewer
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    VerticalScrollBarVisibility="Hidden"
+                    MaxHeight="300"
+                    Margin="0,0,0,10">
+                    <ItemsControl ItemsSource="{Binding Medias}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock 
+                                        Grid.Column="0"
+                                        Text="{Binding Title}"
+                                        VerticalAlignment="Center"/>
+                                    <Button
+                                        Grid.Column="1"
+                                        Style="{StaticResource MediaBtn}"
+                                        Content="Remove"
+                                        Height="40"
+                                        Width="70"
+                                        Command="{Binding DataContext.RemoveMediaCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
+                                        CommandParameter="{Binding}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <Button
+                     Grid.Row="3"
+                     Grid.Column="1"
+                     Style="{StaticResource DefaultBtn}"
+                     Content="Update Playlist"
+                     Margin="5"
+                     Command="{Binding UpdatePlaylistCommand}"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

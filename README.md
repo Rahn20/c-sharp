@@ -2,12 +2,24 @@
 
 This repository contains simple programs implemented in C#. The projects are currently under development.
 
+## Media Playlist Manager
+
+This WPF application, utilizing .NET 8, the MVVM architectural pattern, and a 4-layer architecture (Presentation Layer **(PL)**, Business Logic Layer **(BLL)**, Data Access Layer **(DAL)**, and Data Transfer Object Layer **(DTO)**), is used to manage, organize, and customize playlists of different media types (songs, audiobooks, and podcasts). The application has the following features:
+
+-   User can create, update, and delete playlists. Each playlist consists of media items.
+-   User can add and remove media items from a playlist.
+-   User can play, pause, and stop a media item.
+-   User can adjust media playback time, including fast-forwarding and rewinding media items.
+-   User can search for media in a playlist by media types, and title or name.
+
+<img src="MediaPlaylist/program.png" width="70%" height="70%">
+
 ## Airport App
 
 This WPF application, utilizing .NET 8, is a simple simulation system for flight departures in an airport. The airport has a control tower where a controller can manage flight operations. The flight time is measured in seconds, and once the flight time ends, the airplane will land, and its status will change from "in-flight" to "landed". The Airport App features:
 
-- **Register Airplane**: A controller can register a plane to get ready on the runway and take off.
-- **Manage Flights**: The controller can select an airplane from the list and update its destination and flight time.
+-   **Register Airplane**: A controller can register a plane to get ready on the runway and take off.
+-   **Manage Flights**: The controller can select an airplane from the list and update its destination and flight time.
 
 <img src="AirportApp/program.png" width="70%" height="70%">
 
@@ -34,10 +46,10 @@ The user can register an animal, save animal data to text and JSON files, and re
 
 This console application, utilizing the .NET Framework, reads data for a specified number of sellers in Salesforce. The user is prompted to enter the number of sellers to register, along with each seller's name, personnumber, district of work, and the number of items sold during the relevant period. Subsequently, the data is written to a file that the program can later read. The sellers are classified into four levels based on the number of items they have sold during the specified period.
 
-- level 1: under 50 items
-- level 2: 50-99 items
-- level 3: 100-199 items
-- level 4: over 199 items
+-   level 1: under 50 items
+-   level 2: 50-99 items
+-   level 3: 100-199 items
+-   level 4: over 199 items
 
 ![RegisterSeller Console Application](RegisterSellerConsole/doc/terminal.jpg)
 
