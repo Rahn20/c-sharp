@@ -1,4 +1,5 @@
 ﻿using MediaPlaylist.Core;
+using MediaPlaylistStore;
 
 namespace MediaPlaylist.ViewModels.MediaViewModels
 {
@@ -85,6 +86,20 @@ namespace MediaPlaylist.ViewModels.MediaViewModels
                 {
                     _mediaSize = value;
                     OnPropertyChanged(nameof(MediaSize));
+                }
+            }
+        }
+
+        private AudioType _audioType;
+        public AudioType AudioType
+        {
+            get => _audioType;
+            set
+            {
+                if (_audioType != value)
+                {
+                    _audioType = value;
+                    OnPropertyChanged(nameof(AudioType));
                 }
             }
         }
