@@ -1,4 +1,7 @@
-﻿using MediaPlaylistStore;
+﻿using System;
+using System.Collections.Generic;
+using MediaPlaylistDAL;
+using MediaPlaylistStore;
 
 namespace MediaPlaylistBL
 {
@@ -7,72 +10,37 @@ namespace MediaPlaylistBL
     /// </summary>
     public class MediaBL
     {
-        // Tracks the ID of the last created media item.
-        private int lastCreatedMediaID;
+        private readonly MediaDAL _media;
 
         public MediaBL() 
         {
-            lastCreatedMediaID = 0;
+            _media = new MediaDAL();
         }
 
 
-        /// <summary>
-        ///   Adds a media item to a specified playlist.
-        /// </summary>
-        /// <param name="playlistData"> The playlist object to which the media item will be added. </param>
-        /// <param name="data"> The media item to add (can be a Song, Audiobook, or Podcast) </param>
-        public void AddMedia(Playlist playlistData, Media data)
+        public async Task CreateMedia(int playlistId, Media data)
         {
-            // Increase the ID by 1 each time a new media is added/created
-            lastCreatedMediaID++;
-            data.Id = lastCreatedMediaID;
-
             if (data is Song song)
             {
-                playlistData.Medias.Add(song);
+                await _media.Add(song, playlistId);
             }
             else if (data is Audiobook audiobook)
             {
-                playlistData.Medias.Add(audiobook);
+                await _media.Add(audiobook, playlistId);
             }
             else    // For Podcast
             {
-                playlistData.Medias.Add((Podcast)data);
+                await _media.Add((Podcast)data, playlistId);
             }
         }
 
-        /// <summary>
-        ///   Removes a media item from a specified playlist.
-        /// </summary>
-        /// <param name="playlist"> The playlist from which the media item will be removed. </param>
-        /// <param name="mediaId"> The unique identifier of the media item to remove </param>
-        public void RemoveMedia(Playlist playlist, int mediaId)
+        public async Task DeleteMedia(Media media) => await _media.Delete(media);
+
+        public async Task<List<Media>> SearchMediaByType(int playlistId, AudioType type, string searchWord) 
         {
-            Media? getMedia = playlist.Medias.Find(item => item.Id == mediaId);
-            
-            if (getMedia != null) 
-            {
-                playlist.Medias.Remove(getMedia);
-            } 
-            else
-            {
-                throw new ArgumentException("The media item could not be removed.", nameof(getMedia));
-            }
+            return await _media.SearchMediaByAudioType(playlistId, type, searchWord);
         }
 
-
-        /// <summary>
-        ///   Searches for media items within a list based on media type and a search keyword.
-        /// </summary>
-        /// <param name="medias"> The list of media items to search through </param>
-        /// <param name="type"> The type of media to filter (e.g., Song, Audiobook, Podcast) </param>
-        /// <param name="searchWord">The keyword to search for in the media item names and titles </param>
-        /// <returns>An IEnumerable of media items that match the specified type and contain the search word. </returns>
-        public IEnumerable<Media> SearchMediaByType(List<Media> medias, AudioType type, string searchWord) 
-        {
-            return medias.Where<Media>(item => item.AudioType == type && 
-                 (item.Name.Contains(searchWord, StringComparison.OrdinalIgnoreCase) ||
-                    item.Title.Contains(searchWord, StringComparison.OrdinalIgnoreCase)));
-        }
+        public async Task UpdateMedia(Media media) => await _media.Update(media);
     }
 }
