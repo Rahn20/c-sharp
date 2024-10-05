@@ -30,7 +30,7 @@ namespace MediaPlaylist.Views.PlaylistViews
         {
             if (DataContext is PlaylistDetailsViewModel viewModel)
             {
-                viewModel.SliderStartDragging();
+                viewModel.SliderDragging();
             }
         }
 
@@ -38,7 +38,7 @@ namespace MediaPlaylist.Views.PlaylistViews
         {
             if (DataContext is PlaylistDetailsViewModel viewModel)
             {
-                viewModel.SliderStopDragging();
+                viewModel.SliderDragging();
             }
         }
     }

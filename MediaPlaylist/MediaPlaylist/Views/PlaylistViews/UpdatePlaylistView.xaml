@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MediaPlaylist.Views.PlaylistViews"
              mc:Ignorable="d" 
+             FontSize="13"
              d:DesignHeight="450" d:DesignWidth="800"
              Background="{StaticResource BackgroundBrush}">
 
@@ -66,6 +67,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -98,7 +100,7 @@
                      VerticalContentAlignment="Stretch"
                      Text="{Binding Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
 
-                <!-- A list of media titles and remove buttons -->
+                <!-- A list of media title and remove button -->
                 <ScrollViewer
                     Grid.Row="2"
                     Grid.Column="1"
@@ -122,9 +124,11 @@
                                     <Button
                                         Grid.Column="1"
                                         Style="{StaticResource MediaBtn}"
+                                        BorderBrush="{StaticResource AccentBrush}"
                                         Content="Remove"
-                                        Height="40"
-                                        Width="70"
+                                        Height="30"
+                                        Width="55"
+                                        Margin="5"
                                         Command="{Binding DataContext.RemoveMediaCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" 
                                         CommandParameter="{Binding}"/>
                                 </Grid>
@@ -140,6 +144,16 @@
                      Content="Update Playlist"
                      Margin="5"
                      Command="{Binding UpdatePlaylistCommand}"/>
+
+                <!-- Show the status message -->
+                <TextBlock 
+                    Grid.Row="4"
+                    Grid.ColumnSpan="2"
+                    Margin="5"
+                    Text="{Binding StatusMessage}"
+                    Foreground="Green"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
             </Grid>
         </Grid>
     </Grid>
