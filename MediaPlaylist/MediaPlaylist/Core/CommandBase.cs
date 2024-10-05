@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 
 namespace MediaPlaylist.Core
 {
@@ -36,13 +37,13 @@ namespace MediaPlaylist.Core
         /// </summary>
         /// <param name="parameter"> An optional parameter for the command execution </param>
         /// <returns> True if the command can execute, otherwise, false. </returns>
-        public bool CanExecute(object? parameter) => _canExecute == null || _canExecute(parameter);
+        public virtual bool CanExecute(object? parameter) => _canExecute == null || _canExecute(parameter);
 
 
         /// <summary>
         ///  Executes the command logic.
         /// </summary>
         /// <param name="parameter"> An optional parameter for the command execution </param>
-        public void Execute(object? parameter) => _execute(parameter);
+        public virtual void Execute(object? parameter) => _execute(parameter);
     }
 }
