@@ -1,5 +1,6 @@
-﻿// The DTO (Data Transfer Object) layer contains the classes that represent the core data of MediaPlaylist.
+﻿// The DTO (Data Transfer Object) layer contains the classes that represent the core data of MediaPlaylist application.
 // These classes only have data properties, which are used for transferring data between layers.
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MediaPlaylistStore
@@ -9,7 +10,8 @@ namespace MediaPlaylistStore
     /// </summary>
     public class Playlist
     {
-        public int Id { get; set; }                     // The Playlist ID
+        [Key]
+        public int PlaylistId { get; set; }            // The Playlist ID
 
         [MaxLength(15)]
         [Required]
@@ -23,7 +25,9 @@ namespace MediaPlaylistStore
 
         public DateTime? LastModifiedDate { get; set; } // The last time the playlist was updated (ex. songs added/removed), can be null
 
+
+        // A Playlist can have many Media entries (One-to-Many relationship).
         [Required]
-        public List<Media> Medias { get; set; }         // List of tracks in the playlist.
+        public List<Media> Medias { get; set; }       // List of tracks in the playlist. Collection navigation 
     }
 }

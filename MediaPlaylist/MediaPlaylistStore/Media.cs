@@ -1,9 +1,10 @@
-﻿// The DTO (Data Transfer Object) layer contains the classes that represent the core data of MediaPlaylist.
+﻿// The DTO (Data Transfer Object) layer contains the classes that represent the core data of MediaPlaylist application.
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MediaPlaylistStore
 {
-    // The AudioTypes
+    // The AudioTypes enum
     public enum AudioType
     {
         Song,
@@ -12,11 +13,12 @@ namespace MediaPlaylistStore
     }
 
     /// <summary>
-    ///  An abstract Media class that contains all the common properties of Song, Podcast, and Audiobook.
+    ///   An abstract Media class, Base class that contains all the common properties of Song, Podcast, and Audiobook.
     /// </summary>
     public abstract class Media
     {
-        public int Id { get; set; }
+        [Key]
+        public int MediaId { get; set; }
 
         [Required]
         [MaxLength(200)]
@@ -37,20 +39,32 @@ namespace MediaPlaylistStore
 
         [Required]
         public string FullPath { get; set; }       // The full path of the media 
+
+
+        // Realated table
+        // Foreign Key property: Each Media belongs to a Playlist (Many-to-One relationship)
+        [Required]
+        public int PlaylistId { get; set; }
+
+        public Playlist Playlist { get; set; }      // reference navigation 
     }
 
+
+    // Derived class for Song
     public class Song : Media
     {
         [MaxLength(30)]
-        public string Artist { get; set; }      // Artist who performed the track.
+        public string? Artist { get; set; }      // Artist who performed the track.
 
         [MaxLength(25)]
         public string? Genre { get; set; }     //  The musical genre (Ex.Rock, Pop, Jazz).
 
         [MaxLength(30)]
-        public string Album { get; set; }       // The collection or album the song belongs to.
+        public string? Album { get; set; }       // The collection or album the song belongs to.
     }
 
+
+    // Derived class for Podcast
     public class Podcast : Media
     {
         [MaxLength(30)]
@@ -60,16 +74,18 @@ namespace MediaPlaylistStore
         public int EpisodeNumber { get; set; }  // The specific episode in the podcast series.
 
         [MaxLength(50)]
-        public string Guests { get; set; }      //  Special guests featured in the episode.
+        public string? Guests { get; set; }      //  Special guests featured in the episode.
     }
 
+
+    // Derived class for Audiobook
     public class Audiobook : Media
     {
         [MaxLength(30)]
-        public string Author { get; set; }      // The writer of the book.
+        public string? Author { get; set; }      // The writer of the book.
 
         [MaxLength(30)]
-        public string Genre { get; set; }       // The literary genre (ex: Fiction, Non-Fiction, Mystery).
+        public string? Genre { get; set; }       // The literary genre (ex: Fiction, Non-Fiction, Mystery).
 
 
         [MaxLength(40)]
