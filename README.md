@@ -4,13 +4,13 @@ This repository contains simple programs implemented in C#. The projects are cur
 
 ## Media Playlist Manager
 
-This WPF application, utilizing .NET 8, the MVVM architectural pattern, and a 4-layer architecture (Presentation Layer **(PL)**, Business Logic Layer **(BLL)**, Data Access Layer **(DAL)**, and Data Transfer Object Layer **(DTO)**), is used to manage, organize, and customize playlists of different media types (songs, audiobooks, and podcasts). The application has the following features:
+A WPF application utilizing .NET 8, the MVVM architectural pattern, Entity Framework Core, LINQ, Microsoft SQL Server, and a 4-layer architecture (Presentation Layer **(PL)**, Business Logic Layer **(BLL)**, Data Access Layer **(DAL)**, and Data Transfer Object Layer **(DTO)**). The application is used to manage, organize, and customize playlists of different media types, including songs, audiobooks, and podcasts. The application has the following features:
 
 -   User can create, update, and delete playlists. Each playlist consists of media items.
--   User can add and remove media items from a playlist.
+-   User can add, update and remove media items from a playlist.
 -   User can play, pause, and stop a media item.
 -   User can adjust media playback time, including fast-forwarding and rewinding media items.
--   User can search for media in a playlist by media types, and title or name.
+-   User can search for media in a playlist by media type, title, or name.
 
 <img src="MediaPlaylist/program.png" width="70%" height="70%">
 
