@@ -4,7 +4,6 @@ using MediaPlaylist.Services;
 using MediaPlaylist.ViewModels.MediaViewModels;
 using MediaPlaylistBL;
 using MediaPlaylistStore;
-//using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
@@ -18,15 +17,10 @@ namespace MediaPlaylist.ViewModels.PlaylistViewModels
     public class PlaylistDetailsViewModel : ViewModelBase, INavigatable
     {
         private readonly INavigationService _navigationService;
-        private readonly PlaylistManager _playlistManager;
+        private readonly ApplicationManager _appManager;
         private readonly NavigationBarViewModel _navigationBarViewModel;
-        private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
-        
-        private DispatcherTimer _timer = new DispatcherTimer() 
-        { 
-            Interval = TimeSpan.FromSeconds(1)
-        };
-        
+        private readonly MediaPlayer _mediaPlayer;
+        private readonly DispatcherTimer _timer;
         private Media _selectedMedia;
 
         #region Properties
@@ -37,14 +31,14 @@ namespace MediaPlaylist.ViewModels.PlaylistViewModels
         public int NumberOfMedia 
         {
             get => _numberOfMedia;
-            set
+            private set
             {
                 _numberOfMedia = value;
                 OnPropertyChanged(nameof(NumberOfMedia));
             }
         }
 
-        private PlaylistViewModel _playlist = null;
+        private PlaylistViewModel _playlist;
         public PlaylistViewModel Playlist
         {
             get => _playlist;
@@ -133,28 +127,34 @@ namespace MediaPlaylist.ViewModels.PlaylistViewModels
 
         #region Playlist Commands
         public ICommand UpdatePlaylistCommand { get; private set; }
-        public ICommand RemovePlaylistCommand { get; }
+        public AsyncCommandBase RemovePlaylistCommand { get; private set; }
         public ICommand AddNewMediaCommand { get; private set; }
         #endregion
 
-        #region Search for media Commands
-        public ICommand SearchMediaCommand { get; }
-        public ICommand ClearSearchMediaCommand { get; }
-        #endregion
-
         #region Media Commands
-        public ICommand StartMediaCommand { get; }
-        public ICommand StopMediaCommand { get; }
-        public ICommand PauseMediaCommand { get; }
-        public ICommand PlayMediaCommand { get; }
+        public AsyncCommandBase SearchMediaCommand { get; private set; }
+        public ICommand ClearSearchMediaCommand { get; private set; }
+
+        public ICommand StartMediaCommand { get; private set; }
+        public ICommand StopMediaCommand { get; private set; }
+        public ICommand PauseMediaCommand { get; private set; }
+        public ICommand PlayMediaCommand { get; private set; }
+
+        public AsyncCommandBase DeleteMediaCommand { get; private set; }
+        public ICommand EditMediaCommand { get; private set; }
         #endregion
 
         public PlaylistDetailsViewModel(
-            INavigationService navigationService, PlaylistManager playlistManager, NavigationBarViewModel navVM)
+            INavigationService navigationService, ApplicationManager manager, NavigationBarViewModel navVM)
         {
-            _playlistManager = playlistManager;
+            _appManager = manager;
             _navigationService = navigationService;
             _navigationBarViewModel = navVM;
+            _mediaPlayer = new MediaPlayer();
+            _timer = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
 
             // Define what happens on every tick
             _timer.Tick += Timer_tick;
@@ -162,15 +162,7 @@ namespace MediaPlaylist.ViewModels.PlaylistViewModels
             AudioTypes = Enum.GetValues(typeof(AudioType)).Cast<AudioType>().ToList();
             Medias = new ObservableCollection<Media>();
 
-            RemovePlaylistCommand = new CommandBase(_ => RemovePlaylist());
-            SearchMediaCommand = new CommandBase(_ => SearchMedia());
-            ClearSearchMediaCommand = new CommandBase(_ => ClearSearch());
-
-            // media Commands
-            StartMediaCommand = new CommandBase(StartMedia);
-            StopMediaCommand = new CommandBase(_ => StopMedia());
-            PauseMediaCommand = new CommandBase(_ => PauseMedia());
-            PlayMediaCommand = new CommandBase(_ => PlayMedia());
+            AllCommands();
         }
 
         public void Initialize(object parameter)
@@ -191,19 +183,38 @@ namespace MediaPlaylist.ViewModels.PlaylistViewModels
                     TotalMediaDurationInSec = _selectedMedia.Duration.TotalSeconds;
                     UpdateMediaTime();
                 }
-
-                AddNewMediaCommand = new CommandBase(_ => _navigationService.NavigateTo<AddMediaViewModel>(Playlist));
-                UpdatePlaylistCommand = new CommandBase(_ => _navigationService.NavigateTo<UpdatePlaylistViewModel>(Playlist));
             }
         }
 
-        private void RemovePlaylist()
+        private void AllCommands()
+        {
+            RemovePlaylistCommand = new AsyncCommandBase(async _ => await RemovePlaylist());
+            SearchMediaCommand = new AsyncCommandBase(async _ => await SearchMedia());
+            ClearSearchMediaCommand = new CommandBase(_ => {
+                SearchMediaBox = string.Empty;
+                Medias.Clear();
+                Playlist.Medias.ForEach(item => Medias.Add(item));
+            });
+
+            // media Commands
+            StartMediaCommand = new CommandBase(StartMedia);
+            StopMediaCommand = new CommandBase(_ => StopMedia());
+            PauseMediaCommand = new CommandBase(_ => PauseMedia());
+            PlayMediaCommand = new CommandBase(_ => PlayMedia());
+            DeleteMediaCommand = new AsyncCommandBase(async (parameter) => await RemoveMediaItem(parameter));
+            EditMediaCommand = new CommandBase(EditMediaItem);
+
+            AddNewMediaCommand = new CommandBase(_ => _navigationService.NavigateTo<AddMediaViewModel>(Playlist));
+            UpdatePlaylistCommand = new CommandBase(_ => _navigationService.NavigateTo<UpdatePlaylistViewModel>(Playlist));
+        }
+
+        private async Task RemovePlaylist()
         {
             if (Playlist == null) return;
 
             try
             {
-                _playlistManager.DeletePlaylist(Playlist.Id);
+                await _appManager.RemovePlaylist(Playlist.Playlist);
                 _navigationBarViewModel.Playlists.Remove(Playlist);
                 _navigationService.NavigateTo<StartPageViewModel>();
             }
@@ -213,13 +224,14 @@ namespace MediaPlaylist.ViewModels.PlaylistViewModels
             }
         }
 
-        private void SearchMedia()
+
+        private async Task SearchMedia()
         {
             try
             {
                 if (!string.IsNullOrEmpty(_searchMediaBox))
                 {
-                    List<Media> result = _playlistManager.SearchForMedia(_playlist.Id, SelectedAudioType, _searchMediaBox).ToList();
+                    List<Media> result = await _appManager.SearchForMedia(Playlist.Id, SelectedAudioType, _searchMediaBox);
                     Medias.Clear();
                     result.ForEach(item => Medias.Add(item));
                 }
@@ -234,11 +246,6 @@ namespace MediaPlaylist.ViewModels.PlaylistViewModels
             }
         }
 
-        private void ClearSearch()
-        {
-            Medias.Clear();
-            Playlist.Medias.ForEach(item => Medias.Add(item));
-        }
 
         private void StartMedia(object selectedMedia)
         {
@@ -259,11 +266,40 @@ namespace MediaPlaylist.ViewModels.PlaylistViewModels
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                //Debug.WriteLine(ex);
+                MessageBox.Show($"Error playing the media item: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        // displays the media time information in the media card
+
+        private void EditMediaItem(object selectedMedia)
+        {
+            if (selectedMedia is Media media)
+            {
+                // Using an Anonymous Type
+                var parameter = new { SelectedMedia = media, CurrentPlaylistVM = Playlist };
+
+                _navigationService.NavigateTo<UpdateMediaViewModel>(parameter);
+            }
+        }
+
+        private async Task RemoveMediaItem(object selectedMedia)
+        {
+            Media? mediaObj = selectedMedia as Media;
+
+            if (mediaObj == null) return;
+            try
+            {
+                await _appManager.RemoveMedia(mediaObj);
+                Medias.Remove(mediaObj);
+                NumberOfMedia = Playlist.Medias.Count;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error removing the media item: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void UpdateMediaTime()
         {
             // Update the time display
@@ -286,7 +322,7 @@ namespace MediaPlaylist.ViewModels.PlaylistViewModels
                 StopMedia();
 
                 // Find the index of the media object by matching the 'Id' property
-                int currentMediaIndex = Playlist.Medias.FindIndex(elem => elem.Id == _selectedMedia.Id);
+                int currentMediaIndex = Playlist.Medias.FindIndex(elem => elem.MediaId == _selectedMedia.MediaId);
 
                 if (currentMediaIndex < Playlist.Medias.Count - 1)
                 {
@@ -333,8 +369,6 @@ namespace MediaPlaylist.ViewModels.PlaylistViewModels
             }
         }
 
-        public void SliderStartDragging() => _mediaPlayer.Position = TimeSpan.FromSeconds(CurrentMediaPositionInSec);
-
-        public void SliderStopDragging() => _mediaPlayer.Position = TimeSpan.FromSeconds(CurrentMediaPositionInSec);
+        public void SliderDragging() => _mediaPlayer.Position = TimeSpan.FromSeconds(CurrentMediaPositionInSec);
     }
 }
