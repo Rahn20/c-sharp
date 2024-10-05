@@ -4,7 +4,6 @@ using MediaPlaylist.ViewModels.PlaylistViewModels;
 using MediaPlaylistStore;
 using MediaPlaylistBL;
 using UtilitiesLib;
-//
 using System.Diagnostics;
 using System.Windows.Media;
 using System.Windows.Input;
@@ -16,10 +15,9 @@ namespace MediaPlaylist.ViewModels.MediaViewModels
 {
     public class AddMediaViewModel : ViewModelBase, INavigatable
     {
-        private readonly PlaylistManager _playlistManager;
-        private readonly INavigationService _navigationService;
+        private readonly ApplicationManager _appManager;
         private PlaylistViewModel _playlist;
-        private MediaPlayer _mediaPlayer = new MediaPlayer();
+        private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
 
 
         #region Properties
@@ -29,7 +27,6 @@ namespace MediaPlaylist.ViewModels.MediaViewModels
         public bool IsSongSelected => SelectedAudioType == AudioType.Song;
         public bool IsPodcastSelected => SelectedAudioType == AudioType.Podcast;
         public bool IsAudiobookSelected => SelectedAudioType == AudioType.Audiobook;
-
         public bool IsTitleAvailable => 
             string.IsNullOrEmpty(MediaProperties.MediaTitle) && 
             string.IsNullOrEmpty(MediaProperties.MediaFullPath) || 
@@ -50,9 +47,20 @@ namespace MediaPlaylist.ViewModels.MediaViewModels
                     OnPropertyChanged(nameof(IsAudiobookSelected));
 
                     ClearMediaInputs();
-                    ClearProdcastInputs();
-                    ClearAudioBookInputs();
-                    ClearSongInputs();
+                }
+            }
+        }
+
+        public string _statusMessage = string.Empty;
+        public string StatusMessage
+        {
+            get => _statusMessage;
+            private set
+            {
+                if (_statusMessage != value)
+                {
+                    _statusMessage = value;
+                    OnPropertyChanged(nameof(StatusMessage));
                 }
             }
         }
@@ -60,24 +68,24 @@ namespace MediaPlaylist.ViewModels.MediaViewModels
         #endregion
 
         public ICommand SelectMediaPathCommand { get; }
-        public ICommand CreateMediaCommand { get; }
+        public AsyncCommandBase CreateMediaCommand { get; }
         public ICommand BackToPlaylistCommand { get; }
 
-        public AddMediaViewModel(INavigationService navigationService, PlaylistManager manager) 
-        { 
-            _playlistManager = manager;
-            _navigationService = navigationService;
-
+        public AddMediaViewModel(INavigationService navigationService, ApplicationManager manager) 
+        {
+            _appManager = manager;
             MediaProperties = new MediaViewModel();
             AudioTypes = Enum.GetValues(typeof(AudioType)).Cast<AudioType>().ToList();
 
-            BackToPlaylistCommand = new CommandBase(_ => _navigationService.NavigateTo<PlaylistDetailsViewModel>(_playlist));
+            BackToPlaylistCommand = new CommandBase(_ => navigationService.NavigateTo<PlaylistDetailsViewModel>(_playlist));
             SelectMediaPathCommand = new CommandBase(_ => SelectMedia());
-            CreateMediaCommand = new CommandBase(_ => CreateMedia());
+            CreateMediaCommand = new AsyncCommandBase(async _ => await CreateMedia());
         }
 
         public void Initialize(object parameter)
         {
+            StatusMessage = string.Empty;
+
             if (parameter is PlaylistViewModel playlistItem)
             {
                 _playlist = playlistItem;
@@ -102,10 +110,11 @@ namespace MediaPlaylist.ViewModels.MediaViewModels
         }
 
 
+        // Opens the file, reads the file metadata, and updates the media properties with the file's data.
         private ShellHelper? ReadFileData()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*";
+            openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3| M4A files (*.m4a)|*.m4a| All files (*.*)|*.*";
 
             if (openFileDialog.ShowDialog() == true)
             {
@@ -120,10 +129,31 @@ namespace MediaPlaylist.ViewModels.MediaViewModels
                 MediaProperties.MediaTitle = shell.GetTitle();
                 return shell;
             }
-
             return null;
         }
 
+        private async Task CreateMedia()
+        {
+            try
+            {
+                if (ValidateMediaProps() == false) throw new Exception("Media Title, Podcast Host or Audiobook Publisher is empty");
+
+                Media? mediaDTO = MediaUIToDTO();
+                if (mediaDTO != null)
+                {
+                    await _appManager.AddMedia(_playlist.Id, mediaDTO);
+                    Playlist getPlaylist = await _appManager.GetPlaylistById(_playlist.Id);
+                    _playlist.RefreshData(getPlaylist);
+
+                    StatusMessage = "Media has successfully been added";
+                    ClearMediaInputs();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error creating new media: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
         private bool ValidateMediaProps()
         {
@@ -146,35 +176,6 @@ namespace MediaPlaylist.ViewModels.MediaViewModels
             
             return result;
         }
-
-        private void CreateMedia()
-        {
-            // required: podcast host, Audiobook publisher,titte 
-            try
-            {
-                if (ValidateMediaProps() == false) throw new Exception("Media Title or Podcast Host or Audiobook Publisher is empty");
-                
-                Media? mediaDTO = MediaUIToDTO();
-                if (mediaDTO != null)
-                {
-                    _playlistManager.AddMediaToPlaylist(_playlist.Id, mediaDTO);
-                    //PlaylistViewModel playlistViewModel = new PlaylistViewModel(getCurrentPlaylist);
-                    ClearMediaInputs();
-                    ClearSongInputs();
-                    ClearAudioBookInputs();
-                    ClearProdcastInputs();
-
-                    // navigate back to the playlist details
-                    _navigationService.NavigateTo<PlaylistDetailsViewModel>(_playlist);
-                }
-            }
-            catch (Exception ex) 
-            {
-                MessageBox.Show($"Error creating new media: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                //Debug.WriteLine(ex);
-            }
-        }
-
 
         //  Converts the UI representation of media properties to a (DTO).
         private Media? MediaUIToDTO()
@@ -227,36 +228,26 @@ namespace MediaPlaylist.ViewModels.MediaViewModels
         }
 
 
-        // Clears all common media textboxes
         private void ClearMediaInputs()
         {
+            // Clears all common media textboxes
             MediaProperties.MediaName = string.Empty;
             MediaProperties.MediaTitle = string.Empty;
             MediaProperties.MediaDuration = TimeSpan.Zero;
             MediaProperties.MediaFullPath = string.Empty;
             MediaProperties.MediaSize = 0;
-        }
 
-        // Clears all Song textboxes
-        private void ClearSongInputs()
-        {
+            // Clears all Song textboxes
             MediaProperties.SongAlbum = string.Empty;
             MediaProperties.SongArtist = string.Empty;
             MediaProperties.SongGenre = string.Empty;
-        }
 
-        // Clears all audiobook textboxes
-        private void ClearAudioBookInputs()
-        {
+            // Clears all audiobook textboxes
             MediaProperties.AudiobookPublisher = string.Empty;
             MediaProperties.AudiobookAuthor = string.Empty;
             MediaProperties.AudiobookGenre = string.Empty;
 
-        }
-
-        // Clears all podcast textboxes
-        private void ClearProdcastInputs()
-        {
+            // Clears all podcast textboxes
             MediaProperties.PodcastEpisodeNumber = 0;
             MediaProperties.PodcastGuests = string.Empty;
             MediaProperties.PodcastHost = string.Empty;
