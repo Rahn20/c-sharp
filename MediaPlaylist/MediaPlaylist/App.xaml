@@ -11,7 +11,7 @@
              xmlns:mediaVM="clr-namespace:MediaPlaylist.ViewModels.MediaViewModels">
 
     <Application.Resources>
-        <!-- Define the icons/images -->
+        <!-- Defines the icons/images -->
         <!-- Icons from: https://icons8.com/icons -->
         <BitmapImage x:Key="Icon" UriSource="pack://application:,,,/Resources/icon.jpg"></BitmapImage>
         <BitmapImage x:Key="BackIcon" UriSource="pack://application:,,,/Resources/back-icon.png"></BitmapImage>
@@ -37,7 +37,7 @@
         <SolidColorBrush x:Key="ButtonHoverTextBrush" Color="{StaticResource ButtonHoverTextColor}"/>
 
         <SolidColorBrush x:Key="ButtonUpdateBrush" Color="#004d00"/>
-        <SolidColorBrush x:Key="ButtonRemoveBrush" Color="#4d0000"/>
+        <SolidColorBrush x:Key="ButtonRemoveBrush" Color="#4d0f00"/>
 
         <!-- TextBlock Style -->
         <Style TargetType="TextBlock">
@@ -87,9 +87,8 @@
                         <Border 
                             x:Name="border"
                             CornerRadius="10"
-                            Margin="5"
                             Background="{StaticResource ButtonHoverBrush}"
-                            BorderBrush="{StaticResource AccentBrush}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
                             TextElement.Foreground="{StaticResource PrimaryTextBrush}"
                             BorderThickness="1">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -107,8 +106,8 @@
             </Setter>
         </Style>
 
-        <!-- Update playlist button style. -->
-        <Style x:Key="UpdateBtnStyle" TargetType="Button">
+        <!-- Update/Remove playlist button style. -->
+        <Style x:Key="PlaylistBtnStyle" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -116,39 +115,7 @@
                             x:Name="border"
                             CornerRadius="7"
                             Background="{StaticResource ButtonBackgroundBrush}"
-                            BorderBrush="{StaticResource ButtonUpdateBrush}"
-                            TextElement.Foreground="{StaticResource PrimaryTextBrush}"
-                            BorderThickness="2"
-                            Padding="5"
-                            Width="60"
-                            Height="40"
-                            TextElement.FontWeight="SemiBold">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="{StaticResource ButtonHoverBrush}"/>
-                                <Setter TargetName="border" Property="TextElement.Foreground" Value="{StaticResource ButtonHoverTextBrush}"/>
-                                <Setter TargetName="border" Property="Cursor" Value="Hand"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        
-        <!-- Remove playlist button style. -->
-        <Style x:Key="DeleteBtnStyle" TargetType="Button">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border 
-                            x:Name="border"
-                            CornerRadius="7"
-                            Background="{StaticResource ButtonBackgroundBrush}"
-                            BorderBrush="{StaticResource ButtonRemoveBrush}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
                             TextElement.Foreground="{StaticResource PrimaryTextBrush}"
                             BorderThickness="2"
                             Padding="5"
@@ -335,6 +302,9 @@
         <!-- Adding media --> 
         <DataTemplate DataType="{x:Type mediaVM:AddMediaViewModel}">
             <mediaViews:AddMediaView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type mediaVM:UpdateMediaViewModel}">
+            <mediaViews:UpdateMediaView/>
         </DataTemplate>
 
     </Application.Resources>

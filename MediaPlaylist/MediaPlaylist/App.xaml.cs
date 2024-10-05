@@ -2,7 +2,6 @@
 using System.Data;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
-
 //
 using MediaPlaylist.Core;
 using MediaPlaylist.ViewModels;
@@ -41,19 +40,19 @@ namespace MediaPlaylist
             });
 
             // register the bucniss logic layer libraray (BLL)
-            _services.AddSingleton<PlaylistManager>();
+            _services.AddSingleton<ApplicationManager>();
 
             // Register ViewModels
             _services.AddSingleton<MainViewModel>();
             _services.AddSingleton<NavigationBarViewModel>();
             _services.AddSingleton<StartPageViewModel>();
             
-            // Playlist viewmodels
             _services.AddSingleton<AddPlaylistViewModel>();
             _services.AddSingleton<PlaylistDetailsViewModel>();
             _services.AddSingleton<UpdatePlaylistViewModel>();
             //_services.AddTransient<PlaylistDetailsViewModel>();
             _services.AddSingleton<AddMediaViewModel>();
+            _services.AddSingleton<UpdateMediaViewModel>();
 
             // Register ViewModels with NavigationService
             _services.AddSingleton<Func<Type, ViewModelBase>>(serviceProvider => viewModelType =>
