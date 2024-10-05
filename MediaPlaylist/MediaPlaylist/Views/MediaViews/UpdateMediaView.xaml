@@ -1,18 +1,16 @@
-﻿<UserControl x:Class="MediaPlaylist.Views.MediaViews.AddMediaView"
+﻿<UserControl x:Class="MediaPlaylist.Views.MediaViews.UpdateMediaView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MediaPlaylist.Views.MediaViews"
              mc:Ignorable="d" 
-             FontSize="12.5"
              d:DesignHeight="450" d:DesignWidth="800"
              Background="{StaticResource BackgroundBrush}">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
-
 
     <Grid Margin="10">
         <!-- Button with an arrow back icon and text -->
@@ -27,15 +25,15 @@
             Command="{Binding BackToPlaylistCommand}">
             <StackPanel Orientation="Horizontal">
                 <Image
-                    Source="{StaticResource BackIcon}"
-                    Width="32"
-                    Height="32" 
-                    Margin="0,0,5,0"
-                    VerticalAlignment="Center"/>
+                Source="{StaticResource BackIcon}"
+                Width="32"
+                Height="32" 
+                Margin="0,0,5,0"
+                VerticalAlignment="Center"/>
                 <TextBlock
-                    Text="Go Back"
-                    VerticalAlignment="Center"
-                    Foreground="#fff"/>
+                Text="Go Back"
+                VerticalAlignment="Center"
+                Foreground="#fff"/>
             </StackPanel>
         </Button>
 
@@ -81,21 +79,14 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Margin="5"
-                Content="Audio types"/>
-            <ComboBox
+                Content="Audio type"/>
+            <TextBox
                 Grid.Row="1"
                 Grid.Column="1"
+                Grid.ColumnSpan="3"
                 Margin="5"
-                SelectedIndex="0"
-                ItemsSource="{Binding AudioTypes}"
-                SelectedItem="{Binding SelectedAudioType}"/>
-            <Button
-                Grid.Row="1"
-                Grid.Column="2"
-                Margin="5"
-                Style="{StaticResource DefaultBtn}"
-                Content="Select a Media"
-                Command="{Binding SelectMediaPathCommand}"/>
+                IsEnabled="False"
+                Text="{Binding MediaProperties.AudioType, Mode=OneWay}"/>
 
             <Label
                 Grid.Row="2"
@@ -122,8 +113,6 @@
                 Grid.ColumnSpan="3"
                 MaxLength="25"
                 Margin="5"
-                IsReadOnly="{Binding IsTitleAvailable}"
-                IsReadOnlyCaretVisible="{Binding IsTitleAvailable}"
                 Text="{Binding MediaProperties.MediaTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label
@@ -137,9 +126,7 @@
                 Grid.ColumnSpan="3"
                 Margin="5"
                 MaxLength="200"
-                IsReadOnly="True"
-                IsReadOnlyCaretVisible="True"
-                Text="{Binding MediaProperties.MediaName, Mode=OneWay}"/>
+                Text="{Binding MediaProperties.MediaName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label
                 Grid.Row="5"
@@ -193,8 +180,7 @@
                     Grid.Column="1"
                     MaxLength="30"
                     Margin="5"
-                    IsEnabled="False"
-                    Text="{Binding MediaProperties.SongArtist, Mode=OneWay}"/>
+                    Text="{Binding MediaProperties.SongArtist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <Label
                     Grid.Row="1"
@@ -206,8 +192,7 @@
                     Grid.Column="1"
                     MaxLength="25"
                     Margin="5"
-                    IsEnabled="False"
-                    Text="{Binding MediaProperties.SongGenre, Mode=OneWay}"/>
+                    Text="{Binding MediaProperties.SongGenre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <Label
                     Grid.Row="2"
@@ -219,8 +204,7 @@
                     Grid.Column="1"
                     Margin="5"
                     MaxLength="30"
-                    IsEnabled="False"
-                    Text="{Binding MediaProperties.SongAlbum, Mode=OneWay}"/>
+                    Text="{Binding MediaProperties.SongAlbum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
 
             <!-- Podcast information inputs -->
@@ -293,15 +277,14 @@
                 <Label
                     Grid.Row="0"
                     Grid.Column="0"
-                     Margin="5"
+                    Margin="5"
                     Content="Author"/>
                 <TextBox
                     Grid.Row="0"
                     Grid.Column="1"
                     MaxLength="30"
                     Margin="5"
-                    IsEnabled="False"
-                    Text="{Binding MediaProperties.AudiobookAuthor, Mode=OneWay}"/>
+                    Text="{Binding MediaProperties.AudiobookAuthor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <Label
                     Grid.Row="1"
@@ -313,8 +296,7 @@
                     Grid.Column="1"
                     Margin="5"
                     MaxLength="30"
-                    IsEnabled="False"
-                    Text="{Binding MediaProperties.AudiobookGenre, Mode=OneWay}"/>
+                    Text="{Binding MediaProperties.AudiobookGenre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <Label
                     Grid.Row="2"
@@ -329,7 +311,7 @@
                     Text="{Binding MediaProperties.AudiobookPublisher, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
 
-            <!-- Create media button -->
+            <!-- Update media button -->
             <Button
                 Grid.Row="10"
                 Grid.Column="1"
@@ -337,9 +319,8 @@
                 Style="{StaticResource DefaultBtn}"
                 Margin="5,15,5,0"
                 Height="45"
-                Content="Add Media"
-                Command="{Binding CreateMediaCommand}"/>
-
+                Content="Update Media"
+                Command="{Binding UpdateMediaCommand}"/>
 
             <!-- Show the status message -->
             <TextBlock 
@@ -351,6 +332,7 @@
                 Foreground="Green"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"/>
+
         </Grid>
     </Grid>
 </UserControl>
