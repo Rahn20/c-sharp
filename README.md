@@ -12,7 +12,7 @@ A WPF application utilizing .NET 8, the MVVM architectural pattern, Entity Frame
 -   User can adjust media playback time, including fast-forwarding and rewinding media items.
 -   User can search for media in a playlist by media type, title, or name.
 
-<img src="MediaPlaylist/program.png" width="70%" height="70%">
+<img src="MediaPlaylist/images/program.png" width="70%" height="70%">
 
 ## Airport App
 
