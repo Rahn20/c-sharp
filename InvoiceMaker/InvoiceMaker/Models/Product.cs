@@ -1,4 +1,6 @@
-﻿namespace InvoiceMaker.Models
+﻿using System;
+
+namespace InvoiceMaker.Models
 {
     /// <summary>
     ///     Product Information, with the necessary properties, (init-only properties)

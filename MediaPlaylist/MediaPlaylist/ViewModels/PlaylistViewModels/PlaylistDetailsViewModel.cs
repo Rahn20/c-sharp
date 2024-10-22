@@ -28,7 +28,7 @@ namespace MediaPlaylist.ViewModels.PlaylistViewModels
         public ObservableCollection<Media> Medias { get; private set; }
 
         private int _numberOfMedia;
-        public int NumberOfMedia 
+        public int NumberOfMedia
         {
             get => _numberOfMedia;
             private set
@@ -190,7 +190,8 @@ namespace MediaPlaylist.ViewModels.PlaylistViewModels
         {
             RemovePlaylistCommand = new AsyncCommandBase(async _ => await RemovePlaylist());
             SearchMediaCommand = new AsyncCommandBase(async _ => await SearchMedia());
-            ClearSearchMediaCommand = new CommandBase(_ => {
+            ClearSearchMediaCommand = new CommandBase(_ =>
+            {
                 SearchMediaBox = string.Empty;
                 Medias.Clear();
                 Playlist.Medias.ForEach(item => Medias.Add(item));
@@ -251,7 +252,7 @@ namespace MediaPlaylist.ViewModels.PlaylistViewModels
         {
             Media? mediaObj = selectedMedia as Media;
 
-            if (mediaObj == null) return; 
+            if (mediaObj == null) return;
             try
             {
                 _selectedMedia = mediaObj;
@@ -363,7 +364,7 @@ namespace MediaPlaylist.ViewModels.PlaylistViewModels
 
                 _mediaPlayer.Play();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 MessageBox.Show($"Error playing media: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }

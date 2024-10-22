@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -15,8 +16,6 @@ namespace MediaPlaylistDAL
     /// </summary>
     public class MediaDAL : IDatabaseOperations<Media>
     {
-
-        // Gets all the Media entities from the database
         public async Task<List<Media>> GetAll()
         {
             List<Media> medias = new List<Media>();
@@ -36,8 +35,6 @@ namespace MediaPlaylistDAL
             return medias;
         }
 
-
-        // Gets a specific media entity from the database based on the media ID
         public async Task<Media> GetById(int mediaId)
         {
             using (var db = new MediaPlaylistContext())
@@ -58,8 +55,6 @@ namespace MediaPlaylistDAL
             }
         }
 
-
-        // Adds a new media entity to the database. playlistId parameter is needed.
         public async Task Add(Media media, int? playlistId)
         {
             using (var db = new MediaPlaylistContext())
@@ -71,7 +66,7 @@ namespace MediaPlaylistDAL
                         .FirstOrDefaultAsync(m => m.PlaylistId == playlistId);
 
                     if (playlist == null) throw new Exception("Playlist not found");
-                    
+
                     playlist.Medias.Add(media);
                     await db.SaveChangesAsync();
                 }
@@ -82,7 +77,6 @@ namespace MediaPlaylistDAL
             }
         }
 
-        // Updates an existing media entity in the database.
         public async Task Update(Media media)
         {
             using (var db = new MediaPlaylistContext())
@@ -125,8 +119,6 @@ namespace MediaPlaylistDAL
             }
         }
 
-
-        // Deletes an existing media entity from the database.
         public async Task Delete(Media media)
         {
             using (var db = new MediaPlaylistContext())
@@ -142,7 +134,6 @@ namespace MediaPlaylistDAL
                 }
             }
         }
-
 
         /// <summary>
         ///  Asynchronously searches for Media items in a specific playlist by their audio type and a search string,

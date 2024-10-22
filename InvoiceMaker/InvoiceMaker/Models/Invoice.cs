@@ -1,4 +1,7 @@
-﻿namespace InvoiceMaker.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace InvoiceMaker.Models
 {
     /// <summary>
     ///   Invoice information 

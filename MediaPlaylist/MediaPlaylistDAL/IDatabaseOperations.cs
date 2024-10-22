@@ -1,4 +1,8 @@
-﻿namespace MediaPlaylistDAL
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace MediaPlaylistDAL
 {
     /// <summary>
     ///   Defines a set of asynchronous database operations (CRUD) for a specific entity type in the database.

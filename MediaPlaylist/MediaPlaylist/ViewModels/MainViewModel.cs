@@ -1,4 +1,5 @@
-﻿using MediaPlaylist.Core;
+﻿using System;
+using MediaPlaylist.Core;
 using MediaPlaylist.Services;
 
 namespace MediaPlaylist.ViewModels
@@ -7,11 +8,11 @@ namespace MediaPlaylist.ViewModels
     {
         private readonly INavigationService _navigationService;
 
-        public ViewModelBase CurrentViewModel => _navigationService.CurrentViewModel;       
+        public ViewModelBase CurrentViewModel => _navigationService.CurrentViewModel;
         public ViewModelBase NavViewModel { get; }
 
 
-        public MainViewModel(INavigationService navigationService) 
+        public MainViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
             _navigationService.CurrentViewModelChanged += OnCurrentViewModelChanged;
@@ -20,8 +21,8 @@ namespace MediaPlaylist.ViewModels
             _navigationService.NavigateTo<StartPageViewModel>();
         }
 
-        private void OnCurrentViewModelChanged() 
-        { 
+        private void OnCurrentViewModelChanged()
+        {
             OnPropertyChanged(nameof(CurrentViewModel));
         }
 

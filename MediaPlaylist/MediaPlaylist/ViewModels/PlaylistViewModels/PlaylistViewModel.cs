@@ -1,4 +1,5 @@
-﻿using MediaPlaylist.Core;
+﻿using System;
+using MediaPlaylist.Core;
 using MediaPlaylistStore;
 
 namespace MediaPlaylist.ViewModels.PlaylistViewModels

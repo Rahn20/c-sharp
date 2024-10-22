@@ -13,19 +13,16 @@ namespace MediaPlaylistBL
     {
         private readonly PlaylistDAL _playlist;
 
-
         public PlaylistBL()
         {
             _playlist = new PlaylistDAL();
         }
-
 
         public async Task<IEnumerable<Playlist>> GetAllPlaylists() => await _playlist.GetAll();
 
         public async Task<Playlist> GetLastPlaylist() => await _playlist.GetLastCreatedPlaylist();
 
         public async Task<Playlist> GetPlaylistById(int playlistId) => await _playlist.GetById(playlistId);
-
 
         public async Task CreatePlaylist(string title, string description)
         {

@@ -246,20 +246,20 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock
-                     Grid.Row="0"
-                     Grid.ColumnSpan="3"
-                     TextAlignment="Center"
-                     FontSize="14"
-                     Padding="5"
-                     FontWeight="Bold"
-                     Text="{Binding CurrentMediaTitle}"/>
+                    Grid.Row="0"
+                    Grid.ColumnSpan="3"
+                    TextAlignment="Center"
+                    FontSize="14"
+                    Padding="5"
+                    FontWeight="Bold"
+                    Text="{Binding CurrentMediaTitle}"/>
                 <TextBlock
-                     Grid.Row="1"
-                     Grid.ColumnSpan="3"
-                     TextAlignment="Center"
-                     FontWeight="DemiBold"
-                     Padding="5"
-                     Text="{Binding CurrentMediaTime}"/>
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    TextAlignment="Center"
+                    FontWeight="DemiBold"
+                    Padding="5"
+                    Text="{Binding CurrentMediaTime}"/>
 
                 <!-- Slider for media scrubbing -->
                 <Slider

@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Resources;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using InvoiceMaker.Core;
 using InvoiceMaker.Models;
@@ -31,7 +28,6 @@ namespace InvoiceMaker.ViewModels
         }
 
         public ObservableCollection<Product> Products { get; private set; }
-        //public bool HasErrors => _validations.HasErrors;
 
         #region Invoice Properties
 

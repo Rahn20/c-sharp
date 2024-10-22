@@ -1,4 +1,7 @@
-﻿using MediaPlaylistStore;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MediaPlaylistStore;
 using UtilitiesLib;
 
 namespace MediaPlaylistBL
@@ -17,12 +20,10 @@ namespace MediaPlaylistBL
             _playlistObj = new PlaylistBL();
         }
 
-
         /// <summary> Creates a new playlist with the specified title and description. </summary>
         /// <param name="title"> The title of the playlist </param>
         /// <param name="description"> The description of the playlist. </param>
         public async Task AddPlaylist(string title, string description) => await _playlistObj.CreatePlaylist(title, description);
-
 
 
         /// <summary> Gets all the playlist items from the data source. </summary>
@@ -39,7 +40,6 @@ namespace MediaPlaylistBL
         /// <param name="playlistId"> The unique identifier of the playlist. </param>
         /// <returns> The playlist object from the data source. </returns>
         public async Task<Playlist> GetPlaylistById(int playlistId) => await _playlistObj.GetPlaylistById(playlistId);
-
 
 
         /// <summary> Adds a new media to a specific playlist </summary>

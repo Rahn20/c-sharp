@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MediaPlaylist"
         xmlns:views="clr-namespace:MediaPlaylist.Views"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
@@ -12,7 +11,6 @@
         MinHeight="600" MinWidth="700"
         FontSize="12">
 
- 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>

@@ -10,24 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="src\**" />
-    <EmbeddedResource Remove="src\**" />
-    <None Remove="src\**" />
-    <Page Remove="src\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Resources\exit.png" />
-    <None Remove="Resources\file_open.png" />
-    <None Remove="Resources\save_as.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Resources\icon.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Commands\" />
   </ItemGroup>
 
   <ItemGroup>

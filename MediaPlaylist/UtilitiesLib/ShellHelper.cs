@@ -15,11 +15,11 @@ namespace UtilitiesLib
         private readonly FolderItem _folderItem;
 
 
-        public ShellHelper(string filePath) 
+        public ShellHelper(string filePath)
         {
             Shell shell = new Shell();
             _folder = shell.NameSpace(Path.GetDirectoryName(filePath));
-            _folderItem = _folder.ParseName(Path.GetFileName(filePath));    
+            _folderItem = _folder.ParseName(Path.GetFileName(filePath));
         }
 
 

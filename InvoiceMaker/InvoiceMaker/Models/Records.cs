@@ -1,4 +1,6 @@
-﻿namespace InvoiceMaker.Models
+﻿using System;
+
+namespace InvoiceMaker.Models
 {
     /// <summary>
     ///    Represents a record address with street, city, country, and zip code.

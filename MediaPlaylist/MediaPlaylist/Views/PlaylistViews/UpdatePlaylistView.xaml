@@ -27,15 +27,15 @@
              Command="{Binding BackToPlaylistCommand}">
             <StackPanel Orientation="Horizontal">
                 <Image
-                     Source="{StaticResource BackIcon}"
-                     Width="32"
-                     Height="32" 
-                     Margin="0,0,5,0"
-                     VerticalAlignment="Center"/>
+                    Source="{StaticResource BackIcon}"
+                    Width="32"
+                    Height="32" 
+                    Margin="0,0,5,0"
+                    VerticalAlignment="Center"/>
                 <TextBlock
-                     Text="Go Back"
-                     VerticalAlignment="Center"
-                     Foreground="#fff"/>
+                    Text="Go Back"
+                    VerticalAlignment="Center"
+                    Foreground="#fff"/>
             </StackPanel>
         </Button>
  
@@ -53,12 +53,12 @@
 
             <!-- Page Header -->
             <TextBlock
-                 Grid.Row="0"
-                 Text="{Binding HeaderTxt}"
-                 FontSize="22"
-                 FontWeight="Medium"
-                 TextAlignment="Center"
-                 Margin="0,0,0,20"/>
+                Grid.Row="0"
+                Text="{Binding HeaderTxt}"
+                FontSize="22"
+                FontWeight="Medium"
+                TextAlignment="Center"
+                Margin="0,0,0,20"/>
 
             <!-- text with inputs -->
             <Grid Grid.Row="1">
@@ -75,30 +75,30 @@
                 </Grid.ColumnDefinitions>
 
                 <Label
-                     Grid.Row="0"
-                     Grid.Column="0"
-                     Content="Title"/>
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Content="Title"/>
                 <TextBox
-                     Grid.Row="0"
-                     Grid.Column="1"
-                     Margin="0,0,0,15"
-                     MaxLength="15"
-                     Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="0,0,0,15"
+                    MaxLength="15"
+                    Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <Label
-                     Grid.Row="1"
-                     Grid.Column="0"
-                     Content="Description"/>
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Content="Description"/>
                 <TextBox
-                     Grid.Row="1"
-                     Grid.Column="1"
-                     MaxLength="70"
-                     Height="100"
-                     Margin="0,0,0,15"
-                     TextWrapping="Wrap"
-                     AcceptsReturn="True"
-                     VerticalContentAlignment="Stretch"
-                     Text="{Binding Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    MaxLength="70"
+                    Height="100"
+                    Margin="0,0,0,15"
+                    TextWrapping="Wrap"
+                    AcceptsReturn="True"
+                    VerticalContentAlignment="Stretch"
+                    Text="{Binding Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
 
                 <!-- A list of media title and remove button -->
                 <ScrollViewer
@@ -138,12 +138,12 @@
                 </ScrollViewer>
 
                 <Button
-                     Grid.Row="3"
-                     Grid.Column="1"
-                     Style="{StaticResource DefaultBtn}"
-                     Content="Update Playlist"
-                     Margin="5"
-                     Command="{Binding UpdatePlaylistCommand}"/>
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Style="{StaticResource DefaultBtn}"
+                    Content="Update Playlist"
+                    Margin="5"
+                    Command="{Binding UpdatePlaylistCommand}"/>
 
                 <!-- Show the status message -->
                 <TextBlock 

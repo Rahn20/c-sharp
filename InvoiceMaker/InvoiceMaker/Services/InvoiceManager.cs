@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using InvoiceMaker.Models;
 
@@ -9,7 +11,7 @@ namespace InvoiceMaker.Services
     /// </summary>
     public class InvoiceManager
     {
-        // An array of strings containing datafile. 
+        // An array of strings containing data file. 
         private string[] lines;
 
         private Invoice _invoice;

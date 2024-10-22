@@ -1,4 +1,5 @@
-﻿using MediaPlaylist.Core;
+﻿using System;
+using MediaPlaylist.Core;
 using MediaPlaylist.Services;
 using MediaPlaylist.ViewModels.PlaylistViewModels;
 using MediaPlaylistStore;
@@ -27,9 +28,9 @@ namespace MediaPlaylist.ViewModels.MediaViewModels
         public bool IsSongSelected => SelectedAudioType == AudioType.Song;
         public bool IsPodcastSelected => SelectedAudioType == AudioType.Podcast;
         public bool IsAudiobookSelected => SelectedAudioType == AudioType.Audiobook;
-        public bool IsTitleAvailable => 
-            string.IsNullOrEmpty(MediaProperties.MediaTitle) && 
-            string.IsNullOrEmpty(MediaProperties.MediaFullPath) || 
+        public bool IsTitleAvailable =>
+            string.IsNullOrEmpty(MediaProperties.MediaTitle) &&
+            string.IsNullOrEmpty(MediaProperties.MediaFullPath) ||
             !string.IsNullOrEmpty(MediaProperties.MediaTitle) && !string.IsNullOrEmpty(MediaProperties.MediaFullPath);
         public List<AudioType> AudioTypes { get; }
 
@@ -71,7 +72,7 @@ namespace MediaPlaylist.ViewModels.MediaViewModels
         public AsyncCommandBase CreateMediaCommand { get; }
         public ICommand BackToPlaylistCommand { get; }
 
-        public AddMediaViewModel(INavigationService navigationService, ApplicationManager manager) 
+        public AddMediaViewModel(INavigationService navigationService, ApplicationManager manager)
         {
             _appManager = manager;
             MediaProperties = new MediaViewModel();
@@ -102,7 +103,7 @@ namespace MediaPlaylist.ViewModels.MediaViewModels
             MediaProperties.SongArtist = fileData.GetArtist();
             MediaProperties.SongAlbum = fileData.GetAlbum();
             MediaProperties.SongGenre = fileData.GetGenre();
-                    
+
             // Audiobook properties
             MediaProperties.AudiobookAuthor = fileData.GetAuthor();
             MediaProperties.AudiobookGenre = fileData.GetGenre();
@@ -173,7 +174,7 @@ namespace MediaPlaylist.ViewModels.MediaViewModels
             {
                 result = true;
             }
-            
+
             return result;
         }
 
@@ -226,7 +227,6 @@ namespace MediaPlaylist.ViewModels.MediaViewModels
             media.Duration = MediaProperties.MediaDuration;
             media.AudioType = SelectedAudioType;
         }
-
 
         private void ClearMediaInputs()
         {

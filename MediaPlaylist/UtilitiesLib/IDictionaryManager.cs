@@ -1,7 +1,7 @@
 ﻿namespace UtilitiesLib
 {
     /// <summary>
-    ///   Defines methods and properties for managing a collection of items of <T> type/> 
+    ///   Defines methods and properties for managing a collection of items of <T>
     ///   in a dictionary structure, allowing for basic CRUD operations, where the Id is the (KEY).
     /// </summary>
     /// <typeparam name="T"> The type of items to be managed in the dictionary </typeparam>

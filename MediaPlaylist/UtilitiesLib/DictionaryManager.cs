@@ -6,7 +6,7 @@
     /// <typeparam name="T"> The type of items to be managed in the dictionary </typeparam>
     public class DictionaryManager<T> : IDictionaryManager<T>
     {
-        private readonly Dictionary<int,T> _dict = new Dictionary<int, T>();
+        private readonly Dictionary<int, T> _dict = new Dictionary<int, T>();
         private int _lastCreatedID = 0;
 
 
@@ -20,7 +20,7 @@
             {
                 // Increases ID with 1
                 _lastCreatedID++;
-               _dict.Add(_lastCreatedID, type);
+                _dict.Add(_lastCreatedID, type);
                 result = true;
             }
 
@@ -31,9 +31,9 @@
         {
             bool result = false;
 
-            if (type == null) return result; 
+            if (type == null) return result;
 
-            if (_dict.ContainsKey(id)) 
+            if (_dict.ContainsKey(id))
             {
                 // O(1)
                 _dict[id] = type;
@@ -63,7 +63,7 @@
             return result;
         }
 
-        public IEnumerable<T> GetAll() 
+        public IEnumerable<T> GetAll()
         {
             return _dict.Values;
         }

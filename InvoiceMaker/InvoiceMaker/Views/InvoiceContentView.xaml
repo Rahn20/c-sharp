@@ -4,17 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:InvoiceMaker.Views"
-             xmlns:converters="clr-namespace:InvoiceMaker.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="700"
              d:DesignWidth="820"
              Background="#ffffff">
 
     <UserControl.Resources>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
 
-
+    
     <Grid Visibility="{Binding IsContentVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -88,19 +87,8 @@
                 Grid.Column="1"
                 Margin="5"
                 Padding="2"
-                SelectedDate="{Binding InvoiceDate, UpdateSourceTrigger=PropertyChanged}"
-                />
-                <!--<DatePicker.Style>
-                    <Style TargetType="DatePicker">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding HasErrors}" Value="True">
-                                <Setter Property="BorderBrush" Value="Red" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </DatePicker.Style>-->
-
-
+                SelectedDate="{Binding InvoiceDate, UpdateSourceTrigger=PropertyChanged}" />
+            
             <TextBlock
                 Grid.Row="2"
                 Grid.Column="0"
@@ -177,8 +165,7 @@
             </StackPanel>
 
             <!-- Center StackPanel with contact information -->
-            <StackPanel
-                HorizontalAlignment="Center">
+            <StackPanel HorizontalAlignment="Center">
                 <TextBlock
                     Text="Contact"
                     FontWeight="Bold"
@@ -193,9 +180,7 @@
             <!-- Right StackPanel with discount textbox and total total price -->
             <StackPanel
                 HorizontalAlignment="Right">
-                <StackPanel
-                    Orientation="Horizontal"
-                    Margin="3">
+                <StackPanel Orientation="Horizontal" Margin="3">
                     <TextBlock 
                         Text="Discount" 
                         Width="70"/>
@@ -206,9 +191,7 @@
                         Text="{Binding Discount, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
 
-                <StackPanel
-                    Orientation="Horizontal"
-                    Margin="3">
+                <StackPanel Orientation="Horizontal" Margin="3">
                     <TextBlock
                         Text="Total"
                         Width="70"

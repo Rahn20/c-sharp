@@ -12,11 +12,10 @@ namespace MediaPlaylistBL
     {
         private readonly MediaDAL _media;
 
-        public MediaBL() 
+        public MediaBL()
         {
             _media = new MediaDAL();
         }
-
 
         public async Task CreateMedia(int playlistId, Media data)
         {
@@ -36,7 +35,7 @@ namespace MediaPlaylistBL
 
         public async Task DeleteMedia(Media media) => await _media.Delete(media);
 
-        public async Task<List<Media>> SearchMediaByType(int playlistId, AudioType type, string searchWord) 
+        public async Task<List<Media>> SearchMediaByType(int playlistId, AudioType type, string searchWord)
         {
             return await _media.SearchMediaByAudioType(playlistId, type, searchWord);
         }

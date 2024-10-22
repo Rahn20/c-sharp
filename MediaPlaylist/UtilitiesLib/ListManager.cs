@@ -9,7 +9,7 @@
         private List<T> _list = new List<T>();
 
 
-        public ListManager() {}
+        public ListManager() { }
 
 
         public int Count => _list.Count;

@@ -18,7 +18,7 @@ namespace MediaPlaylist.ViewModels.PlaylistViewModels
         public string StatusMessage
         {
             get => _statusMessage;
-            set 
+            set
             {
                 if (_statusMessage != value)
                 {

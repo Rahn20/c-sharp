@@ -1,10 +1,11 @@
-﻿// The DTO (Data Transfer Object) layer contains the classes that represent the core data of MediaPlaylist application.
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MediaPlaylistStore
 {
-    // The AudioTypes enum
+    /// <summary>
+    ///  The Media Audio Types enum.
+    /// </summary>
     public enum AudioType
     {
         Song,
@@ -14,82 +15,142 @@ namespace MediaPlaylistStore
 
     /// <summary>
     ///   An abstract Media class, Base class that contains all the common properties of Song, Podcast, and Audiobook.
+    ///   The DTO (Data Transfer Object) layer only has data properties, which are used for transferring data between layers.
     /// </summary>
     public abstract class Media
     {
+        /// <summary>
+        ///   The media id
+        /// </summary>
         [Key]
         public int MediaId { get; set; }
 
+        /// <summary>
+        ///   Name of the media (file name).
+        /// </summary>
         [Required]
         [MaxLength(200)]
-        public string Name { get; set; }           // Name of the media (file name).
+        public string Name { get; set; }
 
+
+        /// <summary>
+        ///   Title of the media (track) ex: song name, podcast series title, audiobook title.
+        /// </summary>
         [Required]
         [MaxLength(25)]
-        public string Title { get; set; }           // Title of the media (track) ex: song name, podcast series title, audiobook title.
+        public string Title { get; set; }
 
+        /// <summary>
+        ///   Length of the media.
+        /// </summary>
         [Required]
-        public TimeSpan Duration { get; set; }      // Length of the media.
-        
+        public TimeSpan Duration { get; set; }
+
+
+        /// <summary>
+        ///  The file/media size
+        /// </summary>
         [Required]
-        public float Size { get; set; }             //  The file/media size
+        public float Size { get; set; }
 
+        /// <summary>
+        ///   the type of media
+        /// </summary>
         [Required]
-        public AudioType AudioType { get; set; }    // the type of media
+        public AudioType AudioType { get; set; }
 
+
+        /// <summary>
+        ///   The full path of the media 
+        /// </summary>
         [Required]
-        public string FullPath { get; set; }       // The full path of the media 
+        public string FullPath { get; set; }
 
-
-        // Realated table
-        // Foreign Key property: Each Media belongs to a Playlist (Many-to-One relationship)
+        /// <summary>
+        ///    Realated table, Foreign Key property: Each Media belongs to a Playlist (Many-to-One relationship)
+        /// </summary>
         [Required]
         public int PlaylistId { get; set; }
 
-        public Playlist Playlist { get; set; }      // reference navigation 
+        /// <summary>
+        ///    reference navigation 
+        /// </summary>
+        public Playlist Playlist { get; set; }
     }
 
 
-    // Derived class for Song
+    /// <summary>
+    ///   Derived class for Song contains Song properties.
+    /// </summary>
     public class Song : Media
     {
+        /// <summary>
+        ///   Artist who performed the track.
+        /// </summary>
         [MaxLength(30)]
-        public string? Artist { get; set; }      // Artist who performed the track.
+        public string? Artist { get; set; }
 
+        /// <summary>
+        ///   The musical genre (Ex.Rock, Pop, Jazz).
+        /// </summary>
         [MaxLength(25)]
-        public string? Genre { get; set; }     //  The musical genre (Ex.Rock, Pop, Jazz).
+        public string? Genre { get; set; }
 
+        /// <summary>
+        ///   The collection or album the song belongs to.
+        /// </summary>
         [MaxLength(30)]
-        public string? Album { get; set; }       // The collection or album the song belongs to.
+        public string? Album { get; set; }
     }
 
 
-    // Derived class for Podcast
+    /// <summary>
+    ///   Derived class for Podcast contains Podcast properties.
+    /// </summary>
     public class Podcast : Media
     {
+        /// <summary>
+        ///   The person hosting the podcast.
+        /// </summary>
         [MaxLength(30)]
         [Required]
-        public string Host { get; set; }        // The person hosting the podcast.
+        public string Host { get; set; }
 
-        public int EpisodeNumber { get; set; }  // The specific episode in the podcast series.
+        /// <summary>
+        ///   The specific episode in the podcast series.
+        /// </summary>
+        public int EpisodeNumber { get; set; }
 
+        /// <summary>
+        ///   Special guests featured in the episode.
+        /// </summary>
         [MaxLength(50)]
-        public string? Guests { get; set; }      //  Special guests featured in the episode.
+        public string? Guests { get; set; }
     }
 
 
-    // Derived class for Audiobook
+    /// <summary>
+    ///   Derived class for Audiobook contains Audiobook properties.
+    /// </summary>
     public class Audiobook : Media
     {
+        /// <summary>
+        ///   The writer of the book.
+        /// </summary>
         [MaxLength(30)]
-        public string? Author { get; set; }      // The writer of the book.
+        public string? Author { get; set; }
 
+        /// <summary>
+        ///   The literary genre (ex: Fiction, Non-Fiction, Mystery).
+        /// </summary>
         [MaxLength(30)]
-        public string? Genre { get; set; }       // The literary genre (ex: Fiction, Non-Fiction, Mystery).
+        public string? Genre { get; set; }
 
-
+        /// <summary>
+        ///   The company that published the audiobook.
+        /// </summary>
         [MaxLength(40)]
         [Required]
-        public string Publisher { get; set; }   // The company that published the audiobook.
+        public string Publisher { get; set; }
     }
 }
