@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MediaPlaylistStore;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.InMemory;
 
 namespace MediaPlaylistDAL.DbContexts
 {
@@ -22,8 +22,19 @@ namespace MediaPlaylistDAL.DbContexts
         /// <param name="optionsBuilder"></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(
-                @"Server=(localdb)\mssqllocaldb;Database=MediaPlaylist;Trusted_Connection=True;");
+            string? dbProvider = Environment.GetEnvironmentVariable("MEDIAPLAYLIST_DB_PROVIDER");
+
+            if (dbProvider != null && dbProvider == "InMemory")
+            {
+                // Unit Testing with In-Memory Database
+                optionsBuilder.UseInMemoryDatabase("TestDatabase");
+                optionsBuilder.EnableSensitiveDataLogging();
+            }
+            else
+            {
+                optionsBuilder.UseSqlServer(
+                    @"Server=(localdb)\mssqllocaldb;Database=MediaPlaylist;Trusted_Connection=True;");
+            }
         }
 
 
