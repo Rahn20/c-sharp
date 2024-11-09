@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilitiesLib", "UtilitiesLi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlaylist", "MediaPlaylist\MediaPlaylist.csproj", "{C83083C9-FBAA-40C6-9FF1-4BC1F9793234}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaPlaylistBLTest", "MediaPlaylistBLTest\MediaPlaylistBLTest.csproj", "{55AED1CB-16B6-46AC-818F-5307A7E90079}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaPlaylistDALTest", "MediaPlaylistDALTest\MediaPlaylistDALTest.csproj", "{1A4E192C-6711-4E21-986F-01F85FF36928}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{C83083C9-FBAA-40C6-9FF1-4BC1F9793234}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C83083C9-FBAA-40C6-9FF1-4BC1F9793234}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C83083C9-FBAA-40C6-9FF1-4BC1F9793234}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55AED1CB-16B6-46AC-818F-5307A7E90079}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55AED1CB-16B6-46AC-818F-5307A7E90079}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55AED1CB-16B6-46AC-818F-5307A7E90079}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55AED1CB-16B6-46AC-818F-5307A7E90079}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A4E192C-6711-4E21-986F-01F85FF36928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A4E192C-6711-4E21-986F-01F85FF36928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A4E192C-6711-4E21-986F-01F85FF36928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A4E192C-6711-4E21-986F-01F85FF36928}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

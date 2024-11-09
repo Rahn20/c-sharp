@@ -46,7 +46,7 @@ namespace MediaPlaylist
             _services.AddSingleton<MainViewModel>();
             _services.AddSingleton<NavigationBarViewModel>();
             _services.AddSingleton<StartPageViewModel>();
-            
+
             _services.AddSingleton<AddPlaylistViewModel>();
             _services.AddSingleton<PlaylistDetailsViewModel>();
             _services.AddSingleton<UpdatePlaylistViewModel>();

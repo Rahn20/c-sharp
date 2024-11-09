@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MediaPlaylistBL\MediaPlaylistBL.csproj" />
     <ProjectReference Include="..\MediaPlaylistStore\MediaPlaylistStore.csproj" />
+    <ProjectReference Include="..\UtilitiesLib\UtilitiesLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,10 +34,6 @@
 	<Resource Include="Resources\back-icon.png">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>
