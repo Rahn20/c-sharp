@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MediaPlaylistDAL\MediaPlaylistDAL.csproj" />
     <ProjectReference Include="..\MediaPlaylistStore\MediaPlaylistStore.csproj" />
-    <ProjectReference Include="..\UtilitiesLib\UtilitiesLib.csproj" />
   </ItemGroup>
 
 </Project>

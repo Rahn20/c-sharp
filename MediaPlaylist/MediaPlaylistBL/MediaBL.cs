@@ -10,11 +10,14 @@ namespace MediaPlaylistBL
     /// </summary>
     public class MediaBL
     {
-        private readonly MediaDAL _media;
+        private readonly IMediaOperations _media;
 
-        public MediaBL()
+        /// <summary>
+        ///   Constructor injection of the DAL dependency.
+        /// </summary>
+        public MediaBL(IMediaOperations mediaOperations)
         {
-            _media = new MediaDAL();
+            _media = mediaOperations;
         }
 
         public async Task CreateMedia(int playlistId, Media data)
@@ -37,6 +40,9 @@ namespace MediaPlaylistBL
 
         public async Task<List<Media>> SearchMediaByType(int playlistId, AudioType type, string searchWord)
         {
+            if (playlistId <= 0)
+                throw new Exception($"Playlist ID must be greater than zero, playlist id: {playlistId}");
+            
             return await _media.SearchMediaByAudioType(playlistId, type, searchWord);
         }
 

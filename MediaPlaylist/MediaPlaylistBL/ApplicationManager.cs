@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MediaPlaylistDAL;
+using MediaPlaylistDAL.DbContexts;
 using MediaPlaylistStore;
-using UtilitiesLib;
 
 namespace MediaPlaylistBL
 {
@@ -16,8 +17,11 @@ namespace MediaPlaylistBL
 
         public ApplicationManager()
         {
-            _mediaObj = new MediaBL();
-            _playlistObj = new PlaylistBL();
+            MediaDAL mediaDAL = new MediaDAL(new MediaPlaylistContext());
+            PlaylistDAL playlistDAL = new PlaylistDAL(new MediaPlaylistContext());
+
+            _mediaObj = new MediaBL(mediaDAL);
+            _playlistObj = new PlaylistBL(playlistDAL);
         }
 
         /// <summary> Creates a new playlist with the specified title and description. </summary>
