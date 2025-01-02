@@ -14,6 +14,16 @@ A WPF application utilizing .NET 8, the MVVM architectural pattern, Entity Frame
 
 <img src="MediaPlaylist/images/program.png" width="70%" height="70%">
 
+## Hotel Booking App
+
+A WPF application utilizing .NET 8, MVVM, EF Core, LINQ, Microsoft SQL Server, and a 4-layer architecture. The target users of this system are hotel administrators. The application is designed to efficiently manage bookings, payments, rooms, and guest information. The application has the following features:
+
+-   **Room Management**: Manage room details such as availability, pricing, and descriptions.
+-   **Booking Management**: View and manage all bookings, including dates and payment statuses Administrators can also book rooms on behalf of guests.
+-   **User Management**: Create and manage guest accounts
+
+<img src="HotelBookingApp/program.png" width="70%" height="70%">
+
 ## Airport App
 
 This WPF application, utilizing .NET 8, is a simple simulation system for flight departures in an airport. The airport has a control tower where a controller can manage flight operations. The flight time is measured in seconds, and once the flight time ends, the airplane will land, and its status will change from "in-flight" to "landed". The Airport App features:

@@ -24,3 +24,4 @@
 [Bb]uild[Ll]og.*
 
 packages/
+Migrations/
