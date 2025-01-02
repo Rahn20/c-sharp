@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="HotelBookingApp.Views.PaymentViews.PaymentsListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HotelBookingApp.Views.PaymentViews"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+              Background="{StaticResource BackgroundBrush}">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Page Header -->
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Style="{StaticResource PageTitle}"
+            Text="Payments"/>
+        <Border
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Style="{StaticResource PageHeaderLine}"/>
+
+
+        <DockPanel Grid.Row="2" Grid.Column="0">
+            <TextBlock Text="Total Payments:" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding RegisteredPayments}" Padding="5" VerticalAlignment="Center" FontWeight="Bold"/>
+        </DockPanel>
+
+
+        <!-- The search for payments functionality includes a text box and a search button -->
+        <WrapPanel
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Orientation="Horizontal"
+            HorizontalAlignment="Right">
+
+            <Label Content="Filter Payments by Guest Name or Room nr." VerticalAlignment="Center"/>
+            <TextBox Text="{Binding SearchBox, UpdateSourceTrigger=PropertyChanged}" Width="150" VerticalContentAlignment="Center"/>
+            <Button
+                Style="{StaticResource DefaultButton}"
+                Content="Search"
+                Padding="12,4,12,4"
+                Margin="2,0,2,0"
+                Command="{Binding SearchByGuestOrRoomCommand}"/>
+        </WrapPanel>
+
+        <!-- A list of registered payments in the system -->
+        <ListView Grid.Row="3"
+                  Grid.ColumnSpan="2"
+                  Margin="5,20,10,5"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  ItemsSource="{Binding PaymentList}">
+
+            <ListView.View>
+                <GridView>
+                    <!-- Colums -->
+                    <GridViewColumn Header="Booking Nr." Width="70" DisplayMemberBinding="{Binding BookingNumber}" />
+                    <GridViewColumn Header="Guest Name" Width="140" DisplayMemberBinding="{Binding GuestFullName}"/>
+                    <GridViewColumn Header="Room Nr." Width="70" DisplayMemberBinding="{Binding RoomNumber}" />
+                    <GridViewColumn Header="Amount" Width="70" DisplayMemberBinding="{Binding Amount}" />
+                    <GridViewColumn Header="Payment Method" Width="110" DisplayMemberBinding="{Binding PaymentMethod}" />
+                    <GridViewColumn Header="Payment Date" Width="130" DisplayMemberBinding="{Binding PaymentDate}" />
+                    <GridViewColumn Header="Last payment updated" Width="130" DisplayMemberBinding="{Binding LastPaymentUpdated, StringFormat='{}{0:yyyy-MM-dd HH:mm}'}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>

@@ -1,0 +1,24 @@
+﻿<Window x:Class="HotelBookingApp.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HotelBookingApp.Views"
+        mc:Ignorable="d"
+        Title="Hotel Booking System" 
+        Height="600" Width="1000"
+        MinHeight="350" MinWidth="700">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="135"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- -The Navigation viewmodel -->
+        <local:NavigationBarView Grid.Column="0" DataContext="{Binding NavigationBarViewModel}"/>
+
+        <!-- The current ViewModel (Content) -->
+        <ContentControl Grid.Column="1" Content="{Binding CurrentViewModel}"/>
+    </Grid>
+</Window>

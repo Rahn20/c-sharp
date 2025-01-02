@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\icons8-hotel-64.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\icons8-hotel-64.ico" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\HotelBookingBL\HotelBookingBL.csproj" />
+    <ProjectReference Include="..\HotelBookingDTO\HotelBookingDTO.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\icons8-booking-24.png" />
+	  <Resource Include="Resources\icons8-room-24.png" />
+	  <Resource Include="Resources\icons8-payment-24.png" />
+	  <Resource Include="Resources\icons8-user-24.png" />
+	  <Resource Include="Resources\icons8-manual-24.png" />
+	  <Resource Include="Resources\icons8-edit-24.png" />
+	  <Resource Include="Resources\icons8-remove-24.png" />
+	  <Resource Include="Resources\icons8-view-24.png" />
+	  <Resource Include="Resources\icons8-add-24.png" />
+  </ItemGroup>
+
+</Project>

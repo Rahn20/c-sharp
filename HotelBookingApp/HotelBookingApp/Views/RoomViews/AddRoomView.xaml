@@ -1,0 +1,119 @@
+﻿<UserControl x:Class="HotelBookingApp.Views.RoomViews.AddRoomView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HotelBookingApp.Views.RoomViews"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="{StaticResource BackgroundBrush}">
+    
+    
+    <Grid Margin="10" HorizontalAlignment="Center" Width="350">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Page Header -->
+        <Border 
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            Style="{StaticResource PageHeaderLine}">
+            <TextBlock
+                Style="{StaticResource PageTitle}"
+                HorizontalAlignment="Center"
+                Text="Add New Room"/>
+        </Border>
+
+        <!-- Text with inputs  -->
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Content="Room Number"/>
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            MaxLength="3"
+            Margin="0,5,0,5"
+            Text="{Binding RoomViewModel.RoomNumber, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            Content="Room Type"/>
+        <ComboBox
+             Grid.Row="2"
+            Grid.Column="1"
+            Margin="0,5,0,5"
+            ItemsSource="{Binding RoomTypes}"
+            SelectedItem="{Binding RoomViewModel.RoomType, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label
+            Grid.Row="3"
+            Grid.Column="0"
+            Content="Price per Night in $"/>
+        <TextBox
+            Grid.Row="3"
+            Grid.Column="1"
+            MaxLength="10"
+            Margin="0,5,0,5"
+            Text="{Binding RoomViewModel.Price, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label
+            Grid.Row="4"
+            Grid.Column="0"
+            Content="Description"/>
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="1"
+            MaxLength="200"
+            Height="100"
+            TextWrapping="Wrap"
+            AcceptsReturn="True"
+            VerticalContentAlignment="Stretch"
+            Margin="0,5,0,5"
+            Text="{Binding RoomViewModel.Description, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label
+            Grid.Row="5"
+            Grid.Column="0"
+            Content="Room Available"/>
+        <CheckBox
+            Grid.Row="5"
+            Grid.Column="1"
+            Margin="0,5,0,5"
+            IsChecked="{Binding RoomViewModel.IsRoomAvailable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+        <!-- The error message text block -->
+        <TextBlock 
+            Grid.Row="6"
+            Grid.ColumnSpan="2"
+            Margin="0,2,0,2"
+            Text="{Binding RoomViewModel.ErrorMessage}"
+            Foreground="Red"
+            TextWrapping="Wrap"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"/>
+
+        <!-- A button to add new room -->
+        <Button
+            Grid.Row="7"
+            Grid.Column="1"
+            Style="{StaticResource DefaultButton}"
+            Margin="0,7,0,0"
+            Content="Add Room"
+            Command="{Binding AddRoomCommand}"/>
+    </Grid>
+</UserControl>

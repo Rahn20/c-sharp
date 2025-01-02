@@ -1,0 +1,238 @@
+﻿<Application x:Class="HotelBookingApp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:HotelBookingApp"
+             xmlns:views="clr-namespace:HotelBookingApp.Views"
+             xmlns:viewModels="clr-namespace:HotelBookingApp.ViewModels"
+             xmlns:bookingsViews="clr-namespace:HotelBookingApp.Views.BookingViews"
+             xmlns:bookingsViewModels="clr-namespace:HotelBookingApp.ViewModels.BookingViewModels"
+             xmlns:roomsViews="clr-namespace:HotelBookingApp.Views.RoomViews"
+             xmlns:roomsViewModels="clr-namespace:HotelBookingApp.ViewModels.RoomViewModels"
+             xmlns:paymentsViews="clr-namespace:HotelBookingApp.Views.PaymentViews"
+             xmlns:paymentsViewModels="clr-namespace:HotelBookingApp.ViewModels.PaymentViewModels"
+             xmlns:guestsViews="clr-namespace:HotelBookingApp.Views.GuestViews"
+             xmlns:guestsViewModels="clr-namespace:HotelBookingApp.ViewModels.GuestViewModels">
+
+    <Application.Resources>
+        <!-- Icons from: https://icons8.com/icons -->
+        <BitmapImage x:Key="BookingIcon" UriSource="pack://application:,,,/Resources/icons8-booking-24.png"></BitmapImage>
+        <BitmapImage x:Key="PaymentIcon" UriSource="pack://application:,,,/Resources/icons8-payment-24.png"></BitmapImage>
+        <BitmapImage x:Key="GuestIcon" UriSource="pack://application:,,,/Resources/icons8-user-24.png"></BitmapImage>
+        <BitmapImage x:Key="ManualIcon" UriSource="pack://application:,,,/Resources/icons8-manual-24.png"></BitmapImage>
+        <BitmapImage x:Key="RoomIcon" UriSource="pack://application:,,,/Resources/icons8-room-24.png"></BitmapImage>
+        <BitmapImage x:Key="AddIcon" UriSource="pack://application:,,,/Resources/icons8-add-24.png"></BitmapImage>
+        <BitmapImage x:Key="EditIcon" UriSource="pack://application:,,,/Resources/icons8-edit-24.png"></BitmapImage>
+        <BitmapImage x:Key="ViewIcon" UriSource="pack://application:,,,/Resources/icons8-view-24.png"></BitmapImage>
+        <BitmapImage x:Key="RemoveIcon" UriSource="pack://application:,,,/Resources/icons8-remove-24.png"></BitmapImage>
+
+
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+
+        <!-- Color Palette -->
+        <Color x:Key="BackgroundColor">#f2f2f2</Color>
+        <Color x:Key="PrimaryTextColor">#212121</Color>
+        <Color x:Key="SecondaryTextColor">#757575</Color>
+        <Color x:Key="ButtonHoverColor">#B2DFDB</Color>
+        <Color x:Key="AccentColor">#80CBC4</Color>
+        <Color x:Key="NavBackgroundColor">#E8F5E9</Color>
+        <Color x:Key="ButtonHoverTextColor">#FFFFFF</Color>
+        <Color x:Key="NavActiveButtonColor">#a8d7a9</Color>
+        <Color x:Key="NavActiveButtonHoverColor">#81C784</Color>
+        <Color x:Key="ButtonUpdateColor">#2E7D32</Color>
+        <Color x:Key="ButtonRemoveColor">#D32F2F</Color>
+
+        <!-- SolidColorBrushes for Controls -->
+        <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+        <SolidColorBrush x:Key="PrimaryTextBrush" Color="{StaticResource PrimaryTextColor}"/>
+        <SolidColorBrush x:Key="SecondaryTextBrush" Color="{StaticResource SecondaryTextColor}"/>
+        <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="{StaticResource NavActiveButtonColor}"/>
+        <SolidColorBrush x:Key="ButtonHoverBrush" Color="{StaticResource ButtonHoverColor}"/>
+        <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
+        <SolidColorBrush x:Key="NavBackgroundBrush" Color="{StaticResource NavBackgroundColor}"/>
+        <SolidColorBrush x:Key="ButtonHoverTextBrush" Color="{StaticResource ButtonHoverTextColor}"/>
+        <SolidColorBrush x:Key="NavActiveButtonBrush" Color="{StaticResource NavActiveButtonColor}"/>
+        <SolidColorBrush x:Key="NavActiveButtonHoverBrush" Color="{StaticResource NavActiveButtonHoverColor}"/>
+        <SolidColorBrush x:Key="ButtonUpdateBrush" Color="{StaticResource ButtonUpdateColor}"/>
+        <SolidColorBrush x:Key="ButtonRemoveBrush" Color="{StaticResource ButtonRemoveColor}"/>
+
+        <!-- TextBlock Style -->
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}"/>
+        </Style>
+
+        <!-- Label Style -->
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}"/>
+        </Style>
+
+        <!-- Page Header (title) style -->
+        <Style x:Key="PageTitle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+        
+        <!-- Page Header (title) border (line) style -->
+        <Style x:Key="PageHeaderLine" TargetType="Border">
+            <Setter Property="Margin" Value="0,15,0,20"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1.5"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+        </Style>
+
+        <!-- Radiobuttons style in the Navigaiton view -->
+        <Style x:Key="MenuButton" TargetType="RadioButton">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Margin" Value="0,5,0,5"/>
+            <Setter Property="Background" Value="{StaticResource NavBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border
+                            x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="0.5">
+                            <ContentPresenter
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource NavActiveButtonHoverBrush}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" Value="{StaticResource NavActiveButtonBrush}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource PrimaryTextBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Radiobuttons icon style in the navigation view -->
+        <Style x:Key="MenuButtonIcon" TargetType="Image">
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Width" Value="24"/>
+            <Setter Property="Margin" Value="10,5,5,5"/>
+        </Style>
+
+        <!-- Radiobuttons text style in the nvaigation view -->
+        <Style x:Key="MenuButtonText" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="8"/>
+        </Style>
+
+
+        <!-- The Default Button Style -->
+        <Style x:Key="DefaultButton" TargetType="Button">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                            x:Name="BtnBorder"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            Padding="{TemplateBinding Padding}"
+                            Margin="{TemplateBinding Margin}"
+                            CornerRadius="5"
+                            Background="{StaticResource ButtonBackgroundBrush}"
+                            BorderBrush="{StaticResource AccentBrush}"
+                            BorderThickness="1.5"
+                            TextElement.FontWeight="SemiBold"
+                            TextElement.Foreground="{StaticResource PrimaryTextBrush}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BtnBorder" Property="Background" Value="{StaticResource ButtonHoverBrush}"/>
+                                <Setter TargetName="BtnBorder" Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- TextBox Style -->
+        <Style TargetType="TextBox">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- ComboBox Style -->
+        <Style TargetType="ComboBox">
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="7"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}"/>
+        </Style>
+
+        <!-- ComboBox items Style -->
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Padding" Value="6"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}"/>
+        </Style>
+
+        
+        
+        <!-- DataTemplates for the application ViewModels -->
+        <DataTemplate DataType="{x:Type viewModels:NavigationBarViewModel}">
+            <views:NavigationBarView/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type bookingsViewModels:BookingsListViewModel}">
+            <bookingsViews:BookingsListView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type bookingsViewModels:AddBookingViewModel}">
+            <bookingsViews:AddBookingView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type bookingsViewModels:UpdateBookingViewModel}">
+            <bookingsViews:UpdateBookingView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type bookingsViewModels:BookingDetailsViewModel}">
+            <bookingsViews:BookingDetailsView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type roomsViewModels:RoomsListViewModel}">
+            <roomsViews:RoomsListView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type roomsViewModels:AddRoomViewModel}">
+            <roomsViews:AddRoomView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type roomsViewModels:UpdateRoomViewModel}">
+            <roomsViews:UpdateRoomView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type roomsViewModels:RoomDetailsViewModel}">
+            <roomsViews:RoomDetailsView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type paymentsViewModels:PaymentsListViewModel}">
+            <paymentsViews:PaymentsListView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type guestsViewModels:GuestsListViewModel}">
+            <guestsViews:GuestsListView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type guestsViewModels:AddGuestViewModel}">
+            <guestsViews:AddGuestView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type guestsViewModels:UpdateGuestViewModel}">
+            <guestsViews:UpdateGuestView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type guestsViewModels:GuestDetailsViewModel}">
+            <guestsViews:GuestDetailsView/>
+        </DataTemplate>
+    </Application.Resources>
+</Application>

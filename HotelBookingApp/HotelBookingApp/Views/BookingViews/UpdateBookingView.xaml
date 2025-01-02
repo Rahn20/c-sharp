@@ -1,0 +1,185 @@
+﻿<UserControl x:Class="HotelBookingApp.Views.BookingViews.UpdateBookingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HotelBookingApp.Views.BookingViews"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800"
+              Background="{StaticResource BackgroundBrush}">
+
+
+    <Grid Margin="10" HorizontalAlignment="Center" Width="350">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Page Header -->
+        <Border 
+        Grid.Row="0"
+        Grid.ColumnSpan="2"
+        Style="{StaticResource PageHeaderLine}">
+        <TextBlock
+            Style="{StaticResource PageTitle}"
+            HorizontalAlignment="Center"
+            Text="Update Booking"/>
+        </Border>
+
+        <!-- text with inputs  -->
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Content="Guest Name"/>
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            IsEnabled="False"
+            IsHitTestVisible="False"
+            Margin="0,5,0,5"
+            Text="{Binding GuestFullName, Mode=OneWay}"/>
+
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            Content="Room Number"/>
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="1"
+            IsEnabled="False"
+            IsHitTestVisible="False"
+            Margin="0,5,0,5"
+            Text="{Binding RoomNumber,  Mode=OneWay}"/>
+
+        <Label
+            Grid.Row="3"
+            Grid.Column="0"
+            Content="Check In"/>
+        <DatePicker
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="0,5,0,5"
+            SelectedDate="{Binding BookingViewModel.CheckInDate, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label
+            Grid.Row="4"
+            Grid.Column="0"
+            Content="Check Out"/>
+        <DatePicker
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="0,5,0,5"
+            SelectedDate="{Binding BookingViewModel.CheckOutDate, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label
+            Grid.Row="5"
+            Grid.Column="0"
+            Content="Total Price in $"/>
+        <TextBox
+            Grid.Row="5"
+            Grid.Column="1"
+            IsEnabled="False"
+            Margin="0,0,5,0"
+            Text="{Binding BookingViewModel.TotalAmount, Mode=OneWay}"/>
+
+
+        <!-- If the booking has already been paid, then view these texts and inputs. -->
+        <StackPanel Grid.Row="6" Grid.ColumnSpan="2"
+                   Visibility="{Binding IsBookingPaid, Converter={StaticResource BoolToVisConverter}}">
+
+            <DockPanel Margin="0,5,0,5">
+                <Label Content="The new Amount to pay" VerticalAlignment="Center" Width="170"/>
+                <TextBox
+                    IsEnabled="False"
+                    VerticalAlignment="Center"
+                    Margin="0,0,5,0"
+                    Width="100"
+                    HorizontalAlignment="Right"
+                    Text="{Binding BookingViewModel.PayAmount, Mode=OneWay}"/>
+                <TextBlock Text="$" VerticalAlignment="Center" Margin="0,0,20,0"/>
+            </DockPanel>
+
+            <DockPanel Margin="0,5,0,5">
+                <Label Content="The new Amount to receive" VerticalAlignment="Center" Width="170"/>
+                <TextBox
+                    IsEnabled="False"
+                    VerticalAlignment="Center"
+                    Margin="0,0,5,0"
+                    Width="100"
+                    Text="{Binding BookingViewModel.ReceiveAmount, Mode=OneWay}"/>
+                <TextBlock Text="$" VerticalAlignment="Center" Margin="0,0,20,0"/>
+            </DockPanel>
+
+            <!-- A button to Update the payment and booking -->
+            <Button
+                Style="{StaticResource DefaultButton}"
+                Margin="0,7,0,0"
+                Padding="10"
+                Content="Complete payment and Update Booking"
+                Command="{Binding PayAndUpdateCommand}"/>
+        </StackPanel>
+
+        <!-- Payment text and inputs, if the booking has not been paid, then view these texts and inputs.-->
+        <StackPanel Grid.Row="7" Grid.ColumnSpan="2"
+                    Margin="10"
+                    Visibility="{Binding BookingNotPaid, Converter={StaticResource BoolToVisConverter}}">
+
+            <DockPanel Margin="0,5,0,5">
+                <Label Content="Do You want to pay now"/>
+                <CheckBox VerticalAlignment="Center" IsChecked="{Binding ShowPayment}"/>
+            </DockPanel>
+            <Border BorderBrush="{StaticResource AccentBrush}" BorderThickness="0,0,0,1"/>
+
+            <StackPanel Visibility="{Binding ShowPayment, Converter={StaticResource BoolToVisConverter}}">
+                <!-- The header -->
+                <TextBlock Text="Payment" Margin="5,10,0,8" FontWeight="Bold" FontSize="18"/>
+
+                <DockPanel Margin="0,5,0,5">
+                    <Label Content="Payment Method" Width="140"/>
+                    <ComboBox
+                        ItemsSource="{Binding PaymentMethods}"
+                        SelectedItem="{Binding BookingViewModel.SelectedPaymentMethod}"/>
+                </DockPanel>
+
+                <DockPanel Margin="0,5,0,5">
+                    <Label Content="Amount" Width="140"/>
+                    <TextBox
+                        IsEnabled="False"
+                        VerticalAlignment="Center"
+                        Text="{Binding BookingViewModel.TotalAmount, Mode=OneWay}"/>
+                </DockPanel>
+            </StackPanel>
+
+            <!-- A button to Update the booking -->
+            <Button
+                Style="{StaticResource DefaultButton}"
+                Margin="0,7,0,0"
+                Padding="10"
+                Content="Update Booking"
+                Command="{Binding UpdateBookingCommand}"/>
+        </StackPanel>
+
+        <!-- The error message -->
+        <TextBlock 
+            Grid.Row="8"
+            Grid.ColumnSpan="2"
+            Margin="0,2,0,2"
+            Text="{Binding BookingViewModel.ErrorMessage}"
+            Foreground="Red"
+            TextWrapping="Wrap"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"/>
+
+    </Grid>
+</UserControl>
